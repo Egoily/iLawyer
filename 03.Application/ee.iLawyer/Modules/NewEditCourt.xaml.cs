@@ -28,7 +28,7 @@ namespace ee.iLawyer.Modules
         private void Init(Court court)
         {
             InitializeComponent();
-            this.Content.DataContext = this;
+            this.grid.DataContext = this;
             TreatedObject = court?.Clone() as Court;
 
             if (TreatedObject != null && TreatedObject.Id > 0)
@@ -43,7 +43,7 @@ namespace ee.iLawyer.Modules
                 TreatedObject = new Court();
             }
             txtTitle.Text = Title;
-            areaSelector.Provinces = GlobalViewModel.GetProvince();
+            areaSelector.Provinces = GlobalViewModel.Provinces;
         }
 
 

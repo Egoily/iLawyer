@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ee.iLawyer.UserControls"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" d:DesignWidth="210" Height="42">
-    <Grid Name="Content">
+    <Grid Name="grid">
         <Grid.Resources>
             <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
                 <Setter Property="Margin" Value="0 0 10 0"></Setter>

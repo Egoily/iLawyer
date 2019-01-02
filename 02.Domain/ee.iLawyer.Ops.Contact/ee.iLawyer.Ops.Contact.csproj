@@ -33,11 +33,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="PropertyChanged, Version=2.5.13.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
       <HintPath>..\..\packages\PropertyChanged.Fody.2.5.13\lib\net452\PropertyChanged.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,13 +60,17 @@
     <Compile Include="Args\JudgeArgs.cs" />
     <Compile Include="Args\ProjectArgs.cs" />
     <Compile Include="Args\PropertyItemCategoryArgs.cs" />
+    <Compile Include="AutoMapper\DtoConverter.cs" />
     <Compile Include="CacheKeys.cs" />
     <Compile Include="DTO\Area.cs" />
     <Compile Include="DTO\Client.cs" />
     <Compile Include="DTO\Court.cs" />
     <Compile Include="DTO\Judge.cs" />
     <Compile Include="DTO\PropertyItemCategory.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="Interfaces\ICtsService.cs" />
+    <Compile Include="AutoMapper\AutoMapperConfiguration.cs" />
+    <Compile Include="AutoMapper\MappingProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +82,10 @@
       <Project>{82012aca-724f-4c78-a0fe-e450a887c7d7}</Project>
       <Name>ee.SessionFactory</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ee.iLawyer.Db.Entity\ee.iLawyer.Db.Entity.csproj">
+      <Project>{1428652c-40b3-4f1a-92f3-f4965726b414}</Project>
+      <Name>ee.iLawyer.Db.Entity</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -79,12 +94,12 @@
     <Content Include="FodyWeavers.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\..\packages\Fody.3.2.9\build\Fody.targets" Condition="Exists('..\..\packages\Fody.3.2.9\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\Fody.3.2.9\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Fody.3.2.9\build\Fody.targets'))" />
     <Error Condition="!Exists('..\..\packages\PropertyChanged.Fody.2.5.13\build\PropertyChanged.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\PropertyChanged.Fody.2.5.13\build\PropertyChanged.Fody.props'))" />
+    <Error Condition="!Exists('..\..\packages\Fody.3.3.3\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Fody.3.3.3\build\Fody.targets'))" />
   </Target>
+  <Import Project="..\..\packages\Fody.3.3.3\build\Fody.targets" Condition="Exists('..\..\packages\Fody.3.3.3\build\Fody.targets')" />
 </Project>

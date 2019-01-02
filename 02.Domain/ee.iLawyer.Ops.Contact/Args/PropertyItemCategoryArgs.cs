@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 namespace ee.iLawyer.Ops.Contact.Args
 {
 
-    public class GetPropertyCategoryRequest : BasePageRequest
+    public class GetPropertyCategoriesRequest : BasePageRequest
     {
     }
-    public class GetPropertyItemCategoryRequest : BasePageRequest
+    public class GetPropertyItemCategoriesRequest : BasePageRequest
     {
         public virtual string Code { get; set; }
     }

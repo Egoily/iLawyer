@@ -10,6 +10,29 @@ using System.Windows.Data;
 
 namespace ee.iLawyer.Converters
 {
+
+
+    /// <summary>
+    /// This converter does nothing except breaking the
+    /// debugger into the convert method
+    /// </summary>
+    public class DatabindingDebugConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType,
+            object parameter, CultureInfo culture)
+        {
+            System.Diagnostics.Debugger.Break();
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType,
+            object parameter, CultureInfo culture)
+        {
+            System.Diagnostics.Debugger.Break();
+            return value;
+        }
+    }
+
     public class VisibleToReverse : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -27,6 +50,8 @@ namespace ee.iLawyer.Converters
             else
                 return Visibility.Visible;
         }
+
+
     }
 
 }

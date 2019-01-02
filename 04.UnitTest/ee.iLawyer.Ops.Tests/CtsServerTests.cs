@@ -1,0 +1,52 @@
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ee.SessionFactory;
+using ee.iLawyer.SessionFactoryBuilder.Sqlite;
+using ee.iLawyer.Ops.Contact.Args;
+
+namespace ee.iLawyer.Ops.Tests
+{
+    [TestClass]
+    public class CtsServerTests
+    {
+
+        CtsService service;
+        static void Build()
+        {
+            SessionManager.Builder = new SqliteSessionFactoryBuilder();
+            SessionManager.Builder.Build(@"..\..\..\..\03.Application\ee.iLawyer\bin\Debug\database.db");
+        }
+        [TestInitialize()]
+        public void Initialize()
+        {
+            log4net.Config.XmlConfigurator.Configure();
+            Build();
+            service = new CtsService();
+        }
+
+        [TestMethod()]
+        public void GetPropertyItemCategoriesTest_Main()
+        {
+            var request = new GetPropertyItemCategoriesRequest()
+            {
+
+            };
+            var response = service.GetPropertyItemCategories(request);
+
+            Assert.AreEqual(0, response.Code);
+        }
+
+        [TestMethod()]
+        public void GetPropertyItemCategoriesTest_Item()
+        {
+            var request = new GetPropertyItemCategoriesRequest()
+            {
+                Code="Phone"
+            };
+            var response = service.GetPropertyItemCategories(request);
+
+            Assert.AreEqual(0, response.Code);
+        }
+
+    }
+}

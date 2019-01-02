@@ -63,7 +63,7 @@ namespace ee.iLawyer
             MenuToggleButton.IsChecked = false;
         }
 
-        private async void MenuPopupButton_OnClick(object sender, RoutedEventArgs e)
+        private  void MenuPopupButton_OnClick(object sender, RoutedEventArgs e)
         {
                    
         }

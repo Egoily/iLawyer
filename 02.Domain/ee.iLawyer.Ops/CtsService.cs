@@ -5,27 +5,29 @@ using System.Collections.Generic;
 using ee.iLawyer.Ops.Contact.Interfaces;
 using ee.SessionFactory;
 using ee.iLawyer.SessionFactoryBuilder.Sqlite;
-using ee.iLawyer.Ops.Contact.DTO;
 using ee.iLawyer.Ops.Contact.Args;
 using ee.SessionFactory.Repository;
-using ee.iLawyer.Db.Entity;
+using ee.iLawyer.Ops.Contact.AutoMapper;
 
 namespace ee.iLawyer.Ops
 {
     public class CtsService : ICtsService
     {
 
-        private static bool IsSessionBuilded = false;
+        private static bool IsInit = false;
         public static void Build()
         {
-            if (IsSessionBuilded) return;
+            if (IsInit) return;
             // create our  session factory
             SessionManager.Builder = new SqliteSessionFactoryBuilder();
-            IsSessionBuilded = true;
+            AutoMapperConfiguration.Configure();
+            IsInit = true;
+
         }
         public CtsService()
         {
             Build();
+
         }
         public BaseQueryResponse<Contact.DTO.Area> GetAreas(GetAreasRequest request)
         {
@@ -43,7 +45,7 @@ namespace ee.iLawyer.Ops
                         var query = repo.Query(x => x.Parent == null);
 
                         response.Total = query.Count();
-                        //response.QueryList = query.ToList();
+                        response.QueryList = query.ToList().Select(DtoConverter.Convert).ToList();
                     }
                     return response;
                 }
@@ -165,7 +167,7 @@ namespace ee.iLawyer.Ops
                         var query = repo.Query();
 
                         response.Total = query.Count();
-                        //response.QueryList = query.ToList();
+                        response.QueryList = query.ToList().Select(DtoConverter.Convert).ToList();
                     }
                     return response;
                 }
@@ -283,7 +285,7 @@ namespace ee.iLawyer.Ops
                         var query = repo.Query();
 
                         response.Total = query.Count();
-                        //response.QueryList = query.ToList();
+                        response.QueryList = query.ToList().Select(DtoConverter.Convert).ToList();
                     }
                     return response;
                 }
@@ -397,7 +399,7 @@ namespace ee.iLawyer.Ops
                         var query = repo.Query();
 
                         response.Total = query.Count();
-                        //response.QueryList = query.ToList();
+                        response.QueryList = query.ToList().Select(DtoConverter.Convert).ToList();
                     }
                     return response;
                 }
@@ -487,7 +489,7 @@ namespace ee.iLawyer.Ops
 
         }
 
-        public BaseQueryResponse<Contact.DTO.PropertyItemCategory> GetPropertyCategory(GetPropertyCategoryRequest request)
+        public BaseQueryResponse<Contact.DTO.PropertyItemCategory> GetPropertyCategories(GetPropertyCategoriesRequest request)
         {
             return ServiceProcessor.ProcessRequest(request,
                //inbound.do validate or do something here
@@ -501,14 +503,14 @@ namespace ee.iLawyer.Ops
                        var query = repo.Query().Where(x => x.Parent == null);
 
                        response.Total = query.Count();
-                       //response.QueryList = query.ToList();
+                       response.QueryList = query.ToList().Select(DtoConverter.Convert).ToList();
                    }
                    return response;
                }
             );
         }
 
-        public BaseQueryResponse<Contact.DTO.PropertyItemCategory> GetPropertyItemCategory(GetPropertyItemCategoryRequest request)
+        public BaseQueryResponse<Contact.DTO.PropertyItemCategory> GetPropertyItemCategories(GetPropertyItemCategoriesRequest request)
         {
             return ServiceProcessor.ProcessRequest(request,
              //inbound.do validate or do something here
@@ -519,10 +521,20 @@ namespace ee.iLawyer.Ops
                  var response = new BaseQueryResponse<Contact.DTO.PropertyItemCategory>();
                  using (var repo = new NhRepository<Db.Entity.PropertyItemCategory>())
                  {
-                     var query = repo.Query().Where(x => x.Parent!=null&&x.Parent.Code==req.Code);
+                     if (string.IsNullOrEmpty(req.Code))
+                     {
+                         var query = repo.Query().Where(x => x.Parent == null && x.IsEnabled);
 
-                     response.Total = query.Count();
-                     //response.QueryList = query.ToList();
+                         response.Total = query.Count();
+                         response.QueryList = query.ToList().Select(DtoConverter.Convert).ToList();
+                     }
+                     else
+                     {
+                         var query = repo.Query().Where(x => x.Parent != null && x.Parent.Code == req.Code && x.IsEnabled);
+
+                         response.Total = query.Count();
+                         response.QueryList = query.ToList().Select(DtoConverter.Convert).ToList();
+                     }
                  }
                  return response;
              }

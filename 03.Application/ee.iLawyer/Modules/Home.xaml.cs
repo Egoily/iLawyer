@@ -1,9 +1,11 @@
 ﻿using ee.iLawyer.Models;
+using ee.iLawyer.UserControls;
 using ee.iLawyer.ViewModels;
 using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Controls;
 
 namespace ee.iLawyer.Modules
@@ -16,38 +18,28 @@ namespace ee.iLawyer.Modules
         public Home()
         {
             InitializeComponent();
+            var phonePropertyListItem = new PropertyListItem()
+            {
+                PickerProperty = GlobalViewModel.GetPickerProperty(Ops.Contact.MainPrpoertyCategory.Phone),
+                Items = new ObservableCollection<PropertyPickerItem>()
+                    {
+                        new PropertyPickerItem()
+                        {
+                          Guid=Guid.NewGuid(),
+                          IsDefault=true,
+                        },
+                        new PropertyPickerItem()
+                        {
+                          Guid=Guid.NewGuid(),
+                          IsDefault=false,
+                        }
+                    }
+            };
             this.DataContext = new HomeViewModel()
             {
-                PhoneItems = new ObservableCollection<PropertyPickerItem>
-                {
-                    new PropertyPickerItem()
-                    {
-                        Guid=Guid.NewGuid(),
-                        IsDefault=true,
-                        KeyValue=new KeyValue() { Key=1,Value="13610142196"}
-                    },
-                    new PropertyPickerItem()
-                    {
-                        Guid=Guid.NewGuid(),
-                        KeyValue=new KeyValue() { Key=2,Value="13763357288"}
-                    }
-                },
-             
-                Items=new ObservableCollection<PropertyItem>
-                {
-                   new PropertyItem()
-                   {
-                       PropertyName="电话",
-                        Icon="Phone",
-                         
-                   },
-                    new PropertyItem()
-                   {
-                       PropertyName="证件",
-                        Icon="Phone",
-
-                   },
-                },
+                MyProperty = 11,
+                PhonePropertyListItem = phonePropertyListItem,
+                 PersonProperties=GlobalViewModel.GetPropertyListItems(),
 
             };
         }
@@ -63,7 +55,8 @@ namespace ee.iLawyer.Modules
 
         private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var items = (this.DataContext as HomeViewModel).PhoneItems;
+            var items = (this.DataContext as HomeViewModel).PhonePropertyListItem;
+            var a = propertyListPicker;
         }
     }
 }

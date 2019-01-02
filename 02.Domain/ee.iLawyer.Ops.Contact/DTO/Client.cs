@@ -25,6 +25,10 @@ namespace ee.iLawyer.Ops.Contact.DTO
         /// </summary>
         public virtual string Abbreviation { get; set; }
         /// <summary>
+        /// 印象
+        /// </summary>
+        public virtual string Impression { get; set; }
+        /// <summary>
         /// 属性列表
         /// </summary>
         public virtual Dictionary<int, string> Properties { get; set; }

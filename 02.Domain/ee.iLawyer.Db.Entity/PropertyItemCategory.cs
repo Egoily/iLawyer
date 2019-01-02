@@ -30,6 +30,10 @@ namespace ee.iLawyer.Db.Entity
         /// <summary>
         /// 
         /// </summary>
+        public virtual int PickerType { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public virtual bool IsEnabled { get; set; }
         /// <summary>
         /// 

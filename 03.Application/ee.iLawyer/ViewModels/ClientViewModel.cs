@@ -22,7 +22,6 @@ namespace ee.iLawyer.ViewModels
     {
 
         public ObservableCollection<Client> Clients { get; protected set; }
-
         public Client SelectedItem { get; set; }
 
 
@@ -62,7 +61,7 @@ namespace ee.iLawyer.ViewModels
                     }
                     catch (Exception ex)
                     {
-
+                        Console.WriteLine(ex.Message);
                     }
 
                 }, null);
@@ -86,6 +85,7 @@ namespace ee.iLawyer.ViewModels
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return new BaseResponse() { Code = ErrorCodes.UnknownError, Message = "Unknown Error" };
             }
 
@@ -107,6 +107,7 @@ namespace ee.iLawyer.ViewModels
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return new BaseResponse() { Code = ErrorCodes.UnknownError, Message = "Unknown Error" };
             }
 
@@ -128,6 +129,7 @@ namespace ee.iLawyer.ViewModels
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return new BaseResponse() { Code = ErrorCodes.UnknownError, Message = "Unknown Error" };
             }
 
@@ -141,7 +143,7 @@ namespace ee.iLawyer.ViewModels
         private async void ExecuteNewCommand(object o)
         {
             //let's set up a little MVVM, cos that's what the cool kids are doing:
-            var view = new NewEditClientInfo()
+            var view = new NewEditClient()
             {
                 DataContext = this,
             };

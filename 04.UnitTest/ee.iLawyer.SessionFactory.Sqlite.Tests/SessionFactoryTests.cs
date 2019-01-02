@@ -8,12 +8,12 @@ using System.Linq;
 namespace ee.iLawyer.SessionFactory.Sqlite.Tests
 {
     [TestClass()]
-    public class SessionFactoryTest
+    public class SessionFactoryTests
     {
         static void Build()
         {
             SessionManager.Builder = new SqliteSessionFactoryBuilder();
-            //SessionManager.Builder.Build(@"");
+            SessionManager.Builder.Build(@"..\..\..\..\03.Application\ee.iLawyer\bin\Debug\database.db");
         }
         [TestInitialize()]
         public void Initialize()
@@ -35,5 +35,6 @@ namespace ee.iLawyer.SessionFactory.Sqlite.Tests
                 }
             }
         }
+
     }
 }

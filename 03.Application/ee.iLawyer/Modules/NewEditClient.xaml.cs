@@ -1,11 +1,17 @@
 ﻿using ee.iLawyer.Ops.Contact.DTO;
+using PropertyChanged;
+using System;
+using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace ee.iLawyer.Modules
 {
     /// <summary>
     /// Interaction logic for NewEditClient.xaml
     /// </summary>
+    [AddINotifyPropertyChangedInterface]
     public partial class NewEditClient : UserControl
     {
 
@@ -25,7 +31,7 @@ namespace ee.iLawyer.Modules
         {
             InitializeComponent();
 
-            this.Content.DataContext = this;
+            this.grid.DataContext = this;
             TreatedObject = Client?.Clone() as Client;
 
             if (TreatedObject != null && TreatedObject.Id > 0)
@@ -39,9 +45,17 @@ namespace ee.iLawyer.Modules
                 IsNew = true;
                 TreatedObject = new Client();
             }
-            txtTitle.Text = Title;
+            groupBox.Header = Title;
+
 
 
         }
+
+        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var a = ViewModels.GlobalViewModel.PropertyListItemOfPhone;
+        }
     }
+
+
 }

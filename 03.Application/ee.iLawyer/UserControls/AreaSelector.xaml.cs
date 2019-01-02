@@ -45,7 +45,7 @@ namespace ee.iLawyer.UserControls
         public AreaSelector()
         {
             InitializeComponent();
-            this.Content.DataContext = this;
+            this.grid.DataContext = this;
             this.PropertyChanged += SelectedArea_PropertyChanged;
         }
 

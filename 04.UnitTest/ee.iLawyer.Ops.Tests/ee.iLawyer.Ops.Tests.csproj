@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{43A09225-45CF-4ADF-AF6E-3D7A9E67BF62}</ProjectGuid>
+    <ProjectGuid>{0277F147-7C52-441C-B9A9-F164FB222CB1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ee.iLawyer.SessionFactory.Sqlite.Tests</RootNamespace>
-    <AssemblyName>ee.iLawyer.SessionFactory.Sqlite.Tests</AssemblyName>
+    <RootNamespace>ee.iLawyer.Ops.Tests</RootNamespace>
+    <AssemblyName>ee.iLawyer.Ops.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -85,21 +85,29 @@
     <Reference Include="System.Transactions" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SessionFactoryTests.cs" />
+    <Compile Include="CtsServerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\01.Framework\ee.Framework\ee.Framework.csproj">
+      <Project>{7d3d1f1d-973e-464a-9e60-b33cd0b34163}</Project>
+      <Name>ee.Framework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\01.Framework\ee.SessionFactory\ee.SessionFactory.csproj">
       <Project>{82012aca-724f-4c78-a0fe-e450a887c7d7}</Project>
       <Name>ee.SessionFactory</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\02.Domain\ee.iLawyer.Db.Entity\ee.iLawyer.Db.Entity.csproj">
-      <Project>{1428652c-40b3-4f1a-92f3-f4965726b414}</Project>
-      <Name>ee.iLawyer.Db.Entity</Name>
+    <ProjectReference Include="..\..\02.Domain\ee.iLawyer.Ops.Contact\ee.iLawyer.Ops.Contact.csproj">
+      <Project>{8bf78a81-d48f-47dc-9d81-f9e894675c32}</Project>
+      <Name>ee.iLawyer.Ops.Contact</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\02.Domain\ee.iLawyer.Ops\ee.iLawyer.Ops.csproj">
+      <Project>{7dff2702-d6cb-47f9-bf63-ecfe99c37c1f}</Project>
+      <Name>ee.iLawyer.Ops</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\02.Domain\ee.iLawyer.SessionFactoryBuilder.Sqlite\ee.iLawyer.SessionFactoryBuilder.Sqlite.csproj">
       <Project>{9c878aa9-b469-4d2d-b789-c1d2d0fb1f12}</Project>

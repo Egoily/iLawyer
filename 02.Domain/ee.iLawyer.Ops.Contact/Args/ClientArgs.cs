@@ -10,28 +10,29 @@ namespace ee.iLawyer.Ops.Contact.Args
     public class AddClientRequest : BaseRequest
     {
         /// <summary>
-        /// 手机号码
-        /// </summary>
-        [Required]
-        public virtual string PhoneNo { get; set; }
-        /// <summary>
         /// 客户名
         /// </summary>
         [Required]
         public virtual string Name { get; set; }
         /// <summary>
-        /// 身份证号码
-        /// </summary>
-        public virtual string IDCardNo { get; set; }
-        /// <summary>
-        /// 性别
+        /// 属性列表
         /// </summary>
         [Required]
-        public virtual int Gender { get; set; }
+        public virtual Dictionary<int, string> Properties { get; set; }
+
         /// <summary>
-        /// 地址
+        /// 是否是自然人
         /// </summary>
-        public virtual string Address { get; set; }
+        public virtual bool IsNP { get; set; }
+        /// <summary>
+        /// 简称
+        /// </summary>
+        public virtual string Abbreviation { get; set; }
+        /// <summary>
+        /// 印象
+        /// </summary>
+        public virtual string Impression { get; set; }
+
     }
     public class UpdateClientRequest : BaseRequest
     {
@@ -41,28 +42,28 @@ namespace ee.iLawyer.Ops.Contact.Args
         [Required]
         public virtual int Id { get; set; }
         /// <summary>
-        /// 手机号码
-        /// </summary>
-        [Required]
-        public virtual string PhoneNo { get; set; }
-        /// <summary>
         /// 客户名
         /// </summary>
         [Required]
         public virtual string Name { get; set; }
         /// <summary>
-        /// 身份证号码
-        /// </summary>
-        public virtual string IDCardNo { get; set; }
-        /// <summary>
-        /// 性别
+        /// 属性列表
         /// </summary>
         [Required]
-        public virtual int Gender { get; set; }
+        public virtual Dictionary<int, string> Properties { get; set; }
+
         /// <summary>
-        /// 地址
+        /// 是否是自然人
         /// </summary>
-        public virtual string Address { get; set; }
+        public virtual bool IsNP { get; set; }
+        /// <summary>
+        /// 简称
+        /// </summary>
+        public virtual string Abbreviation { get; set; }
+        /// <summary>
+        /// 印象
+        /// </summary>
+        public virtual string Impression { get; set; }
     }
     public class RemoveClientRequest : BaseRequest
     {

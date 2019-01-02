@@ -28,6 +28,10 @@ namespace ee.iLawyer.Db.Entity
         /// </summary>
         public virtual string Abbreviation { get; set; }
         /// <summary>
+        /// 印象
+        /// </summary>
+        public virtual string Impression { get; set; }
+        /// <summary>
         /// 属性
         /// </summary>
         public virtual IList<ClientPropertyItem> Properties { get; set; }

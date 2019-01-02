@@ -10,5 +10,6 @@ namespace ee.iLawyer.Ops.Contact
     {
         public const string AreaInfo = "Area_AreaInfo";
         public const string Courts = "Law_Courts";
+        public const string PropertyItemCategories = "PropertyItemCategories";
     }
 }

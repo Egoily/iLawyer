@@ -7,8 +7,8 @@ namespace ee.iLawyer.Ops.Contact.Interfaces
     public interface ICtsService
     {
         BaseQueryResponse<Area> GetAreas(GetAreasRequest request);
-        BaseQueryResponse<PropertyItemCategory> GetPropertyCategory(GetPropertyCategoryRequest request);
-        BaseQueryResponse<PropertyItemCategory> GetPropertyItemCategory(GetPropertyItemCategoryRequest request);
+        BaseQueryResponse<PropertyItemCategory> GetPropertyCategories(GetPropertyCategoriesRequest request);
+        BaseQueryResponse<PropertyItemCategory> GetPropertyItemCategories(GetPropertyItemCategoriesRequest request);
         BaseResponse AddCourt(AddCourtRequest request);
         BaseResponse UpdateCourt(UpdateCourtRequest request);
         BaseResponse RemoveCourt(RemoveCourtRequest request);

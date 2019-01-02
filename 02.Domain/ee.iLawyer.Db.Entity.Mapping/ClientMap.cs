@@ -13,6 +13,7 @@ namespace ee.iLawyer.Db.Entity.Mapping
             Map(x => x.IsNP);
             Map(x => x.Name);
             Map(x => x.Abbreviation);
+            Map(x => x.Impression);
             Map(x => x.CreateTime);
             Map(x => x.UpdateTime);
 

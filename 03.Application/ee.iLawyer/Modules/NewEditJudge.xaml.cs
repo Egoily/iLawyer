@@ -1,4 +1,5 @@
 ﻿using ee.iLawyer.Ops.Contact.DTO;
+using PropertyChanged;
 using System.Windows.Controls;
 
 namespace ee.iLawyer.Modules
@@ -6,6 +7,7 @@ namespace ee.iLawyer.Modules
     /// <summary>
     /// Interaction logic for NewEditJudge.xaml
     /// </summary>
+    [AddINotifyPropertyChangedInterface]
     public partial class NewEditJudge : UserControl
     {
 
@@ -25,7 +27,7 @@ namespace ee.iLawyer.Modules
         {
             InitializeComponent();
 
-            this.Content.DataContext = this;
+            this.grid.DataContext = this;
             TreatedObject = judge?.Clone() as Judge;
 
             if (TreatedObject != null && TreatedObject.Id > 0)

@@ -6,88 +6,90 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
-             xmlns:local="clr-namespace:ee.iLawyer.UserControls"  
+             xmlns:local="clr-namespace:ee.iLawyer.UserControls" 
              xmlns:vm="clr-namespace:ee.iLawyer.ViewModels"
+             xmlns:modules="clr-namespace:ee.iLawyer.Modules"
+          
              mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="300">
-    <Grid x:Name="Content"  Margin="20,4,20,4" >
+              
+             Width="600"
+           >
+    <Grid x:Name="grid"  >
+        <GroupBox x:Name="groupBox" Header="New or Edit Client"   Style="{DynamicResource MaterialDesignCardGroupBox}" >
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <StackPanel  Orientation="Horizontal">
+                        <materialDesign:PackIcon   Kind="TableEdit"  Height="32"  Width="32" VerticalAlignment="Center" />
+                        <TextBlock   Margin="8,0,0,0"  VerticalAlignment="Center"  Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="{Binding}" />
+                    </StackPanel>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+            <StackPanel Orientation="Vertical">
+                <TabControl Style="{StaticResource TabControlWithUnderLineStyle}" Height="600"  BorderThickness="0">
+                    <TabItem Style="{StaticResource TabItemExWithUnderLineStyle}" Cursor="Hand" Header="机构" Height="38" Width="70" Margin="5 0">
+                        <Grid >
+                            <TextBlock Text="未实现" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Style="{StaticResource TabItemExWithUnderLineStyle}" Cursor="Hand" Header="自然人" Height="38" Width="70" Margin="5 0">
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto">
+                            <StackPanel x:Name="NaturalPersonContent"  Margin="20,4,20,4" Width="540"  >
 
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
+                                <TextBox x:Name="txtName" Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                                    <materialDesign:HintAssist.Hint >
+                                        <StackPanel Orientation="Horizontal" >
+                                            <materialDesign:PackIcon Kind="Account" />
+                                            <TextBlock>姓名</TextBlock>
+                                        </StackPanel>
+                                    </materialDesign:HintAssist.Hint>
+                                    <TextBox.Text>
+                                        <Binding Path="TreatedObject.Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
+                                <local:PropertyPickerControl x:Name="propertyPicker" Width="540" 
+                                                             PropertyListItemOfPhone="{x:Static vm:GlobalViewModel.PropertyListItemOfPhone}"
+                                                             PropertyListItemOfEmail="{  x:Static vm:GlobalViewModel.PropertyListItemOfEmail}"
+                                                             PropertyListItemOfAddress="{  x:Static vm:GlobalViewModel.PropertyListItemOfAddress}"
+                                                             PropertyListItemOfCertificate="{ x:Static vm:GlobalViewModel.PropertyListItemOfCertificate}"
+                                                             PropertyListItemOfPerson="{ x:Static vm:GlobalViewModel.PropertyListItemOfPerson}"
+                                                             PropertyListItemOfDateTime="{ x:Static vm:GlobalViewModel.PropertyListItemOfDateTime}"
+                                />
+                                <TextBox Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                                         VerticalAlignment="Top" Height="100" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
+                                         materialDesign:HintAssist.Hint="印象">
+                                    <TextBox.Text>
+                                        <Binding Path="TreatedObject.Impression" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
 
-        <TextBlock Grid.Row="0" x:Name="txtTitle">New or Edit Client:</TextBlock>
-        <TextBox Grid.Row="1" x:Name="txtName" Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
-            <materialDesign:HintAssist.Hint >
+
+                            </StackPanel>
+                        </ScrollViewer>
+                    </TabItem>
+                </TabControl>
                 <StackPanel Orientation="Horizontal" >
-                    <materialDesign:PackIcon Kind="Account" />
-                    <TextBlock>姓名</TextBlock>
-                </StackPanel>
-            </materialDesign:HintAssist.Hint>
-            <TextBox.Text>
-                <Binding Path="TreatedObject.Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
-                </Binding>
-            </TextBox.Text>
-        </TextBox>
-        <ComboBox Grid.Row="2" x:Name="cbbGender" Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
-                  ItemsSource="{Binding Source={x:Static vm:GlobalViewModel.Genders}}" DisplayMemberPath="Value" SelectedValuePath="Key" 
-                  SelectedValue="{Binding TreatedObject.Gender,Mode=TwoWay}">
-            <materialDesign:HintAssist.Hint >
-                <StackPanel Orientation="Horizontal" >
-                    <materialDesign:PackIcon Kind="Face" />
-                    <TextBlock>性别</TextBlock>
-                </StackPanel>
-            </materialDesign:HintAssist.Hint>
-        </ComboBox>
-        <TextBox Grid.Row="3" x:Name="txtIDCardNo" Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                 Text="{Binding TreatedObject.IDCardNo , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <materialDesign:HintAssist.Hint >
-                <StackPanel Orientation="Horizontal" >
-                    <materialDesign:PackIcon Kind="AccountCardDetails" />
-                    <TextBlock>身份证号码</TextBlock>
-                </StackPanel>
-            </materialDesign:HintAssist.Hint>
-        </TextBox>
-        <TextBox Grid.Row="4" x:Name="txtPhoneNo" Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                 Text="{Binding TreatedObject.PhoneNo , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <materialDesign:HintAssist.Hint >
-                <StackPanel Orientation="Horizontal" >
-                    <materialDesign:PackIcon Kind="Phone" />
-                    <TextBlock>联系电话</TextBlock>
-                </StackPanel>
-            </materialDesign:HintAssist.Hint>
-        </TextBox>
-        <TextBox Grid.Row="5" x:Name="txtAddress" Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                 Text="{Binding TreatedObject.Address , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <materialDesign:HintAssist.Hint >
-                <StackPanel Orientation="Horizontal" >
-                    <materialDesign:PackIcon Kind="AddressMarker" />
-                    <TextBlock>住址</TextBlock>
-                </StackPanel>
-            </materialDesign:HintAssist.Hint>
-        </TextBox>
-        <StackPanel Grid.Row="6" Orientation="Horizontal" Margin="20,4,20,4" Width="200">
-            <Button IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
+                    <Button IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
                     Command="{x:Static wpf:DialogHost.CloseDialogCommand}">
-                <Button.CommandParameter>
-                    <system:Boolean>True</system:Boolean>
-                </Button.CommandParameter>
-                ACCEPT
-            </Button>
-            <Button IsCancel="True"  Style="{DynamicResource MaterialDesignFlatButton}"
+                        <Button.CommandParameter>
+                            <system:Boolean>True</system:Boolean>
+                        </Button.CommandParameter>
+                        ACCEPT
+                    </Button>
+                    <Button IsCancel="True"  Style="{DynamicResource MaterialDesignFlatButton}"
                     Command="{x:Static wpf:DialogHost.CloseDialogCommand}">
-                <Button.CommandParameter>
-                    <system:Boolean>False</system:Boolean>
-                </Button.CommandParameter>
-                CANCEL
-            </Button>
-        </StackPanel>
+                        <Button.CommandParameter>
+                            <system:Boolean>False</system:Boolean>
+                        </Button.CommandParameter>
+                        CANCEL
+                    </Button>
+                    <Button Click="Button_Click">Test</Button>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+
+
     </Grid>
 </UserControl>

@@ -10,7 +10,7 @@
              xmlns:vm="clr-namespace:ee.iLawyer.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="300">
-    <Grid x:Name="Content"  Margin="20,4,20,4" >
+    <Grid x:Name="grid"  Margin="20,4,20,4" >
 
         <Grid.RowDefinitions>
             <RowDefinition />

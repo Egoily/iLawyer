@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MaterialDesignThemes.Wpf;
-using ee.iLawyer.UserControls;
 using ee.iLawyer.Modules;
 using System.Windows.Controls;
 using System.Windows;
@@ -60,6 +59,7 @@ namespace ee.iLawyer.ViewModels
                     }
                     catch (Exception ex)
                     {
+                        Console.WriteLine(ex.Message);
                     }
 
                 }, null);
@@ -88,6 +88,7 @@ namespace ee.iLawyer.ViewModels
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return new BaseResponse() { Code = ErrorCodes.UnknownError, Message = "Unknown Error" };
             }
 
@@ -115,6 +116,7 @@ namespace ee.iLawyer.ViewModels
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return new BaseResponse() { Code = ErrorCodes.UnknownError, Message = "Unknown Error" };
             }
 
@@ -136,6 +138,7 @@ namespace ee.iLawyer.ViewModels
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return new BaseResponse() { Code = ErrorCodes.UnknownError, Message = "Unknown Error" };
             }
 
@@ -192,27 +195,42 @@ namespace ee.iLawyer.ViewModels
                 var content = eventArgs.Session.Content as NewEditCourt;
                 if (content.IsNew)
                 {
+
                     SelectedItem = content.TreatedObject;
-                    Task.Run(() => Add())
-                        .ContinueWith((t) => { Query(); GlobalViewModel.UpdateCourts(); }, TaskContinuationOptions.OnlyOnRanToCompletion)
+                    var task = new Task<BaseResponse>(Add);
+                    task.Start();
+
+                    var taskResult = task.Result;
+
+                    if (taskResult != null && taskResult.Code == ErrorCodes.Ok)
+                    {
+                        task.ContinueWith((t) => { Query(); GlobalViewModel.UpdateCourts(); }, TaskContinuationOptions.OnlyOnRanToCompletion)
                         .ContinueWith((t, _) => eventArgs.Session.Close(false), null, TaskScheduler.FromCurrentSynchronizationContext());
+                    }
+
                 }
                 else
                 {
                     SelectedItem = content.TreatedObject;
-                    Task.Run(() => Update())
-                        .ContinueWith((t) => { Query(); GlobalViewModel.UpdateCourts(); }, TaskContinuationOptions.OnlyOnRanToCompletion)
-                        .ContinueWith((t, _) => eventArgs.Session.Close(false), null, TaskScheduler.FromCurrentSynchronizationContext());
-                }
 
+                    var task = new Task<BaseResponse>(Update);
+                    task.Start();
+
+                    var taskResult = task.Result;
+
+                    if (taskResult != null && taskResult.Code == ErrorCodes.Ok)
+                    {
+                        task.ContinueWith((t) => { Query(); GlobalViewModel.UpdateCourts(); }, TaskContinuationOptions.OnlyOnRanToCompletion)
+                        .ContinueWith((t, _) => eventArgs.Session.Close(false), null, TaskScheduler.FromCurrentSynchronizationContext());
+                    }
+
+                }
             }
 
-            //OK, lets cancel the close...
             eventArgs.Cancel();
-            //...now, lets update the "session" with some new content!
-            eventArgs.Session.UpdateContent(new ProgressDialog());
-        }
+            //TODO:Show message here
 
+        }
 
 
         public void DeleteItem(object sender, DialogClosingEventArgs eventArgs)

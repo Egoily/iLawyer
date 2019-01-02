@@ -12,8 +12,9 @@ namespace ee.iLawyer.Models
     {
         public Guid Guid { get; set; }
         public bool IsDefault { get; set; }
-
         public KeyValue KeyValue { get; set; }
+
+        public int OrderNo { get; set; }
     }
     public class KeyValue
     {

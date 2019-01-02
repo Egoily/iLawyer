@@ -1,4 +1,5 @@
 ﻿using ee.iLawyer.Models;
+using ee.iLawyer.UserControls;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -13,24 +14,9 @@ namespace ee.iLawyer.ViewModels
     [AddINotifyPropertyChangedInterface]
     public class HomeViewModel
     {
-        public Dictionary<int, string> PhoneCategories
-        {
-            get
-            {
-                return new Dictionary<int, string>
-                {
-                    { 1, "重要" },
-                    { 2, "手机" },
-                    { 3, "办公" },
-                    { 4, "家庭" },
-                };
-            }
-        }
+        public PropertyListItem PhonePropertyListItem { get; set; }
+        public int MyProperty { get; set; }
 
-        public ObservableCollection<PropertyPickerItem> PhoneItems { get; set; }
-
-        public ObservableCollection<PropertyItem> Items { get; set; }
-
-
+        public ObservableCollection<PropertyListItem> PersonProperties { get; set; }
     }
 }

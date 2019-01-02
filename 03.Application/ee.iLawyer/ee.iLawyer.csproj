@@ -108,7 +108,6 @@
     </ApplicationDefinition>
     <Compile Include="Converters\ValueConverter.cs" />
     <Compile Include="ExControls\FillWrapPanel.cs" />
-    <Compile Include="Models\PropertyItem.cs" />
     <Compile Include="Models\PropertyPickerItem.cs" />
     <Compile Include="UserControls\AreaSelector.xaml.cs">
       <DependentUpon>AreaSelector.xaml</DependentUpon>
@@ -116,14 +115,21 @@
     <Compile Include="UserControls\ProgressDialog.xaml.cs">
       <DependentUpon>ProgressDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\PropertyControl.xaml.cs">
-      <DependentUpon>PropertyControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\PropertyPicker.xaml.cs">
       <DependentUpon>PropertyPicker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\PropertyListPicker.xaml.cs">
+      <DependentUpon>PropertyListPicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\PropertyPickerControl.xaml.cs">
+      <DependentUpon>PropertyPickerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\TCtr.xaml.cs">
+      <DependentUpon>TCtr.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\CourtViewModel.cs" />
+    <Compile Include="ViewModels\PropertyPickerControlViewModel.cs" />
     <Compile Include="ViewModels\GlobalViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\JudgeViewModel.cs" />
@@ -166,10 +172,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Modules\NewEditClientInfo.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Modules\NewEditCourt.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -194,11 +196,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControls\PropertyControl.xaml">
+    <Page Include="UserControls\PropertyPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\PropertyListPicker.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControls\PropertyPicker.xaml">
+    <Page Include="UserControls\PropertyPickerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\TCtr.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -219,9 +229,6 @@
     </Compile>
     <Compile Include="Modules\NewEditClient.xaml.cs">
       <DependentUpon>NewEditClient.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Modules\NewEditClientInfo.xaml.cs">
-      <DependentUpon>NewEditClientInfo.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\NewEditCourt.xaml.cs">
       <DependentUpon>NewEditCourt.xaml</DependentUpon>
@@ -277,14 +284,14 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\..\packages\Fody.3.2.9\build\Fody.targets" Condition="Exists('..\..\packages\Fody.3.2.9\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\Fody.3.2.9\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Fody.3.2.9\build\Fody.targets'))" />
     <Error Condition="!Exists('..\..\packages\PropertyChanged.Fody.2.5.13\build\PropertyChanged.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\PropertyChanged.Fody.2.5.13\build\PropertyChanged.Fody.props'))" />
     <Error Condition="!Exists('..\..\packages\System.Data.SQLite.Core.1.0.109.2\build\net46\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\System.Data.SQLite.Core.1.0.109.2\build\net46\System.Data.SQLite.Core.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Fody.3.3.3\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Fody.3.3.3\build\Fody.targets'))" />
   </Target>
   <Import Project="..\..\packages\System.Data.SQLite.Core.1.0.109.2\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\..\packages\System.Data.SQLite.Core.1.0.109.2\build\net46\System.Data.SQLite.Core.targets')" />
+  <Import Project="..\..\packages\Fody.3.3.3\build\Fody.targets" Condition="Exists('..\..\packages\Fody.3.3.3\build\Fody.targets')" />
 </Project>
