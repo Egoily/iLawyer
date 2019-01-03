@@ -124,9 +124,6 @@
     <Compile Include="UserControls\PropertyPickerControl.xaml.cs">
       <DependentUpon>PropertyPickerControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\TCtr.xaml.cs">
-      <DependentUpon>TCtr.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\CourtViewModel.cs" />
     <Compile Include="ViewModels\PropertyPickerControlViewModel.cs" />
@@ -205,10 +202,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\PropertyPickerControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\TCtr.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

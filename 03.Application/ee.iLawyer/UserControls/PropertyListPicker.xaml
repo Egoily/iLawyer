@@ -21,13 +21,11 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate  DataType="{x:Type local:PropertyListItem}">
-                        <!--<local:PropertyPicker PropertyListItem="{Binding }"></local:PropertyPicker>-->
-                        <local:PropertyPicker PropertyListItem="{Binding  Converter={StaticResource debugConverter}}"></local:PropertyPicker>
-                        <!--<local:TCtr PropertyName="{Binding PickerProperty.PropertyName }" Icon="{Binding PickerProperty.Icon}"></local:TCtr>-->
-                        <!--<StackPanel Orientation="Horizontal" Margin="10">
-                            <TextBlock Text="{Binding PickerProperty.PropertyName}" Tag="{Binding Converter={StaticResource debugConverter}}"></TextBlock>
-                        </StackPanel>-->
-
+                        <Grid x:Name="templateGrid">
+                            <local:PropertyPicker PropertyListItem="{Binding DataContext, ElementName=templateGrid}"></local:PropertyPicker>
+                        <!--<local:PropertyPicker PropertyListItem="{Binding DataContext,ElementName=templateGrid, Converter={StaticResource debugConverter}}"></local:PropertyPicker>-->
+                   
+                        </Grid>
                     </DataTemplate>
 
                 </ItemsControl.ItemTemplate>

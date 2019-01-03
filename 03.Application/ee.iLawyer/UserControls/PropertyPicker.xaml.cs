@@ -42,6 +42,10 @@ namespace ee.iLawyer.UserControls
                         for (int i = 0; i < PropertyListItem.Items.Count; i++)
                         {
                             PropertyListItem.Items[i].IsDefault = i == 0;
+                            if (PropertyListItem.Items[i].KeyValue == null)
+                            {
+                                PropertyListItem.Items[i].KeyValue = new KeyValue();
+                            }
                         }
                     }
                 }
@@ -52,8 +56,9 @@ namespace ee.iLawyer.UserControls
                         new PropertyPickerItem()
                         {
                              Guid=Guid.NewGuid(),
-                              IsDefault=true,
-                              OrderNo=0,
+                             IsDefault=true,
+                             KeyValue=new KeyValue(),
+                             OrderNo=0,
                         }
                     };
                 }
@@ -85,7 +90,7 @@ namespace ee.iLawyer.UserControls
 
         private void AddItem()
         {
-            var item = new PropertyPickerItem() { Guid = Guid.NewGuid(), IsDefault = false };
+            var item = new PropertyPickerItem() { Guid = Guid.NewGuid(), IsDefault = false, KeyValue = new KeyValue() };
             PropertyListItem.Items.Add(item);
             IsOnlyOne = false;
         }

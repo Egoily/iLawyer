@@ -27,11 +27,13 @@ namespace ee.iLawyer.Modules
                         {
                           Guid=Guid.NewGuid(),
                           IsDefault=true,
+                          KeyValue=new KeyValue(),
                         },
                         new PropertyPickerItem()
                         {
                           Guid=Guid.NewGuid(),
                           IsDefault=false,
+                          KeyValue =new KeyValue(),
                         }
                     }
             };
@@ -39,7 +41,7 @@ namespace ee.iLawyer.Modules
             {
                 MyProperty = 11,
                 PhonePropertyListItem = phonePropertyListItem,
-                 PersonProperties=GlobalViewModel.GetPropertyListItems(),
+                PersonProperties = GlobalViewModel.GetPropertyListItems(),
 
             };
         }
