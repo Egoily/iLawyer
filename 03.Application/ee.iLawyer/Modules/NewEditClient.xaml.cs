@@ -3,6 +3,7 @@ using PropertyChanged;
 using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -22,17 +23,24 @@ namespace ee.iLawyer.Modules
 
         public Client TreatedObject { get; set; }
 
+        public ObservableCollection<UserControls.PropertyListItem> PersonProperties { get; set; }
 
-        public NewEditClient(Client Client = null)
+        public NewEditClient(Client Client = null, ObservableCollection<UserControls.PropertyListItem> personProperties = null)
         {
-            Init(Client);
+            Init(Client, personProperties);
         }
-        private void Init(Client Client)
+        private void Init(Client Client, ObservableCollection<UserControls.PropertyListItem> personProperties = null)
         {
             InitializeComponent();
 
             this.grid.DataContext = this;
             TreatedObject = Client?.Clone() as Client;
+
+            PersonProperties = personProperties;
+            if (PersonProperties == null || !PersonProperties.Any())
+            {
+                PersonProperties = ViewModels.GlobalViewModel.GetPropertyListItems();
+            }
 
             if (TreatedObject != null && TreatedObject.Id > 0)
             {

@@ -47,14 +47,9 @@
                                         </Binding>
                                     </TextBox.Text>
                                 </TextBox>
-                                <local:PropertyPickerControl x:Name="propertyPicker" Width="540" 
-                                                             PropertyListItemOfPhone="{x:Static vm:GlobalViewModel.PropertyListItemOfPhone}"
-                                                             PropertyListItemOfEmail="{  x:Static vm:GlobalViewModel.PropertyListItemOfEmail}"
-                                                             PropertyListItemOfAddress="{  x:Static vm:GlobalViewModel.PropertyListItemOfAddress}"
-                                                             PropertyListItemOfCertificate="{ x:Static vm:GlobalViewModel.PropertyListItemOfCertificate}"
-                                                             PropertyListItemOfPerson="{ x:Static vm:GlobalViewModel.PropertyListItemOfPerson}"
-                                                             PropertyListItemOfDateTime="{ x:Static vm:GlobalViewModel.PropertyListItemOfDateTime}"
-                                />
+                                <local:PropertyListPicker x:Name="propertyListPicker"  Width="540" 
+                DataSource="{Binding Path=DataContext.PersonProperties,ElementName=grid,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            />
                                 <TextBox Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
                                          VerticalAlignment="Top" Height="100" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
                                          materialDesign:HintAssist.Hint="印象">

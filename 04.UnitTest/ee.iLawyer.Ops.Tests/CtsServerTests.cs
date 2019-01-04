@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ee.SessionFactory;
 using ee.iLawyer.SessionFactoryBuilder.Sqlite;
 using ee.iLawyer.Ops.Contact.Args;
+using System.Collections.Generic;
 
 namespace ee.iLawyer.Ops.Tests
 {
@@ -41,9 +42,34 @@ namespace ee.iLawyer.Ops.Tests
         {
             var request = new GetPropertyItemCategoriesRequest()
             {
-                Code="Phone"
+                Code = "Phone"
             };
             var response = service.GetPropertyItemCategories(request);
+
+            Assert.AreEqual(0, response.Code);
+        }
+
+
+        [TestMethod()]
+        public void AddClientTest()
+        {
+            var properties = new Dictionary<int, string>
+            {
+                { 11, "13610142196" },
+                { 21, "egoily@hotmail.com" },
+                {30,"番禺市桥" }
+            };
+
+
+            var request = new AddClientRequest()
+            {
+                Abbreviation = "Ego2",
+                Impression = "good",
+                IsNP = true,
+                Name = "Ego Huang",
+                Properties = properties,
+            };
+            var response = service.AddClient(request);
 
             Assert.AreEqual(0, response.Code);
         }

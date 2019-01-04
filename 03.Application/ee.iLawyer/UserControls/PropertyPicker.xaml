@@ -51,6 +51,7 @@
                                       SelectedIndex="0"  
                                       SelectedValuePath="Id" 
                                       DisplayMemberPath="Name"
+                                      SelectedValue="{Binding KeyValue.Key,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                             >
                                 <materialDesign:HintAssist.Hint >
                                     <StackPanel Orientation="Horizontal" >

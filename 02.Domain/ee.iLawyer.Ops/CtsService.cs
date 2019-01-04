@@ -8,6 +8,7 @@ using ee.iLawyer.SessionFactoryBuilder.Sqlite;
 using ee.iLawyer.Ops.Contact.Args;
 using ee.SessionFactory.Repository;
 using ee.iLawyer.Ops.Contact.AutoMapper;
+using ee.iLawyer.Db.Entity;
 
 namespace ee.iLawyer.Ops
 {
@@ -294,6 +295,7 @@ namespace ee.iLawyer.Ops
 
         public BaseResponse AddClient(AddClientRequest request)
         {
+            var now = DateTime.Now;
             return ServiceProcessor.ProcessRequest(request,
                 //inbound.do validate or do something here
                 () =>
@@ -306,19 +308,37 @@ namespace ee.iLawyer.Ops
                      using (var repo = new NhGlobalRepository())
                      {
 
-                         var entity = repo.Query<Db.Entity.Client>(x => x.Name == req.Name).FirstOrDefault();
+                         var entity = repo.Query<Db.Entity.Client>(x => x.Name == req.Name && x.Abbreviation == req.Abbreviation).FirstOrDefault();
                          if (entity != null)
                          {
                              throw new EeException(ErrorCodes.Existed, "Object is existed.");
                          }
+
                          entity = new Db.Entity.Client()
                          {
                              Name = req.Name,
-                             //TODO:
-                             CreateTime = DateTime.Now,
+                             Abbreviation = req.Abbreviation,
+                             Impression = req.Impression,
+                             IsNP = req.IsNP,
+
+                             CreateTime = now,
 
                          };
+                         var properties = new List<ClientPropertyItem>();
+                         foreach (var pro in req.Properties)
+                         {
+                             var clientPropertyItem = new ClientPropertyItem()
+                             {
+                                 CreateTime = now,
+                                 Value = pro.Value,
+                                 Category = repo.GetById<PropertyItemCategory>(pro.Key),
+                                 Client = entity,
+                             };
+                             repo.Create(clientPropertyItem);
+                         }
+                         entity.Properties = properties;
                          repo.Create(entity);
+
                      }
                      return response;
                  }
