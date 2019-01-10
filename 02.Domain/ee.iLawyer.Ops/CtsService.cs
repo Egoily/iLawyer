@@ -325,13 +325,13 @@ namespace ee.iLawyer.Ops
 
                          };
                          var properties = new List<ClientPropertyItem>();
-                         foreach (var pro in req.Properties)
+                         foreach (var p in req.Properties)
                          {
                              var clientPropertyItem = new ClientPropertyItem()
                              {
                                  CreateTime = now,
-                                 Value = pro.Value,
-                                 Category = repo.GetById<PropertyItemCategory>(pro.Key),
+                                 Value = p.Value,
+                                 Category = repo.GetById<PropertyItemCategory>(p.Key),
                                  Client = entity,
                              };
                              repo.Create(clientPropertyItem);
@@ -348,6 +348,7 @@ namespace ee.iLawyer.Ops
 
         public BaseResponse UpdateClient(UpdateClientRequest request)
         {
+            var now = DateTime.Now;
             return ServiceProcessor.ProcessRequest(request,
                 //inbound.do validate or do something here
                 () =>
@@ -357,18 +358,73 @@ namespace ee.iLawyer.Ops
                  req =>
                  {
                      var response = new BaseResponse();
-                     using (var repo = new NhRepository<Db.Entity.Client>())
+                     using (var repo = new NhGlobalRepository())
                      {
-                         var entity = repo.GetById(req.Id);
-                         if (entity == null)
+                         var client = repo.GetById<Client>(req.Id);
+                         if (client == null)
                          {
                              throw new EeException(ErrorCodes.NotFound, "Object is not found.");
                          }
 
-                         entity.Name = req.Name;
-                         //TODO:
+                         client.Name = req.Name;
+                         client.Abbreviation = req.Abbreviation;
+                         client.Impression = req.Impression;
+                         client.IsNP = req.IsNP;
 
-                         repo.Update(entity);
+                         //remove
+                         var toRemove = client.Properties.Where(x => !req.Properties.Select(o => o.Id).Contains(x.Id));
+                         if (toRemove != null && toRemove.Any())
+                         {
+                             foreach (var item in toRemove.ToList())
+                             {
+                                 client.Properties.Remove(item);
+                                 var clientPropertyItem = repo.GetById<ClientPropertyItem>(item.Id);
+                                 if (clientPropertyItem != null)
+                                 {
+                                     repo.Delete(clientPropertyItem);
+                                 }
+                             }
+                         }
+
+                         foreach (var p in req.Properties)
+                         {
+                             var existedObj = client.Properties.FirstOrDefault(x => x.Id == p.Id);
+                             //update
+                             if (existedObj != null)
+                             {
+                                 var hasUpdated = false;
+                                 if (existedObj.Value != p.Value)
+                                 {
+                                     existedObj.Value = p.Value;
+                                     hasUpdated = true;
+                                 }
+                                 if (existedObj.Category.Id != p.Key && p.Key > 0)
+                                 {
+                                     var category = repo.GetById<PropertyItemCategory>(p.Key);
+                                     existedObj.Category = category;
+                                     hasUpdated = true;
+                                 }
+                                 if (hasUpdated)
+                                 {
+                                     existedObj.UpdateTime = now;
+                                 }
+                             }
+                             //add
+                             else
+                             {
+                                 var clientPropertyItem = new ClientPropertyItem()
+                                 {
+                                     CreateTime = now,
+                                     Value = p.Value,
+                                     Category = repo.GetById<PropertyItemCategory>(p.Key),
+                                     Client = client,
+                                 };
+                                 client.Properties.Add(clientPropertyItem);
+                             }
+                         }
+
+
+                         repo.Update(client);
                      }
                      return response;
                  }

@@ -17,6 +17,8 @@ namespace ee.iLawyer.Ops.Contact.AutoMapper
             CreateMap<ee.iLawyer.Db.Entity.Court, Contact.DTO.Court>();
             CreateMap<ee.iLawyer.Db.Entity.Judge, Contact.DTO.Judge>();
             CreateMap<ee.iLawyer.Db.Entity.Client, Contact.DTO.Client>();
+
+            CreateMap<IList<ee.iLawyer.Db.Entity.ClientPropertyItem>, List<DTO.KeyValue>>().ConvertUsing<ClientPropertyItemTypeConverter>();
         }
     }
 }

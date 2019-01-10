@@ -14,9 +14,10 @@ namespace ee.iLawyer.ViewModels
             ModuleItems = new[]
             {
                 new ModuleItem("Home", new Home()),
-                new ModuleItem("法院管理", new CourtManagement { } ),
-                new ModuleItem("法官管理", new JudgeManagement { } ),
-                new ModuleItem("客户管理", new ClientManagement { } ),
+                new ModuleItem("法院管理", new ManageCourt { } ),
+                new ModuleItem("法官管理", new ManageJudge { } ),
+                new ModuleItem("客户管理", new ManageClient { } ),
+                new ModuleItem("案件管理", new ManageProject { } ),
             };
         }
 

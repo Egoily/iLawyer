@@ -1,4 +1,5 @@
-﻿using PropertyChanged;
+﻿using ee.iLawyer.Ops.Contact.DTO;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +17,5 @@ namespace ee.iLawyer.Models
 
         public int OrderNo { get; set; }
     }
-    [AddINotifyPropertyChangedInterface]
-    public class KeyValue
-    {
-        public int Key { get; set; }
-        public string Value { get; set; }
-    }
+    
 }

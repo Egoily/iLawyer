@@ -1,4 +1,5 @@
 ﻿using ee.iLawyer.Models;
+using ee.iLawyer.Ops.Contact.DTO;
 using ee.iLawyer.UserControls;
 using ee.iLawyer.ViewModels;
 using MaterialDesignThemes.Wpf;
@@ -55,10 +56,5 @@ namespace ee.iLawyer.Modules
 
         }
 
-        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            var items = (this.DataContext as HomeViewModel).PhonePropertyListItem;
-            var a = propertyListPicker;
-        }
     }
 }

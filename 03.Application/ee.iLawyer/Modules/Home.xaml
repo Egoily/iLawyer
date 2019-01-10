@@ -7,20 +7,14 @@
              xmlns:usercontrols="clr-namespace:ee.iLawyer.UserControls" 
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:vm="clr-namespace:ee.iLawyer.ViewModels"
+             xmlns:excontrols="clr-namespace:ee.iLawyer.ExControls"
              mc:Ignorable="d" 
              
              >
     <Grid x:Name="grid">
 
         <StackPanel>
-            <usercontrols:PropertyListPicker x:Name="propertyListPicker"  Width="600" 
-                DataSource="{Binding Path=DataContext.PersonProperties,ElementName=grid,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            />
-            <Button Click="Button_Click">OK</Button>
-
-
-
-
+            <!--<excontrols:FloatButton></excontrols:FloatButton>-->
 
         </StackPanel>
 

@@ -28,4 +28,4 @@ INSERT INTO PropertyItemCategories(Id,Code,Name,Icon,PickerType,IsEnabled,Parent
 INSERT INTO PropertyItemCategories(Id,Code,Name,Icon,PickerType,IsEnabled,ParentId) VALUES (52, 'HeadPerson','负责人','FaceProfile',1,1, 5);
 
 INSERT INTO PropertyItemCategories(Id,Code,Name,Icon,PickerType,IsEnabled,ParentId) VALUES (61, 'RegisterDate','注册日期','Timetable',2,1, 6);
-INSERT INTO PropertyItemCategories(Id,Code,Name,Icon,PickerType,IsEnabled,ParentId) VALUES (62, 'HeadPerson','负责人','Timetable',2,1, 6);
+INSERT INTO PropertyItemCategories(Id,Code,Name,Icon,PickerType,IsEnabled,ParentId) VALUES (62, 'FoundDate','成立日期','Timetable',2,1, 6);

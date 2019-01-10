@@ -54,7 +54,11 @@ namespace ee.iLawyer.ViewModels
                             {
                                 Id = x.Id,
                                 Name = x.Name,
-                                //TODO:
+                                Properties = x.Properties,
+                                IsNP = x.IsNP,
+                                Abbreviation = x.Abbreviation,
+                                Impression = x.Impression,
+
                             }));
                         }
 
@@ -79,6 +83,10 @@ namespace ee.iLawyer.ViewModels
                 var response = server.AddClient(new AddClientRequest()
                 {
                     Name = SelectedItem.Name,
+                    IsNP = SelectedItem.IsNP,
+                    Properties = SelectedItem.Properties,
+                    Abbreviation = SelectedItem.Abbreviation,
+                    Impression = SelectedItem.Impression,
 
                 });
                 return response;
@@ -101,6 +109,10 @@ namespace ee.iLawyer.ViewModels
                 {
                     Id = SelectedItem.Id,
                     Name = SelectedItem.Name,
+                    IsNP = SelectedItem.IsNP,
+                    Properties = SelectedItem.Properties,
+                    Abbreviation = SelectedItem.Abbreviation,
+                    Impression = SelectedItem.Impression,
 
                 });
                 return response;

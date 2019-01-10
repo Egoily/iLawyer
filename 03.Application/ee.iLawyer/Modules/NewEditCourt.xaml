@@ -11,84 +11,101 @@
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="300"  
              Width="300" Height="400">
-    <Grid Name="grid" Margin="20,4,20,4" >
 
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        
-        <TextBlock Grid.Row="0" x:Name="txtTitle">New or Edit Court:</TextBlock>
-        <TextBox Grid.Row="1" x:Name="txtName" Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
-            <materialDesign:HintAssist.Hint >
-                <StackPanel Orientation="Horizontal" >
-                    <materialDesign:PackIcon Kind="Account" />
-                    <TextBlock>名称</TextBlock>
+    <GroupBox x:Name="groupBox" Header="{Binding DataContext.Title,ElementName=grid}"   Style="{DynamicResource MaterialDesignCardGroupBox}" >
+        <GroupBox.HeaderTemplate>
+            <DataTemplate>
+                <StackPanel  Orientation="Horizontal">
+                    <materialDesign:PackIcon   Kind="TableEdit"  Height="32"  Width="32" VerticalAlignment="Center" />
+                    <TextBlock   Margin="8,0,0,0"  VerticalAlignment="Center"  Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="{Binding}" />
                 </StackPanel>
-            </materialDesign:HintAssist.Hint>
-            <TextBox.Text>
-                <Binding Path="TreatedObject.Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
-                </Binding>
-            </TextBox.Text>
-        </TextBox>
-        <ComboBox Grid.Row="2" x:Name="cbbRank" Style="{StaticResource MaterialDesignFloatingHintComboBox}"   
+            </DataTemplate>
+        </GroupBox.HeaderTemplate>
+        <Grid Name="grid" Margin="20,4,20,4" >
+
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <TextBox Grid.Row="0" x:Name="txtName" Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
+                <materialDesign:HintAssist.Hint >
+                    <StackPanel Orientation="Horizontal" >
+                        <materialDesign:PackIcon Kind="Account" />
+                        <TextBlock>名称</TextBlock>
+                    </StackPanel>
+                </materialDesign:HintAssist.Hint>
+                <TextBox.Text>
+                    <Binding Path="TreatedObject.Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <ComboBox Grid.Row="1" x:Name="cbbRank" Style="{StaticResource MaterialDesignFloatingHintComboBox}"   
                   ItemsSource="{Binding Source={x:Static vm:GlobalViewModel.CourtRanks}}" SelectedValue="{Binding TreatedObject.Rank,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
-            <materialDesign:HintAssist.Hint >
-                <StackPanel Orientation="Horizontal" >
-                    <materialDesign:PackIcon Kind="Domain" />
-                    <TextBlock>级别</TextBlock>
-                </StackPanel>
-            </materialDesign:HintAssist.Hint>
-        </ComboBox>
-        <local:AreaSelector Grid.Row="3" x:Name="areaSelector" 
+                <materialDesign:HintAssist.Hint >
+                    <StackPanel Orientation="Horizontal" >
+                        <materialDesign:PackIcon Kind="Domain" />
+                        <TextBlock>级别</TextBlock>
+                    </StackPanel>
+                </materialDesign:HintAssist.Hint>
+            </ComboBox>
+            <local:AreaSelector Grid.Row="2" x:Name="areaSelector" 
                  Province="{Binding TreatedObject.Province,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                  City="{Binding TreatedObject.City,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                  County="{Binding TreatedObject.County,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
              />
-        <TextBox Grid.Row="4" x:Name="txtAddress" Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
-            <materialDesign:HintAssist.Hint >
-                <StackPanel Orientation="Horizontal" >
-                    <materialDesign:PackIcon Kind="AddressMarker" />
-                    <TextBlock>地址</TextBlock>
-                </StackPanel>
-            </materialDesign:HintAssist.Hint>
-            <TextBox.Text>
-                <Binding Path="TreatedObject.Address" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
-                </Binding>
-            </TextBox.Text>
-        </TextBox>
-        <TextBox Grid.Row="5" x:Name="txtContactNo" Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+            <TextBox Grid.Row="3" x:Name="txtAddress" Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
+                <materialDesign:HintAssist.Hint >
+                    <StackPanel Orientation="Horizontal" >
+                        <materialDesign:PackIcon Kind="AddressMarker" />
+                        <TextBlock>地址</TextBlock>
+                    </StackPanel>
+                </materialDesign:HintAssist.Hint>
+                <TextBox.Text>
+                    <Binding Path="TreatedObject.Address" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <TextBox Grid.Row="4" x:Name="txtContactNo" Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                  Text="{Binding TreatedObject.ContactNo , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <materialDesign:HintAssist.Hint >
-                <StackPanel Orientation="Horizontal" >
-                    <materialDesign:PackIcon Kind="Phone" />
-                    <TextBlock>联系电话</TextBlock>
-                </StackPanel>
-            </materialDesign:HintAssist.Hint>
-        </TextBox>
+                <materialDesign:HintAssist.Hint >
+                    <StackPanel Orientation="Horizontal" >
+                        <materialDesign:PackIcon Kind="Phone" />
+                        <TextBlock>联系电话</TextBlock>
+                    </StackPanel>
+                </materialDesign:HintAssist.Hint>
+            </TextBox>
 
-        <StackPanel Grid.Row="6" Orientation="Horizontal" Margin="20,4,20,4" Width="200">
-            <Button IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
+                <Grid Grid.Row="6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50*"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="50*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="1" IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{x:Static wpf:DialogHost.CloseDialogCommand}" >
+                        <Button.CommandParameter>
+                            <system:Boolean>True</system:Boolean>
+                        </Button.CommandParameter>
+                        ACCEPT
+                    </Button>
+                    <Button Grid.Column="3" IsCancel="True"  Style="{DynamicResource MaterialDesignFlatButton}"
                     Command="{x:Static wpf:DialogHost.CloseDialogCommand}">
-                <Button.CommandParameter>
-                    <system:Boolean>True</system:Boolean>
-                </Button.CommandParameter>
-                ACCEPT
-            </Button>
-            <Button IsCancel="True"  Style="{DynamicResource MaterialDesignFlatButton}"
-                    Command="{x:Static wpf:DialogHost.CloseDialogCommand}">
-                <Button.CommandParameter>
-                    <system:Boolean>False</system:Boolean>
-                </Button.CommandParameter>
-                CANCEL
-            </Button>
-        </StackPanel>
-    </Grid>
+                        <Button.CommandParameter>
+                            <system:Boolean>False</system:Boolean>
+                        </Button.CommandParameter>
+                        CANCEL
+                    </Button>
+                </Grid>
 
+        </Grid>
+    </GroupBox>
 </UserControl>

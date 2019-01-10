@@ -4,6 +4,7 @@ using ee.SessionFactory;
 using ee.iLawyer.SessionFactoryBuilder.Sqlite;
 using ee.iLawyer.Ops.Contact.Args;
 using System.Collections.Generic;
+using ee.iLawyer.Ops.Contact.DTO;
 
 namespace ee.iLawyer.Ops.Tests
 {
@@ -53,11 +54,11 @@ namespace ee.iLawyer.Ops.Tests
         [TestMethod()]
         public void AddClientTest()
         {
-            var properties = new Dictionary<int, string>
+            var properties = new List<KeyValue>
             {
-                { 11, "13610142196" },
-                { 21, "egoily@hotmail.com" },
-                {30,"番禺市桥" }
+               new KeyValue(11, "13610142196" ),
+                new KeyValue( 21, "egoily@hotmail.com" ),
+                new KeyValue(30,"番禺市桥" )
             };
 
 

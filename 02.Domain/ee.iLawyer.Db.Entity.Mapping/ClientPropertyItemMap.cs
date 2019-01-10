@@ -15,8 +15,8 @@ namespace ee.iLawyer.Db.Entity.Mapping
             Map(x => x.CreateTime);
             Map(x => x.UpdateTime);
 
-            References(x => x.Client).Column("ClientId").NotFound.Ignore();
-            References(x => x.Category).Column("PropertyItemCategoryId").NotFound.Ignore();
+            References(x => x.Client).Column("ClientId").Cascade.SaveUpdate().NotFound.Ignore();
+            References(x => x.Category).Column("PropertyItemCategoryId").Cascade.SaveUpdate().NotFound.Ignore();
         }
     }
 }

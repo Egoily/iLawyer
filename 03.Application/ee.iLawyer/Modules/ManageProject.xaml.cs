@@ -1,18 +1,21 @@
 ﻿using ee.iLawyer.ViewModels;
 using MaterialDesignThemes.Wpf;
+using System;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace ee.iLawyer.Modules
 {
     /// <summary>
-    /// Interaction logic for ClientManagement.xaml
+    /// Interaction logic for ManageProject.xaml
     /// </summary>
-    public partial class ClientManagement : UserControl
+    public partial class ManageProject : UserControl
     {
         private ClientViewModel viewModel;
 
-        public ClientManagement()
+        public ManageProject()
         {
             InitializeComponent();
             viewModel = new ClientViewModel();
@@ -24,4 +27,6 @@ namespace ee.iLawyer.Modules
             viewModel.DeleteItem(sender, eventArgs);
         }
     }
+
+
 }

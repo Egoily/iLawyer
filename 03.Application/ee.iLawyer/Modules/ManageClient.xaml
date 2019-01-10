@@ -1,13 +1,19 @@
-﻿<UserControl x:Class="ee.iLawyer.Modules.ClientManagement"
+﻿<UserControl x:Class="ee.iLawyer.Modules.ManageClient"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:modules="clr-namespace:ee.iLawyer.Modules"
              mc:Ignorable="d" 
              d:DesignHeight="768" Width="1024">
     <Grid Margin="0,10,0,0">
+        <Grid.Resources>
+            <modules:IsNPToType x:Key="IsNPToType"/>
+        </Grid.Resources>
+
+
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="48*"/>
@@ -30,11 +36,10 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Binding="{Binding Id , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="Id" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="姓名" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding IDCardNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="身份证号码" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding GenderString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="性别" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding PhoneNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="手机号码" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="住址" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding IsNP, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,Converter={StaticResource IsNPToType}}" ClipboardContentBinding="{x:Null}" Header="类型" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="名称" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding Abbreviation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="简称" Width="Auto"/>
+
 
                 <DataGridTemplateColumn Header="操作" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>

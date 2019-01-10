@@ -108,7 +108,19 @@
     </ApplicationDefinition>
     <Compile Include="Converters\ValueConverter.cs" />
     <Compile Include="ExControls\FillWrapPanel.cs" />
+    <Compile Include="ExControls\FloatButton.xaml.cs">
+      <DependentUpon>FloatButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ExControls\WaterDropsButtonGroup.xaml.cs">
+      <DependentUpon>WaterDropsButtonGroup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\PropertyPickerItem.cs" />
+    <Compile Include="Modules\ManageProject.xaml.cs">
+      <DependentUpon>ManageProject.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\NewEditProject.xaml.cs">
+      <DependentUpon>NewEditProject.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\AreaSelector.xaml.cs">
       <DependentUpon>AreaSelector.xaml</DependentUpon>
     </Compile>
@@ -128,6 +140,14 @@
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\JudgeViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Page Include="ExControls\FloatButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExControls\WaterDropsButtonGroup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -146,11 +166,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Modules\ClientManagement.xaml">
+    <Page Include="Modules\ManageProject.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Modules\CourtManagement.xaml">
+    <Page Include="Modules\ManageClient.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\ManageCourt.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -158,7 +182,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Modules\JudgeManagement.xaml">
+    <Page Include="Modules\ManageJudge.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\NewEditProject.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -201,17 +229,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\ModuleItem.cs" />
-    <Compile Include="Modules\ClientManagement.xaml.cs">
-      <DependentUpon>ClientManagement.xaml</DependentUpon>
+    <Compile Include="Modules\ManageClient.xaml.cs">
+      <DependentUpon>ManageClient.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Modules\CourtManagement.xaml.cs">
-      <DependentUpon>CourtManagement.xaml</DependentUpon>
+    <Compile Include="Modules\ManageCourt.xaml.cs">
+      <DependentUpon>ManageCourt.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Modules\JudgeManagement.xaml.cs">
-      <DependentUpon>JudgeManagement.xaml</DependentUpon>
+    <Compile Include="Modules\ManageJudge.xaml.cs">
+      <DependentUpon>ManageJudge.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\NewEditClient.xaml.cs">
       <DependentUpon>NewEditClient.xaml</DependentUpon>

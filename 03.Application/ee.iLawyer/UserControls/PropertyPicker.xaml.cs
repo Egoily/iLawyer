@@ -1,4 +1,5 @@
 ﻿using ee.iLawyer.Models;
+using ee.iLawyer.Ops.Contact.DTO;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -222,6 +223,30 @@ namespace ee.iLawyer.UserControls
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    public class StringToDateTime : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            DateTime.TryParse(value?.ToString(), out DateTime datetime);
+            return datetime;
+
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var datetime = System.Convert.ToDateTime(value);
+                if (datetime == DateTime.MinValue)
+            {
+                return string.Empty;
+            }
+            else
+            {
+                return datetime.ToString("yyyy-dd-MM HH:mm");
+            }
+
         }
     }
 

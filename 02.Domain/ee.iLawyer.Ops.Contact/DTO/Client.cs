@@ -31,7 +31,13 @@ namespace ee.iLawyer.Ops.Contact.DTO
         /// <summary>
         /// 属性列表
         /// </summary>
-        public virtual Dictionary<int, string> Properties { get; set; }
+        public virtual List<KeyValue> Properties { get; set; }
+
+
+        public Client()
+        {
+            Properties = new List<KeyValue>();
+        }
 
         public object Clone()
         {

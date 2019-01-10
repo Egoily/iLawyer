@@ -41,7 +41,7 @@ namespace ee.iLawyer.Modules
                 IsNew = true;
                 TreatedObject = new Judge();
             }
-            txtTitle.Text = Title;
+           
 
 
         }

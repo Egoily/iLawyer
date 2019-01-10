@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="ee.iLawyer.Modules.CourtManagement"
+﻿<UserControl x:Class="ee.iLawyer.Modules.ManageJudge"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -17,11 +17,9 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Button Name="btnAdd" Content="新增" Command="{Binding NewCommand}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.286,-0.677" Grid.RowSpan="2"/>
-        <Button x:Name="btnQuery" Content="查询"  Command="{Binding QueryCommand}" HorizontalAlignment="Left" Margin="110,10,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.286,-0.677" Grid.RowSpan="2"/>
+        <Button x:Name="btnQuery" Content="查询" Command="{Binding QueryCommand}" HorizontalAlignment="Left" Margin="110,10,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.286,-0.677" Grid.RowSpan="2"/>
 
-
-
-        <DataGrid ItemsSource="{Binding Courts}" Margin="0,35.661,0,0" IsReadOnly="True" AutoGenerateColumns="False" Grid.ColumnSpan="2" Grid.Row="1" 
+        <DataGrid ItemsSource="{Binding Judges}" Margin="0,35.661,0,0" IsReadOnly="True" AutoGenerateColumns="False" Grid.ColumnSpan="2" Grid.Row="1" 
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="" Width="10">
@@ -32,13 +30,11 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Binding="{Binding Id , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="Id" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="名称" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding Rank, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="级别" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding Province, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="省份" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding City, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="城市" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding County, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="区域" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="地址" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding ContactNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="联系电话" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="姓名" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding GenderString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="性别" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding PhoneNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="手机号码" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding InCourtName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="所属法院" Width="Auto"/>
+
                 <DataGridTemplateColumn Header="操作" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -82,6 +78,8 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                
+                
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

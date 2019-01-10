@@ -17,7 +17,7 @@ namespace ee.iLawyer.Db.Entity.Mapping
             Map(x => x.CreateTime);
             Map(x => x.UpdateTime);
 
-            HasMany(x => x.Properties);
+            HasMany(x => x.Properties).Cascade.All().Inverse();
         }
     }
 }

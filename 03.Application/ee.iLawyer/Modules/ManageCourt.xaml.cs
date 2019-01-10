@@ -7,13 +7,13 @@ using System.Windows.Controls;
 namespace ee.iLawyer.Modules
 {
     /// <summary>
-    /// Interaction logic for CourtManagement.xaml
+    /// Interaction logic for ManageCourt.xaml
     /// </summary>
-    public partial class CourtManagement : UserControl
+    public partial class ManageCourt : UserControl
     {
         private CourtViewModel viewModel;
 
-        public CourtManagement()
+        public ManageCourt()
         {
             InitializeComponent();
             viewModel = new CourtViewModel();
