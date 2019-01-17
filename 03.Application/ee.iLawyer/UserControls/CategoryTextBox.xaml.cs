@@ -1,4 +1,5 @@
 ﻿using ee.iLawyer.Ops.Contact.DTO;
+using PropertyChanged;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -20,20 +21,22 @@ namespace ee.iLawyer.UserControls
         }
 
         public static readonly DependencyProperty CategorySourceProperty =
-            DependencyProperty.Register("CategorySource", typeof(ObservableCollection<Category>), typeof(CategoryTextBox), new PropertyMetadata(OnPropertyChanged));
+            DependencyProperty.Register("CategorySource", typeof(ObservableCollection<Category>), typeof(CategoryTextBox), new PropertyMetadata(new ObservableCollection<Category>()));
 
         public CategoryValue CategoryValue
         {
             get { return (CategoryValue)GetValue(CategoryValueProperty); }
             set { SetValue(CategoryValueProperty, value); }
         }
-
+        /// <summary>
+        /// 默认为双向绑定依赖属性
+        /// </summary>
         public static readonly DependencyProperty CategoryValueProperty =
-            DependencyProperty.Register("CategoryValue", typeof(CategoryValue), typeof(CategoryTextBox), new PropertyMetadata(new CategoryValue()));
+            DependencyProperty.Register("CategoryValue", typeof(CategoryValue), typeof(CategoryTextBox), new FrameworkPropertyMetadata(new CategoryValue(), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            d.SetValue(e.Property, e.NewValue);
+            d.SetValue(e.Property, e.NewValue);       
         }
 
 
@@ -79,6 +82,10 @@ namespace ee.iLawyer.UserControls
                     {
                         return;
                     }
+                    if(CategoryValue==null)
+                    {
+                        CategoryValue = new CategoryValue();
+                    }
                     CategoryValue.CategoryId = selectNode.Id;
                     CategoryValue.CategoryName = selectNode.Name;
                     txtCategoryName.Text = CategoryValue.CategoryName;
@@ -94,6 +101,14 @@ namespace ee.iLawyer.UserControls
         private void popup_PreviewMouseDownHandler(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             this.popup.Focus();
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (CategoryValue == null)
+            {
+                CategoryValue = new CategoryValue() { CategoryName = "请选择类型..." };
+            }
         }
     }
 }

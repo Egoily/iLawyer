@@ -70,12 +70,12 @@ namespace ee.iLawyer.Modules
                       new Category(){Id=5,Name="重要人物",Icon="FaceProfile"},
                       new Category(){Id=6,Name="重要日期",Icon="Timetable"},
                 },
-                CategoryValue = new CategoryValue()
-                {
-                    CategoryId =13,
-                    CategoryName = "家庭电话",
-                    Value = "564",
-                },
+                //CategoryValue = new CategoryValue()
+                //{
+                //    CategoryId = 13,
+                //    CategoryName = "家庭电话",
+                //    Value = "564",
+                //},
 
             };
         }
@@ -96,7 +96,7 @@ namespace ee.iLawyer.Modules
 
         private void btnOK_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var level = (this.DataContext as HomeViewModel).ProjectLevel;
+            var vm = (this.DataContext as HomeViewModel);
         }
     }
 }

@@ -81,7 +81,7 @@ namespace ee.iLawyer.ExControls
         }
 
         //是否最前默认为非最前（false）  
-        public static DependencyProperty TopmostProperty = Window.TopmostProperty.AddOwner(typeof(Popup), new FrameworkPropertyMetadata(false, OnTopmostChanged));
+        public static DependencyProperty TopmostProperty = Window.TopmostProperty.AddOwner(typeof(PopupEx), new FrameworkPropertyMetadata(false, OnTopmostChanged));
         public bool Topmost
         {
             get { return (bool)GetValue(TopmostProperty); }

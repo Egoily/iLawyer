@@ -2,7 +2,6 @@
 
 namespace ee.iLawyer.Ops.Contact.DTO
 {
-
     public class Category
     {
         /// <summary>

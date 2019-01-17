@@ -1,5 +1,8 @@
-﻿namespace ee.iLawyer.Ops.Contact.DTO
+﻿using PropertyChanged;
+
+namespace ee.iLawyer.Ops.Contact.DTO
 {
+    //[AddINotifyPropertyChangedInterface]
     public class CategoryValue
     {
         public int CategoryId { get; set; }

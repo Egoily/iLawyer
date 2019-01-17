@@ -3,10 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:ee.iLawyer.UserControls"
-              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:excontrols="clr-namespace:ee.iLawyer.ExControls"
              mc:Ignorable="d" 
+             Loaded="UserControl_Loaded"
              >
     <Grid x:Name="grid" Width="{Binding Width}">
         <Grid.Resources>
@@ -32,7 +34,7 @@
                 <materialDesign:HintAssist.Hint >
                     <StackPanel Orientation="Horizontal" >
                         <materialDesign:PackIcon x:Name="icon" />
-                        <TextBlock x:Name="txtCategoryName" Text="{Binding CategoryValue.CategoryName}"></TextBlock>
+                        <TextBlock x:Name="txtCategoryName" Text="{Binding CategoryValue.CategoryName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"></TextBlock>
                     </StackPanel>
                 </materialDesign:HintAssist.Hint>
                 <TextBox.Text>
