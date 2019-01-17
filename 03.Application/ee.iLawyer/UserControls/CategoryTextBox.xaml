@@ -1,0 +1,90 @@
+﻿<UserControl x:Class="ee.iLawyer.UserControls.CategoryTextBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ee.iLawyer.UserControls"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:excontrols="clr-namespace:ee.iLawyer.ExControls"
+             mc:Ignorable="d" 
+             >
+    <Grid x:Name="grid" Width="{Binding Width}">
+        <Grid.Resources>
+            <local:StringToPackIconKind x:Key="StringToPackIconKind"/>
+
+            <DrawingImage x:Key="DropdownImage">
+                <DrawingImage.Drawing>
+                    <DrawingGroup ClipGeometry="M0,0 V1024 H1024 V0 H0 Z">
+                        <GeometryDrawing Brush="#FF333333" Geometry="F1 M1024,1024z M0,0z M896,64L128,64C92.8,64,64,92.8,64,128L64,224C64,259.2,92.8,288,128,288L896,288C931.2,288,960,259.2,960,224L960,128C960,92.8,931.2,64,896,64z M896,208C896,217.6,889.6,224,880,224L144,224C134.4,224,128,217.6,128,208L128,144C128,134.4,134.4,128,144,128L880,128C889.6,128,896,134.4,896,144L896,208z M768,320L128,320C92.8,320,64,348.8,64,384L64,896C64,931.2,92.8,960,128,960L768,960C803.2,960,832,931.2,832,896L832,384C832,348.8,803.2,320,768,320z M768,864C768,883.2,752,896,736,896L160,896C144,896,128,883.2,128,864L128,416C128,396.8,144,384,160,384L736,384C752,384,768,396.8,768,416L768,864z" />
+                        <GeometryDrawing Brush="#FF333333" Geometry="F1 M1024,1024z M0,0z M656,736L240,736C230.4,736,224,742.4,224,752L224,784C224,793.6,230.4,800,240,800L656,800C665.6,800,672,793.6,672,784L672,752C672,742.4,665.6,736,656,736z M656,480L240,480C230.4,480,224,486.4,224,496L224,528C224,537.6,230.4,544,240,544L656,544C665.6,544,672,537.6,672,528L672,496C672,486.4,665.6,480,656,480z M656,608L240,608C230.4,608,224,614.4,224,624L224,656C224,665.6,230.4,672,240,672L656,672C665.6,672,672,665.6,672,656L672,624C672,614.4,665.6,608,656,608z" />
+                    </DrawingGroup>
+                </DrawingImage.Drawing>
+            </DrawingImage>
+        </Grid.Resources>
+
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="textBox" Grid.Column="0" Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
+                <materialDesign:HintAssist.Hint >
+                    <StackPanel Orientation="Horizontal" >
+                        <materialDesign:PackIcon x:Name="icon" />
+                        <TextBlock x:Name="txtCategoryName" Text="{Binding CategoryValue.CategoryName}"></TextBlock>
+                    </StackPanel>
+                </materialDesign:HintAssist.Hint>
+                <TextBox.Text>
+                    <Binding Path="CategoryValue.Value" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <excontrols:PathButton x:Name="PathButton" Grid.Column="1"
+                               Width="20"                             
+                               PathData="F1 M1024,1024z M0,0z M656,736L240,736C230.4,736,224,742.4,224,752L224,784C224,793.6,230.4,800,240,800L656,800C665.6,800,672,793.6,672,784L672,752C672,742.4,665.6,736,656,736z M656,480L240,480C230.4,480,224,486.4,224,496L224,528C224,537.6,230.4,544,240,544L656,544C665.6,544,672,537.6,672,528L672,496C672,486.4,665.6,480,656,480z M656,608L240,608C230.4,608,224,614.4,224,624L224,656C224,665.6,230.4,672,240,672L656,672C665.6,672,672,665.6,672,656L672,624C672,614.4,665.6,608,656,608z M896,64L128,64C92.8,64,64,92.8,64,128L64,224C64,259.2,92.8,288,128,288L896,288C931.2,288,960,259.2,960,224L960,128C960,92.8,931.2,64,896,64z M896,208C896,217.6,889.6,224,880,224L144,224C134.4,224,128,217.6,128,208L128,144C128,134.4,134.4,128,144,128L880,128C889.6,128,896,134.4,896,144L896,208z M768,320L128,320C92.8,320,64,348.8,64,384L64,896C64,931.2,92.8,960,128,960L768,960C803.2,960,832,931.2,832,896L832,384C832,348.8,803.2,320,768,320z M768,864C768,883.2,752,896,736,896L160,896C144,896,128,883.2,128,864L128,416C128,396.8,144,384,160,384L736,384C752,384,768,396.8,768,416L768,864z"
+                               DefaultFillBrush="Black"
+                               MouseOverBrush="DarkBlue"
+                               IsPressedBrush="Blue"
+                               IsEnabledBrush="Black"
+                               Click="PathButton_Click"
+                 />
+        </Grid>
+
+        <excontrols:PopupEx x:Name="popup" 
+            AllowsTransparency="False"
+            Placement="RelativePoint" 
+            HorizontalOffset="0"
+            PopupAnimation="Slide"             
+            Width="{Binding ElementName=grid, Path=ActualWidth}"
+           PreviewMouseDown="popup_PreviewMouseDownHandler"
+        >
+            <TreeView x:Name="tvCategories" 
+                      Background="White"
+                      BorderThickness="1" 
+                      MaxHeight="200"
+                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      ItemsSource="{Binding CategorySource}" 
+                      SelectedItemChanged="tvCategories_SelectedItemChanged">
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="{x:Type TreeViewItem}">
+                        <Setter Property="IsExpanded" Value="{Binding IsExpanded}"></Setter>
+                    </Style>
+                </TreeView.ItemContainerStyle>
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate  ItemsSource="{Binding Path=Children}">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon  Kind="{Binding Icon,Converter={StaticResource StringToPackIconKind}}"  />
+                            <TextBlock Margin="4,0,0,0" VerticalAlignment="Center" Text="{Binding Name}"/>
+                            <StackPanel.ToolTip>
+                                <TextBlock VerticalAlignment="Center" Text="{Binding Name}" TextWrapping="Wrap" MaxWidth="200" ></TextBlock>
+                            </StackPanel.ToolTip>
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+
+        </excontrols:PopupEx>
+    </Grid>
+</UserControl>

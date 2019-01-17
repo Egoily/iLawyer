@@ -7,6 +7,8 @@
              xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:ee.iLawyer.UserControls" 
+             xmlns:contact="clr-namespace:ee.iLawyer.Ops.Contact;assembly=ee.iLawyer.Ops.Contact"
+             xmlns:converters="clr-namespace:ee.iLawyer.Converters"
              mc:Ignorable="d" 
               
              Width="600"
@@ -21,8 +23,83 @@
             </DataTemplate>
         </GroupBox.HeaderTemplate>
 
-        <Grid x:Name="grid"  >
- 
+        <Grid x:Name="grid" Margin="20,0,20,0">
+            <Grid.Resources>
+                <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBox Grid.Row="0" x:Name="txtName" Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
+                <materialDesign:HintAssist.Hint >
+                    <StackPanel Orientation="Horizontal" >
+                        <materialDesign:PackIcon Kind="Account" />
+                        <TextBlock>项目名称</TextBlock>
+                    </StackPanel>
+                </materialDesign:HintAssist.Hint>
+                <TextBox.Text>
+                    <Binding Path="TreatedObject.Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <TextBox Grid.Row="1" x:Name="txtCode" Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
+                <materialDesign:HintAssist.Hint >
+                    <StackPanel Orientation="Horizontal" >
+                        <materialDesign:PackIcon Kind="Account" />
+                        <TextBlock>项目代码</TextBlock>
+                    </StackPanel>
+                </materialDesign:HintAssist.Hint>
+                <TextBox.Text>
+                    <Binding Path="TreatedObject.Code" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <Label>项目等级:</Label>
+                <RadioButton GroupName="projectLevel" IsChecked="{Binding Path=ProjectLevel,Converter={StaticResource EnumToBooleanConverter},ConverterParameter={x:Static contact:ProjectLevel.Default}}">无</RadioButton>
+                <RadioButton GroupName="projectLevel" IsChecked="{Binding Path=ProjectLevel,Converter={StaticResource EnumToBooleanConverter},ConverterParameter={x:Static contact:ProjectLevel.Low}}">低</RadioButton>
+                <RadioButton GroupName="projectLevel" IsChecked="{Binding Path=ProjectLevel,Converter={StaticResource EnumToBooleanConverter},ConverterParameter={x:Static contact:ProjectLevel.Middle}}">中</RadioButton>
+                <RadioButton GroupName="projectLevel" IsChecked="{Binding Path=ProjectLevel,Converter={StaticResource EnumToBooleanConverter},ConverterParameter={x:Static contact:ProjectLevel.High}}">高</RadioButton>
+            </StackPanel>
+            <TextBox Grid.Row="3" Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                                         VerticalAlignment="Top" Height="100" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
+                                         materialDesign:HintAssist.Hint="项目详情">
+                <TextBox.Text>
+                    <Binding Path="TreatedObject.Details" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <Grid Grid.Row="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="50*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="1" IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{x:Static wpf:DialogHost.CloseDialogCommand}" >
+                    <Button.CommandParameter>
+                        <system:Boolean>True</system:Boolean>
+                    </Button.CommandParameter>
+                    ACCEPT
+                </Button>
+                <Button Grid.Column="3" IsCancel="True"  Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{x:Static wpf:DialogHost.CloseDialogCommand}">
+                    <Button.CommandParameter>
+                        <system:Boolean>False</system:Boolean>
+                    </Button.CommandParameter>
+                    CANCEL
+                </Button>
+            </Grid>
         </Grid>
 
     </GroupBox>

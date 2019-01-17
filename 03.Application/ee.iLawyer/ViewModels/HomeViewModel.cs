@@ -1,13 +1,9 @@
-﻿using ee.iLawyer.Models;
+﻿using ee.iLawyer.Ops.Contact;
+using ee.iLawyer.Ops.Contact.DTO;
 using ee.iLawyer.UserControls;
 using PropertyChanged;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace ee.iLawyer.ViewModels
 {
@@ -18,5 +14,13 @@ namespace ee.iLawyer.ViewModels
         public int MyProperty { get; set; }
 
         public ObservableCollection<PropertyListItem> PersonProperties { get; set; }
+
+        public ProjectLevel ProjectLevel { get; set; }
+
+        public MaterialDesignThemes.Wpf.PackIconKind Icon { get; set; }
+        public string Text { get; set; }
+        public ObservableCollection<Category> CategorySource { get; set; }
+
+        public CategoryValue CategoryValue { get; set; }
     }
 }

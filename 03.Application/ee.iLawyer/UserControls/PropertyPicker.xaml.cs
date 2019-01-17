@@ -143,26 +143,6 @@ namespace ee.iLawyer.UserControls
         DateTime = 2,
     }
 
-    public class Category
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        public int Id { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Code { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Name { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Icon { get; set; }
-
-    }
     public class PickerProperty
     {
         public PickerType PickerType { get; set; }

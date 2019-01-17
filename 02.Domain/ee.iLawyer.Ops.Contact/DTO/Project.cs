@@ -25,7 +25,7 @@ namespace ee.iLawyer.Ops.Contact.DTO
         /// <summary>
         /// 项目等级
         /// </summary>
-        public virtual int Level { get; set; }
+        public virtual ProjectLevel Level { get; set; }
         /// <summary>
         /// 项目详情
         /// </summary>

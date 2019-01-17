@@ -23,7 +23,6 @@
                     <DataTemplate  DataType="{x:Type local:PropertyListItem}">
                         <Grid x:Name="templateGrid">
                             <local:PropertyPicker PropertyListItem="{Binding DataContext, ElementName=templateGrid}" Width="{Binding Width}"></local:PropertyPicker>
-                            <!--<local:PropertyPicker PropertyListItem="{Binding DataContext,ElementName=templateGrid, Converter={StaticResource debugConverter}}"></local:PropertyPicker>-->
 
                         </Grid>
                     </DataTemplate>

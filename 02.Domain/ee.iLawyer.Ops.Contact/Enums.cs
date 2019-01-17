@@ -40,4 +40,29 @@ namespace ee.iLawyer.Ops.Contact
         [Description("重要日期")]
         DateTime,
     }
+
+    public enum ProjectLevel
+    {
+        /// <summary>
+        /// 无
+        /// </summary>
+        [Description("无")]
+        Default,
+        /// <summary>
+        /// 低
+        /// </summary>
+        [Description("低")]
+        Low,
+        /// <summary>
+        /// 中
+        /// </summary>
+        [Description("中")]
+        Middle,
+        /// <summary>
+        /// 高
+        /// </summary>
+        [Description("高")]
+        High,
+
+    }
 }

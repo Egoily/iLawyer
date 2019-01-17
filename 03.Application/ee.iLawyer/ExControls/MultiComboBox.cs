@@ -106,6 +106,17 @@ namespace ee.iLawyer.ExControls
             }
         }
 
+        public void SelectAll()
+        {
+            this._ListBoxV.SelectAll();
+
+        }
+
+        public void UnselectAll()
+        {
+            this._ListBoxV.UnselectAll();
+        }
+
         public class MultiCbxBaseData
         {
             private int _id;

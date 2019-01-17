@@ -64,6 +64,8 @@
     <Compile Include="AutoMapper\DtoConverter.cs" />
     <Compile Include="CacheKeys.cs" />
     <Compile Include="DTO\Area.cs" />
+    <Compile Include="DTO\Category.cs" />
+    <Compile Include="DTO\CategoryValue.cs" />
     <Compile Include="DTO\Project.cs" />
     <Compile Include="DTO\Client.cs" />
     <Compile Include="DTO\Court.cs" />

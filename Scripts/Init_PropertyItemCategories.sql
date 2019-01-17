@@ -6,10 +6,10 @@ INSERT INTO PropertyItemCategories(Id,Code,Name,Icon,PickerType,IsEnabled,Parent
 INSERT INTO PropertyItemCategories(Id,Code,Name,Icon,PickerType,IsEnabled,ParentId) VALUES (6, 'DateTime','重要日期','Timetable',2,1, NULL);
 
 INSERT INTO PropertyItemCategories(Id,Code,Name,Icon,PickerType,IsEnabled,ParentId) VALUES (10, 'MainPhone','主要','Phone',1,1, 1);
-INSERT INTO PropertyItemCategories(Id,Code,Name,Icon,PickerType,IsEnabled,ParentId) VALUES (11, 'Mobile','个人手机','Phone',1,1, 1);
-INSERT INTO PropertyItemCategories(Id,Code,Name,Icon,PickerType,IsEnabled,ParentId) VALUES (12, 'WorkMobile','工作手机','Phone',1,1, 1);
-INSERT INTO PropertyItemCategories(Id,Code,Name,Icon,PickerType,IsEnabled,ParentId) VALUES (13, 'HomePhone','家庭电话','Phone',1,1, 1);
-INSERT INTO PropertyItemCategories(Id,Code,Name,Icon,PickerType,IsEnabled,ParentId) VALUES (14, 'OfficePhone','办公电话','Phone',1,1, 1);
+INSERT INTO PropertyItemCategories(Id,Code,Name,Icon,PickerType,IsEnabled,ParentId) VALUES (11, 'Mobile','个人手机','MobilePhoneIphone',1,1, 1);
+INSERT INTO PropertyItemCategories(Id,Code,Name,Icon,PickerType,IsEnabled,ParentId) VALUES (12, 'WorkMobile','工作手机','MobilePhoneBasic',1,1, 1);
+INSERT INTO PropertyItemCategories(Id,Code,Name,Icon,PickerType,IsEnabled,ParentId) VALUES (13, 'HomePhone','家庭电话','PhoneClassic',1,1, 1);
+INSERT INTO PropertyItemCategories(Id,Code,Name,Icon,PickerType,IsEnabled,ParentId) VALUES (14, 'OfficePhone','办公电话','Deskphone',1,1, 1);
 
 INSERT INTO PropertyItemCategories(Id,Code,Name,Icon,PickerType,IsEnabled,ParentId) VALUES (20, 'MainEmail','主要','Email',1,1, 2);
 INSERT INTO PropertyItemCategories(Id,Code,Name,Icon,PickerType,IsEnabled,ParentId) VALUES (21, 'PersonalEmail','个人邮箱','Email',1,1,2);
