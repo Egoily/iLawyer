@@ -139,6 +139,9 @@
     <Compile Include="UserControls\ProgressDialog.xaml.cs">
       <DependentUpon>ProgressDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\CategoryPropertyPicker.xaml.cs">
+      <DependentUpon>CategoryPropertyPicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\PropertyPicker.xaml.cs">
       <DependentUpon>PropertyPicker.xaml</DependentUpon>
     </Compile>
@@ -243,6 +246,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ProgressDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\CategoryPropertyPicker.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

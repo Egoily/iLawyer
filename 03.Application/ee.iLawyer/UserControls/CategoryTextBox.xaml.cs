@@ -21,7 +21,8 @@ namespace ee.iLawyer.UserControls
         }
 
         public static readonly DependencyProperty CategorySourceProperty =
-            DependencyProperty.Register("CategorySource", typeof(ObservableCollection<Category>), typeof(CategoryTextBox), new PropertyMetadata(new ObservableCollection<Category>()));
+            DependencyProperty.Register("CategorySource", typeof(ObservableCollection<Category>), typeof(CategoryTextBox),
+                new PropertyMetadata(new ObservableCollection<Category>()));
 
         public CategoryValue CategoryValue
         {
@@ -32,11 +33,12 @@ namespace ee.iLawyer.UserControls
         /// 默认为双向绑定依赖属性
         /// </summary>
         public static readonly DependencyProperty CategoryValueProperty =
-            DependencyProperty.Register("CategoryValue", typeof(CategoryValue), typeof(CategoryTextBox), new FrameworkPropertyMetadata(new CategoryValue(), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+            DependencyProperty.Register("CategoryValue", typeof(CategoryValue), typeof(CategoryTextBox), 
+                new FrameworkPropertyMetadata(new CategoryValue(), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnPropertyChanged));
 
         private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            d.SetValue(e.Property, e.NewValue);       
+            //d.SetValue(e.Property, e.NewValue);       
         }
 
 

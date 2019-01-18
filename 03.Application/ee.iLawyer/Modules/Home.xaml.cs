@@ -62,7 +62,7 @@ namespace ee.iLawyer.Modules
                       {
                           new Category(){Id=21,Name="个人邮箱",Icon="Email"},
                           new Category(){Id=22,Name="注册邮箱",Icon="AlternateEmail"},
-                
+
                       }
                       },
                       new Category(){Id=3,Name="地址",Icon="AddressMarker"},
@@ -70,12 +70,22 @@ namespace ee.iLawyer.Modules
                       new Category(){Id=5,Name="重要人物",Icon="FaceProfile"},
                       new Category(){Id=6,Name="重要日期",Icon="Timetable"},
                 },
-                //CategoryValue = new CategoryValue()
-                //{
-                //    CategoryId = 13,
-                //    CategoryName = "家庭电话",
-                //    Value = "564",
-                //},
+                CategoryValues = new ObservableCollection<CategoryValue>()
+                {
+                    new CategoryValue()
+                    {
+                    CategoryId = 11,
+                    CategoryName = "个人手机",
+                    Value = "13610142196",
+                    },
+                    new CategoryValue()
+                    {
+                    CategoryId = 13,
+                    CategoryName = "家庭电话",
+                    Value = "564",
+                    },
+
+                },
 
             };
         }

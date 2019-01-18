@@ -21,6 +21,6 @@ namespace ee.iLawyer.ViewModels
         public string Text { get; set; }
         public ObservableCollection<Category> CategorySource { get; set; }
 
-        public CategoryValue CategoryValue { get; set; }
+        public ObservableCollection<CategoryValue> CategoryValues { get; set; }
     }
 }
