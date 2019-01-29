@@ -1,5 +1,4 @@
 ﻿using ee.iLawyer.Ops.Contact.DTO;
-using PropertyChanged;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -22,7 +21,7 @@ namespace ee.iLawyer.UserControls
 
         public static readonly DependencyProperty CategorySourceProperty =
             DependencyProperty.Register("CategorySource", typeof(ObservableCollection<Category>), typeof(CategoryTextBox),
-                new PropertyMetadata(new ObservableCollection<Category>()));
+                new PropertyMetadata(new ObservableCollection<Category>(), OnPropertyChanged));
 
         public CategoryValue CategoryValue
         {
@@ -33,13 +32,16 @@ namespace ee.iLawyer.UserControls
         /// 默认为双向绑定依赖属性
         /// </summary>
         public static readonly DependencyProperty CategoryValueProperty =
-            DependencyProperty.Register("CategoryValue", typeof(CategoryValue), typeof(CategoryTextBox), 
+            DependencyProperty.Register("CategoryValue", typeof(CategoryValue), typeof(CategoryTextBox),
                 new FrameworkPropertyMetadata(new CategoryValue(), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnPropertyChanged));
 
         private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            //d.SetValue(e.Property, e.NewValue);       
+            d.SetValue(e.Property, e.NewValue);
+            (d as CategoryTextBox).SetCategoryNameAndIcon();
         }
+
+
 
 
         public CategoryTextBox()
@@ -47,6 +49,25 @@ namespace ee.iLawyer.UserControls
             InitializeComponent();
             DataContext = this;
             this.LostFocus += CategoryTextBox_LostFocus;
+        }
+
+        public void SetCategoryNameAndIcon()
+        {
+            if (CategoryValue != null && CategoryValue.CategoryId > 0)
+            {
+                var category = CategorySource.SelectMany(x => x.Children).FirstOrDefault(x => x.Id == CategoryValue.CategoryId);
+                if (category != null)
+                {
+                    if (category.Name != CategoryValue.CategoryName)
+                    {
+                        CategoryValue.CategoryName = category.Name;
+                    }
+                    MaterialDesignThemes.Wpf.PackIconKind kind = MaterialDesignThemes.Wpf.PackIconKind.Record;
+                    bool succ = Enum.TryParse(category.Icon?.ToString(), out kind);
+                    icon.Kind = kind;
+                }
+
+            }
         }
 
         private void CategoryTextBox_LostFocus(object sender, RoutedEventArgs e)
@@ -59,10 +80,11 @@ namespace ee.iLawyer.UserControls
 
         private void PathButton_Click(object sender, RoutedEventArgs e)
         {
+
             if (!popup.IsOpen)
             {
-                this.popup.VerticalOffset = grid.ActualHeight;
                 this.popup.IsOpen = true;
+                this.popup.UpdateWindow();
             }
             else
             {
@@ -78,13 +100,16 @@ namespace ee.iLawyer.UserControls
 
                 var selectNode = tvCategories.SelectedItem as Category;
 
+
                 if (selectNode != null)
                 {
                     if (selectNode.Children != null && selectNode.Children.Any())
                     {
+                        this.popup.UpdateWindow();
+
                         return;
                     }
-                    if(CategoryValue==null)
+                    if (CategoryValue == null)
                     {
                         CategoryValue = new CategoryValue();
                     }
@@ -100,6 +125,17 @@ namespace ee.iLawyer.UserControls
             }
         }
 
+        private void CategoryTextBox_Collapsed(object sender, RoutedEventArgs e)
+        {
+            this.popup.UpdateWindow();
+        }
+
+        private void CategoryTextBox_Expanded(object sender, RoutedEventArgs e)
+        {
+            this.popup.UpdateWindow();
+        }
+
+
         private void popup_PreviewMouseDownHandler(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             this.popup.Focus();
@@ -112,5 +148,8 @@ namespace ee.iLawyer.UserControls
                 CategoryValue = new CategoryValue() { CategoryName = "请选择类型..." };
             }
         }
+
+
+
     }
 }

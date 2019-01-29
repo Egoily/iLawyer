@@ -7,10 +7,62 @@
              xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:ee.iLawyer.UserControls" 
+               xmlns:vm="clr-namespace:ee.iLawyer.ViewModels"
              mc:Ignorable="d" 
               
              Width="600"
            >
+    <UserControl.Resources>
+        <ControlTemplate x:Key="TabItemTemplte">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto">
+                <StackPanel x:Name="organizationContent"  Margin="20,4,20,4" Width="540"  >
+                    <StackPanel>
+                        <TextBox x:Name="txtOrganizationName" Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                            <materialDesign:HintAssist.Hint >
+                                <StackPanel Orientation="Horizontal" >
+                                    <materialDesign:PackIcon Kind="Account" />
+                                    <TextBlock>机构名称</TextBlock>
+                                </StackPanel>
+                            </materialDesign:HintAssist.Hint>
+                            <TextBox.Text>
+                                <Binding Path="TreatedObject.Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        <TextBox x:Name="txtOrganizationAbbreviation" Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                            <materialDesign:HintAssist.Hint >
+                                <StackPanel Orientation="Horizontal" >
+                                    <materialDesign:PackIcon Kind="Account" />
+                                    <TextBlock>简称</TextBlock>
+                                </StackPanel>
+                            </materialDesign:HintAssist.Hint>
+                            <TextBox.Text>
+                                <Binding Path="TreatedObject.Abbreviation" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                    </StackPanel>
+
+                    <local:CategoryPropertyPicker x:Name="organizationPropertyListPicker" 
+                                                              Width="540" 
+                                                              CategorySource="{Binding Source={x:Static vm:GlobalViewModel.PersonPropertyCategories}}"
+                                                             CategoryValues="{Binding Path=DataContext.CategoryValues,ElementName=grid,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                />
+
+                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                                         VerticalAlignment="Top" Height="100" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
+                                         materialDesign:HintAssist.Hint="印象">
+                        <TextBox.Text>
+                            <Binding Path="TreatedObject.Impression" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+
+
+                </StackPanel>
+            </ScrollViewer>
+        </ControlTemplate>
+    </UserControl.Resources>
     <GroupBox x:Name="groupBox" Header="{Binding DataContext.Title,ElementName=grid}"  Style="{DynamicResource MaterialDesignCardGroupBox}" >
         <GroupBox.HeaderTemplate>
             <DataTemplate>
@@ -20,63 +72,70 @@
                 </StackPanel>
             </DataTemplate>
         </GroupBox.HeaderTemplate>
-        
-        <Grid x:Name="grid"  >
-            <StackPanel Orientation="Vertical">
-                <TabControl x:Name="tab" Style="{StaticResource TabControlWithUnderLineStyle}" Height="600"  BorderThickness="0"
-                            SelectionChanged="tab_SelectionChanged">
-                    <TabItem x:Name="tabItemOrganization" Style="{StaticResource TabItemExWithUnderLineStyle}" Cursor="Hand" Header="机构" Height="38" Width="70" Margin="5 0">
-                        <Grid >
-                            <TextBlock Text="未实现" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        </Grid>
-                    </TabItem>
-                    <TabItem x:Name="tabItemNaturalPerson" Style="{StaticResource TabItemExWithUnderLineStyle}" Cursor="Hand" Header="自然人" Height="38" Width="70" Margin="5 0">
-                        <ScrollViewer HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto">
-                            <StackPanel x:Name="NaturalPersonContent"  Margin="20,4,20,4" Width="540"  >
-                                <StackPanel>
-                                    <TextBox x:Name="txtName" Style="{StaticResource MaterialDesignFloatingHintTextBox}">
-                                        <materialDesign:HintAssist.Hint >
-                                            <StackPanel Orientation="Horizontal" >
-                                                <materialDesign:PackIcon Kind="Account" />
-                                                <TextBlock>姓名</TextBlock>
-                                            </StackPanel>
-                                        </materialDesign:HintAssist.Hint>
-                                        <TextBox.Text>
-                                            <Binding Path="TreatedObject.Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
-                                            </Binding>
-                                        </TextBox.Text>
-                                    </TextBox>
-                                    <TextBox x:Name="txtAbbreviation" Style="{StaticResource MaterialDesignFloatingHintTextBox}">
-                                        <materialDesign:HintAssist.Hint >
-                                            <StackPanel Orientation="Horizontal" >
-                                                <materialDesign:PackIcon Kind="Account" />
-                                                <TextBlock>简称</TextBlock>
-                                            </StackPanel>
-                                        </materialDesign:HintAssist.Hint>
-                                        <TextBox.Text>
-                                            <Binding Path="TreatedObject.Abbreviation" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
-                                            </Binding>
-                                        </TextBox.Text>
-                                    </TextBox>
-                                </StackPanel>
-                                <local:PropertyListPicker x:Name="propertyListPicker"  Width="540" 
-                                                          DataSource="{Binding Path=DataContext.PersonProperties,ElementName=grid,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+
+        <Grid x:Name="grid">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Center" >
+                    <local:ClientTypeControl x:Name="clientType" 
+                                             IsNaturalPerson="{Binding TreatedObject.IsNP}"
+                                             TypeChanged="ClientTypeControl_TypeChanged"
+                                             ></local:ClientTypeControl>
+                </StackPanel>
+
+
+                <ScrollViewer HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="20,4,20,4" Width="540"  >
+                        <StackPanel>
+                            <TextBox  Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                                <materialDesign:HintAssist.Hint >
+                                    <StackPanel Orientation="Horizontal" >
+                                        <materialDesign:PackIcon Kind="Account" />
+                                        <TextBlock x:Name="txtName">机构名称</TextBlock>
+                                    </StackPanel>
+                                </materialDesign:HintAssist.Hint>
+                                <TextBox.Text>
+                                    <Binding Path="TreatedObject.Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                            <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                                <materialDesign:HintAssist.Hint >
+                                    <StackPanel Orientation="Horizontal" >
+                                        <materialDesign:PackIcon Kind="Account" />
+                                        <TextBlock x:Name="txtAbbreviation" >简称</TextBlock>
+                                    </StackPanel>
+                                </materialDesign:HintAssist.Hint>
+                                <TextBox.Text>
+                                    <Binding Path="TreatedObject.Abbreviation" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                        </StackPanel>
+
+                        <local:CategoryPropertyPicker x:Name="propertyListPicker" 
+                                                              Width="540" 
+                                                              CategorySource="{Binding Source={x:Static vm:GlobalViewModel.PersonPropertyCategories}}"
+                                                             CategoryValues="{Binding Path=DataContext.CategoryValues,ElementName=grid,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 />
 
-                                <TextBox Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
-                                         VerticalAlignment="Top" Height="100" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
-                                         materialDesign:HintAssist.Hint="印象">
-                                    <TextBox.Text>
-                                        <Binding Path="TreatedObject.Impression" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
-                                        </Binding>
-                                    </TextBox.Text>
-                                </TextBox>
+                        <TextBox x:Name="txtImpression"
+                                 Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                                 VerticalAlignment="Top" 
+                                 Height="100" 
+                                 AcceptsReturn="True" 
+                                 TextWrapping="Wrap" 
+                                 VerticalScrollBarVisibility="Auto"
+                                 materialDesign:HintAssist.Hint="印象">
+                            <TextBox.Text>
+                                <Binding Path="TreatedObject.Impression" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
 
 
-                            </StackPanel>
-                        </ScrollViewer>
-                    </TabItem>
-                </TabControl>
+                    </StackPanel>
+                </ScrollViewer>
 
                 <Grid >
                     <Grid.ColumnDefinitions>
@@ -104,6 +163,6 @@
 
             </StackPanel>
         </Grid>
-        
+
     </GroupBox>
 </UserControl>

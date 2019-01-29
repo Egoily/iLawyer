@@ -33,8 +33,10 @@
             <TextBox x:Name="textBox" Grid.Column="0" Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
                 <materialDesign:HintAssist.Hint >
                     <StackPanel Orientation="Horizontal" >
-                        <materialDesign:PackIcon x:Name="icon" />
-                        <TextBlock x:Name="txtCategoryName" Text="{Binding CategoryValue.CategoryName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"></TextBlock>
+                        <materialDesign:PackIcon x:Name="icon"/>
+                        <TextBlock x:Name="txtCategoryName" 
+                                   Text="{Binding CategoryValue.CategoryName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"
+                         ></TextBlock>
                     </StackPanel>
                 </materialDesign:HintAssist.Hint>
                 <TextBox.Text>
@@ -54,39 +56,49 @@
         </Grid>
 
         <excontrols:PopupEx x:Name="popup" 
-            AllowsTransparency="False"
-            Placement="RelativePoint" 
-            HorizontalOffset="0"
-            PopupAnimation="Slide"             
-            Width="{Binding ElementName=grid, Path=ActualWidth}"
-           PreviewMouseDown="popup_PreviewMouseDownHandler"
+                            PlacementTarget="{Binding  ElementName=grid}"
+                            AllowsTransparency="True"
+                            Placement="Bottom" 
+                            Width="{Binding ElementName=grid, Path=ActualWidth}"
+                            PopupAnimation="Slide"                                         
+                            PreviewMouseDown="popup_PreviewMouseDownHandler"
+                            Topmost="True"
+                            PopupPlacementTarget="{Binding  ElementName=grid}"
+                            
         >
-            <TreeView x:Name="tvCategories" 
+            <Border>
+                <TreeView x:Name="tvCategories" 
                       Background="White"
                       BorderThickness="1" 
                       MaxHeight="200"
                       ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
                       ItemsSource="{Binding CategorySource}" 
-                      SelectedItemChanged="tvCategories_SelectedItemChanged">
-                <TreeView.ItemContainerStyle>
-                    <Style TargetType="{x:Type TreeViewItem}">
-                        <Setter Property="IsExpanded" Value="{Binding IsExpanded}"></Setter>
-                    </Style>
-                </TreeView.ItemContainerStyle>
-                <TreeView.ItemTemplate>
-                    <HierarchicalDataTemplate  ItemsSource="{Binding Path=Children}">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon  Kind="{Binding Icon,Converter={StaticResource StringToPackIconKind}}"  />
-                            <TextBlock Margin="4,0,0,0" VerticalAlignment="Center" Text="{Binding Name}"/>
-                            <StackPanel.ToolTip>
-                                <TextBlock VerticalAlignment="Center" Text="{Binding Name}" TextWrapping="Wrap" MaxWidth="200" ></TextBlock>
-                            </StackPanel.ToolTip>
-                        </StackPanel>
-                    </HierarchicalDataTemplate>
-                </TreeView.ItemTemplate>
-            </TreeView>
+                      SelectedItemChanged="tvCategories_SelectedItemChanged"
+                      
+                      >
 
+                    <TreeView.ItemContainerStyle>
+                        <Style TargetType="{x:Type TreeViewItem}">
+                            <!--<Setter Property="IsExpanded" Value="{Binding IsExpanded}"></Setter>-->
+                            <EventSetter Event="Expanded" Handler="CategoryTextBox_Expanded"/>
+                            <EventSetter Event="Collapsed" Handler="CategoryTextBox_Collapsed"/>
+                        </Style>
+                    </TreeView.ItemContainerStyle>
+
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate  ItemsSource="{Binding Path=Children}" >
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon  Kind="{Binding Icon,Converter={StaticResource StringToPackIconKind}}"  />
+                                <TextBlock Margin="4,0,0,0" VerticalAlignment="Center" Text="{Binding Name}"/>
+                                <!--<StackPanel.ToolTip>
+                                <TextBlock VerticalAlignment="Center" Text="{Binding Name}" TextWrapping="Wrap" MaxWidth="200" ></TextBlock>
+                            </StackPanel.ToolTip>-->
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+            </Border>
         </excontrols:PopupEx>
     </Grid>
 </UserControl>

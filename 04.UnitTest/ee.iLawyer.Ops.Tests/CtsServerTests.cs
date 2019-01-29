@@ -54,11 +54,11 @@ namespace ee.iLawyer.Ops.Tests
         [TestMethod()]
         public void AddClientTest()
         {
-            var properties = new List<KeyValue>
+            var properties = new List<CategoryValue>
             {
-               new KeyValue(11, "13610142196" ),
-                new KeyValue( 21, "egoily@hotmail.com" ),
-                new KeyValue(30,"番禺市桥" )
+               new CategoryValue(11,"个人手机", "13610142196" ),
+                new CategoryValue( 21,"邮箱", "egoily@hotmail.com" ),
+                new CategoryValue(30,"地址","番禺市桥" )
             };
 
 

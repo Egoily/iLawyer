@@ -1,33 +1,32 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ee.iLawyer.Ops.Contact.AutoMapper
 {
     public static class DtoConverter
     {
-        public static Contact.DTO.PropertyItemCategory Convert(ee.iLawyer.Db.Entity.PropertyItemCategory source)
+        public static DTO.PropertyItemCategory Convert(Db.Entity.PropertyItemCategory source)
         {
             return Mapper.Map<Contact.DTO.PropertyItemCategory>(source);
         }
-        public static Contact.DTO.Area Convert(ee.iLawyer.Db.Entity.Area source)
+        public static DTO.Category Convert(DTO.PropertyItemCategory source)
         {
-            return Mapper.Map<Contact.DTO.Area>(source);
+            return Mapper.Map<DTO.Category>(source);
         }
-        public static Contact.DTO.Court Convert(ee.iLawyer.Db.Entity.Court source)
+        public static DTO.Area Convert(Db.Entity.Area source)
         {
-            return Mapper.Map<Contact.DTO.Court>(source);
+            return Mapper.Map<DTO.Area>(source);
         }
-        public static Contact.DTO.Judge Convert(ee.iLawyer.Db.Entity.Judge source)
+        public static DTO.Court Convert(Db.Entity.Court source)
         {
-            return Mapper.Map<Contact.DTO.Judge>(source);
+            return Mapper.Map<DTO.Court>(source);
         }
-        public static Contact.DTO.Client Convert(ee.iLawyer.Db.Entity.Client source)
+        public static DTO.Judge Convert(Db.Entity.Judge source)
         {
-            return Mapper.Map<Contact.DTO.Client>(source);
+            return Mapper.Map<DTO.Judge>(source);
+        }
+        public static DTO.Client Convert(Db.Entity.Client source)
+        {
+            return Mapper.Map<DTO.Client>(source);
         }
     }
 }

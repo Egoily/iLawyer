@@ -31,12 +31,12 @@ namespace ee.iLawyer.Ops.Contact.DTO
         /// <summary>
         /// 属性列表
         /// </summary>
-        public virtual List<KeyValue> Properties { get; set; }
+        public virtual List<CategoryValue> Properties { get; set; }
 
 
         public Client()
         {
-            Properties = new List<KeyValue>();
+            Properties = new List<CategoryValue>();
         }
 
         public object Clone()

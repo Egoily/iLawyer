@@ -331,7 +331,7 @@ namespace ee.iLawyer.Ops
                              {
                                  CreateTime = now,
                                  Value = p.Value,
-                                 Category = repo.GetById<PropertyItemCategory>(p.Key),
+                                 Category = repo.GetById<PropertyItemCategory>(p.CategoryId),
                                  Client = entity,
                              };
                              repo.Create(clientPropertyItem);
@@ -398,9 +398,9 @@ namespace ee.iLawyer.Ops
                                      existedObj.Value = p.Value;
                                      hasUpdated = true;
                                  }
-                                 if (existedObj.Category.Id != p.Key && p.Key > 0)
+                                 if (existedObj.Category.Id != p.CategoryId && p.CategoryId > 0)
                                  {
-                                     var category = repo.GetById<PropertyItemCategory>(p.Key);
+                                     var category = repo.GetById<PropertyItemCategory>(p.CategoryId);
                                      existedObj.Category = category;
                                      hasUpdated = true;
                                  }
@@ -416,7 +416,7 @@ namespace ee.iLawyer.Ops
                                  {
                                      CreateTime = now,
                                      Value = p.Value,
-                                     Category = repo.GetById<PropertyItemCategory>(p.Key),
+                                     Category = repo.GetById<PropertyItemCategory>(p.CategoryId),
                                      Client = client,
                                  };
                                  client.Properties.Add(clientPropertyItem);
@@ -523,7 +523,7 @@ namespace ee.iLawyer.Ops
                                         int orderNo = 0;
                                         foreach (var property in client.Properties)
                                         {
-                                            var categorty = repo.GetById<Db.Entity.PropertyItemCategory>(property.Key);
+                                            var categorty = repo.GetById<Db.Entity.PropertyItemCategory>(property.CategoryId);
                                             properties.Add(new Db.Entity.ClientPropertyItem()
                                             {
                                                 Id = 0,

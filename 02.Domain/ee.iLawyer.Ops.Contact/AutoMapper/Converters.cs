@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
 using ee.iLawyer.Db.Entity;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ee.iLawyer.Ops.Contact.AutoMapper
 {
@@ -28,19 +24,22 @@ namespace ee.iLawyer.Ops.Contact.AutoMapper
         }
     }
 
-    public class ClientPropertyItemTypeConverter : ITypeConverter<IList<ClientPropertyItem>, List<DTO.KeyValue>>
+    public class ClientPropertyItemTypeConverter : ITypeConverter<IList<ClientPropertyItem>, List<DTO.CategoryValue>>
     {
-        public List<DTO.KeyValue> Convert(IList<ClientPropertyItem> source, List<DTO.KeyValue> destination, ResolutionContext context)
+        public List<DTO.CategoryValue> Convert(IList<ClientPropertyItem> source, List<DTO.CategoryValue> destination, ResolutionContext context)
         {
             if (destination == null)
-                destination = new List<DTO.KeyValue>();
+            {
+                destination = new List<DTO.CategoryValue>();
+            }
+
             if (source != null)
             {
                 foreach (var item in source)
                 {
                     if (item.Category != null)
                     {
-                        destination.Add(new DTO.KeyValue(item.Category.Id, item.Value, item.Id));
+                        destination.Add(new DTO.CategoryValue(item.Category.Id, item.Category.Name, item.Value, item.Id));
                     }
                 }
             }

@@ -86,8 +86,27 @@
     <Reference Include="System.Data.SQLite.Linq, Version=1.0.109.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Data.SQLite.Linq.1.0.109.0\lib\net46\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
+    <Reference Include="System.Reactive, Version=4.1.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Reactive.4.1.2\lib\net46\System.Reactive.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq, Version=3.0.3000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Reactive.Linq.4.1.2\lib\net46\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.4.5.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Threading.Tasks.Extensions.4.5.1\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.Transactions" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -109,6 +128,11 @@
     <Compile Include="Converters\ValueConverter.cs" />
     <Compile Include="Domain\BrushProps.cs" />
     <Compile Include="Domain\ControlExtession.cs" />
+    <Compile Include="Domain\ReactiveRelayCommand.cs" />
+    <Compile Include="Domain\WatermarkBehavior.cs" />
+    <Compile Include="ExControls\CircularProgressBar.xaml.cs">
+      <DependentUpon>CircularProgressBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ExControls\FillWrapPanel.cs" />
     <Compile Include="ExControls\FloatButton.xaml.cs">
       <DependentUpon>FloatButton.xaml</DependentUpon>
@@ -124,6 +148,7 @@
       <DependentUpon>WaterDropsButtonGroup.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\PropertyPickerItem.cs" />
+    <Compile Include="Models\SearchResult.cs" />
     <Compile Include="Modules\ManageProject.xaml.cs">
       <DependentUpon>ManageProject.xaml</DependentUpon>
     </Compile>
@@ -135,6 +160,9 @@
     </Compile>
     <Compile Include="UserControls\CategoryTextBox.xaml.cs">
       <DependentUpon>CategoryTextBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ClientTypeControl.xaml.cs">
+      <DependentUpon>ClientTypeControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ProgressDialog.xaml.cs">
       <DependentUpon>ProgressDialog.xaml</DependentUpon>
@@ -148,6 +176,9 @@
     <Compile Include="UserControls\PropertyListPicker.xaml.cs">
       <DependentUpon>PropertyListPicker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\AutoCompleteTextBox.xaml.cs">
+      <DependentUpon>AutoCompleteTextBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\CourtViewModel.cs" />
     <Compile Include="ViewModels\PropertyPickerControlViewModel.cs" />
@@ -155,6 +186,10 @@
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\JudgeViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Page Include="ExControls\CircularProgressBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ExControls\FloatButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -245,6 +280,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\ClientTypeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\ProgressDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -258,6 +297,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\PropertyListPicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\AutoCompleteTextBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -322,6 +365,10 @@
     <ProjectReference Include="..\..\01.Framework\ee.Framework\ee.Framework.csproj">
       <Project>{7d3d1f1d-973e-464a-9e60-b33cd0b34163}</Project>
       <Name>ee.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\02.Domain\ee.iLawyer.Db.Entity\ee.iLawyer.Db.Entity.csproj">
+      <Project>{1428652C-40B3-4F1A-92F3-F4965726B414}</Project>
+      <Name>ee.iLawyer.Db.Entity</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\02.Domain\ee.iLawyer.Ops.Contact\ee.iLawyer.Ops.Contact.csproj">
       <Project>{8bf78a81-d48f-47dc-9d81-f9e894675c32}</Project>

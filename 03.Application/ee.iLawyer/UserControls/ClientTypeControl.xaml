@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="ee.iLawyer.UserControls.ClientTypeControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ee.iLawyer.UserControls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             >
+    <Grid x:Name="grid">
+        <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Center" >
+            <Border x:Name="orgBorder"
+                    CornerRadius="8,0,0,8" 
+                    BorderBrush="Black" 
+                    BorderThickness="1" 
+                    Width="54" 
+                    Background="Orange"
+                    MouseLeftButtonDown="Border_MouseLeftButtonDown"
+                    MouseEnter="Border_MouseEnter"
+                    MouseLeave="Border_MouseLeave"
+                    >
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon  Kind="OfficeBuilding" Margin="4,0,0,0" />
+                    <TextBlock>机构</TextBlock>
+                </StackPanel>
+            </Border>
+            <Border x:Name="npnBorder"
+                    CornerRadius="0,8,8,0" 
+                    BorderBrush="Black" 
+                    BorderThickness="1" 
+                    Width="54"
+                    Background="Transparent"
+                    MouseLeftButtonDown="Border_MouseLeftButtonDown"
+                    MouseEnter="Border_MouseEnter"
+                    MouseLeave="Border_MouseLeave"
+                    >
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon  Kind="Accessibility" />
+                    <TextBlock>自然人</TextBlock>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Interop;
@@ -13,6 +9,58 @@ namespace ee.iLawyer.ExControls
 {
     public class PopupEx : Popup
     {
+
+        public DependencyObject PopupPlacementTarget
+        {
+            get { return (DependencyObject)GetValue(PopupPlacementTargetProperty); }
+            set { SetValue(PopupPlacementTargetProperty, value); }
+        }
+
+        public static readonly DependencyProperty PopupPlacementTargetProperty =
+            DependencyProperty.Register("PopupPlacementTarget", typeof(DependencyObject), typeof(PopupEx), new PropertyMetadata(null, OnPopupPlacementTargetChanged));
+
+
+        private static void OnPopupPlacementTargetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue != null)
+            {
+                DependencyObject popupPopupPlacementTarget = e.NewValue as DependencyObject;
+                Popup pop = d as Popup;
+
+                Window w = Window.GetWindow(popupPopupPlacementTarget);
+                if (null != w)
+                {
+                    //让Popup随着窗体的移动而移动
+                    w.LocationChanged += delegate
+                    {
+                        var mi = typeof(Popup).GetMethod("UpdatePosition", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                        mi.Invoke(pop, null);
+                    };
+                    //让Popup随着窗体的Size改变而移动位置
+                    w.SizeChanged += delegate
+                    {
+                        var mi = typeof(Popup).GetMethod("UpdatePosition", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                        mi.Invoke(pop, null);
+                    };
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         /// <summary>  
         /// 是否窗口随动，默认为随动（true）  
         /// </summary>  
@@ -104,8 +152,13 @@ namespace ee.iLawyer.ExControls
         /// <summary>  
         /// 刷新Popup层级  
         /// </summary>  
-        private void UpdateWindow()
+        public void UpdateWindow()
         {
+            if (this.Child == null)
+            {
+                return;
+            }
+
             var hwnd = ((HwndSource)PresentationSource.FromVisual(this.Child)).Handle;
             RECT rect;
             if (NativeMethods.GetWindowRect(hwnd, out rect))

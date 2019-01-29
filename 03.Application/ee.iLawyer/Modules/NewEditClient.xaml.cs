@@ -1,11 +1,7 @@
 ﻿using ee.iLawyer.Ops.Contact.DTO;
 using PropertyChanged;
-using System;
 using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Linq;
 using System.Windows.Controls;
-using System.Windows.Data;
 
 namespace ee.iLawyer.Modules
 {
@@ -25,114 +21,74 @@ namespace ee.iLawyer.Modules
         public bool IsNew { get; protected set; }
 
         public Client TreatedObject { get; set; }
-        public ObservableCollection<UserControls.PropertyListItem> PersonProperties { get; set; }
+        public ObservableCollection<CategoryValue> CategoryValues { get; set; }
 
 
-        public NewEditClient(Client Client = null, ObservableCollection<UserControls.PropertyListItem> personProperties = null)
+        public NewEditClient(Client Client = null)
         {
             isInit = false;
-            Init(Client, personProperties);
+            Init(Client);
             isInit = true;
         }
-        private void Init(Client Client, ObservableCollection<UserControls.PropertyListItem> personProperties = null)
+        private void Init(Client Client)
         {
             InitializeComponent();
 
             this.grid.DataContext = this;
             TreatedObject = Client?.Clone() as Client;
-
-            PersonProperties = personProperties;
-            if (PersonProperties == null || !PersonProperties.Any())
+            if (TreatedObject == null)
             {
-                PersonProperties = ViewModels.GlobalViewModel.GetPropertyListItems();
+                CategoryValues = new ObservableCollection<CategoryValue>();
             }
-
-
+            else
+            {
+                CategoryValues = new ObservableCollection<CategoryValue>(TreatedObject.Properties);
+            }
 
             if (TreatedObject != null && TreatedObject.Id > 0)
             {
                 Title = objectName + "编辑";
                 IsNew = false;
+                clientType.IsEnabled = false;
 
 
-
-                if (TreatedObject.IsNP)
-                {
-                    tab.SelectedIndex = 1;
-                    tabItemOrganization.Visibility = System.Windows.Visibility.Hidden;
-                    tabItemNaturalPerson.Visibility = System.Windows.Visibility.Visible;
-                }
-                else
-                {
-                    tab.SelectedIndex = 0;
-                    tabItemOrganization.Visibility = System.Windows.Visibility.Visible;
-                    tabItemNaturalPerson.Visibility = System.Windows.Visibility.Hidden;
-
-                }
 
             }
             else
             {
                 Title = objectName + "新增";
                 IsNew = true;
-                TreatedObject = new Client();
-            }
-
-            KeyValueToPropertyListItem();
-
-        }
-
-        private void KeyValueToPropertyListItem()
-        {
-            if (TreatedObject==null||TreatedObject.Properties == null)
-                return;
-            foreach (var property in TreatedObject.Properties)
-            {
-                foreach (var item in PersonProperties)
+                clientType.IsEnabled = true;
+                TreatedObject = new Client
                 {
-                    if (item.PickerProperty.CategorySource.Any(x => x.Id == property.Key))
-                    {
-                        var nullItem = item.Items.FirstOrDefault(x => x.KeyValue == null);
-                        if (nullItem == null)
-                        {
-                            item.Items.Add(new Models.PropertyPickerItem()
-                            {
-                                Guid = Guid.NewGuid(),
-                                KeyValue = property,
-                            });
-                        }
-                        else
-                        {
-                            nullItem.KeyValue = property;
-                        }
-                    }
-                }
-            }
-        }
 
-        private void PropertyListItemToKeyValue()
-        {
-            TreatedObject.Properties.Clear();
-            var items = PersonProperties.SelectMany(x => x.Items).ToList();
-            foreach (var item in items)
+                };
+             
+            }
+            if (TreatedObject.IsNP)
             {
-                if (item.KeyValue != null && item.KeyValue.Key > 0 && !string.IsNullOrEmpty(item.KeyValue.Value))
-                {
-                    TreatedObject.Properties.Add(item.KeyValue);
-                }
+                txtName.Text = "姓名";
 
             }
+            else
+            {
+                txtName.Text = "机构名称";
+            }
+
 
         }
+
+
 
         private void tab_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.Source is TabControl)
+            if (e.Source is ListBox)
             {
                 if (IsNew)
                 {
-                    TreatedObject.IsNP = tab.SelectedIndex == 1;
+                    ;
                 }
+
             }
 
         }
@@ -140,12 +96,23 @@ namespace ee.iLawyer.Modules
         private void Accept_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             if (isInit)
-                PropertyListItemToKeyValue();
+            {
+                TreatedObject.Properties = new System.Collections.Generic.List<CategoryValue>(CategoryValues);
+            }
         }
 
+        private void ClientTypeControl_TypeChanged(object sender, UserControls.TypeRoutedEventArge e)
+        {
+            if (e.IsNaturalPerson)
+            {
+                txtName.Text = "姓名";
 
-
-
+            }
+            else
+            {
+                txtName.Text = "机构名称";
+            }
+        }
 
 
     }

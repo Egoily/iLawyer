@@ -10,6 +10,7 @@ using CodeDisplayer;
 using MaterialDesignThemes.Wpf;
 using System.IO;
 using ee.iLawyer.ViewModels;
+using System;
 
 namespace ee.iLawyer
 {
@@ -22,7 +23,6 @@ namespace ee.iLawyer
         public MainWindow()
         {
             InitializeComponent();
-
             var sourceLocation = File.Exists(@"..\..\MainWindow.xaml") ? XamlDisplayerPanel.SourceEnum.LoadFromLocal : XamlDisplayerPanel.SourceEnum.LoadFromRemote;
 
             XamlDisplayerPanel.Initialize(
@@ -49,8 +49,9 @@ namespace ee.iLawyer
             DataContext = new MainWindowViewModel(MainSnackbar.MessageQueue);
 
             Snackbar = this.MainSnackbar;
-        }
 
+        }
+     
         private void UIElement_OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             //until we had a StaysOpen glag to Drawer, this will help with scroll bars

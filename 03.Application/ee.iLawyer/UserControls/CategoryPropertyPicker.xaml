@@ -49,11 +49,13 @@
                                 </Grid>
                                 <Border Grid.Column="1" Background="Transparent" >
                                     <StackPanel Orientation="Horizontal">
-                                        <Button x:Name="btnRemove" Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}" 
-                                            Margin="8,0,0,0"
-                                            Width="20" Height="20"  
-                                            Background="Transparent"
-                                            Click="btnRemove_Click"                                           
+                                        <Button x:Name="btnRemove" 
+                                                Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}" 
+                                                Margin="8,0,0,0"
+                                                Width="20" Height="20"  
+                                                Background="Transparent"
+                                                Visibility="Hidden"
+                                                Click="btnRemove_Click"  
                                         >
                                             <materialDesign:PackIcon Kind="RemoveCircle"  Width="16" Height="16" />
                                         </Button>
@@ -61,6 +63,22 @@
                                     </StackPanel>
                                 </Border>
                             </Grid>
+
+
+                            <DataTemplate.Triggers>
+                                <!--<MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition  Binding="{Binding CategoryId}" Value="0"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <MultiDataTrigger.Setters>
+                                        <Setter TargetName="btnRemove" Property="Visibility" Value="Visible"/>
+                                    </MultiDataTrigger.Setters>
+                                </MultiDataTrigger>-->
+                                <Trigger Property="IsMouseOver" Value="true">
+                                    <Setter TargetName="btnRemove" Property="Visibility" Value="Visible"/>
+                                </Trigger>
+                            </DataTemplate.Triggers>
+
                         </DataTemplate>
 
                     </ItemsControl.ItemTemplate>

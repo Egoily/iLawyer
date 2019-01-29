@@ -1,13 +1,14 @@
 ﻿using ee.Framework;
 using ee.iLawyer.Ops;
+using ee.iLawyer.Ops.Contact;
 using ee.iLawyer.Ops.Contact.Args;
+using ee.iLawyer.Ops.Contact.AutoMapper;
+using ee.iLawyer.Ops.Contact.DTO;
+using ee.iLawyer.UserControls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using ee.iLawyer.Ops.Contact.DTO;
-using ee.iLawyer.Ops.Contact;
-using ee.iLawyer.UserControls;
 
 namespace ee.iLawyer.ViewModels
 {
@@ -203,6 +204,56 @@ namespace ee.iLawyer.ViewModels
             Icon = source.Icon,
             CategorySource = source.Children?.ToList()?.Select(ConvertToCategory)?.ToList()
         };
+
+
+
+        public static ObservableCollection<Category> GetPersonPropertyCategories()
+        {
+            try
+            {
+                var categories = MemoryCacheHelper.CacheItem<IList<PropertyItemCategory>>(CacheKeys.PropertyItemCategories,
+                    delegate ()
+                    {
+                        var server = new CtsService();
+                        var response = server.GetPropertyItemCategories(new GetPropertyItemCategoriesRequest());
+                        if (response.Code == ErrorCodes.Ok && (response.QueryList?.Any() ?? false))
+                        {
+                            return response.QueryList.ToList();
+                        }
+                        return new List<PropertyItemCategory>();
+                    },
+                    new TimeSpan(12, 0, 0));//过期时间
+
+
+                var list = new ObservableCollection<Category>();
+
+                categories.ToList().ForEach(x => list.Add(DtoConverter.Convert(x)));
+                //foreach (var category in categories)
+                //{
+                //    var pickerProperty = ConvertToPickerProperty(category);
+                //    list.Add(pickerProperty);
+                //}
+
+                return list;
+            }
+            catch (Exception)
+            {
+                return new ObservableCollection<Category>();
+            }
+        }
+
+        private static ObservableCollection<Category> personPropertyCategories;
+        public static ObservableCollection<Category> PersonPropertyCategories
+        {
+            get
+            {
+                if (personPropertyCategories == null)
+                {
+                    personPropertyCategories = new ObservableCollection<Category>(GetPersonPropertyCategories());
+                }
+                return personPropertyCategories;
+            }
+        }
 
 
         public static PickerProperty GetPickerProperty(MainPrpoertyCategory categoryType)

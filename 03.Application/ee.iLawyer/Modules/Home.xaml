@@ -29,10 +29,17 @@
                 CategoryValues="{Binding Path=DataContext.CategoryValues,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
             >
 
+
             </usercontrols:CategoryPropertyPicker>
 
+            <TextBox Text="{Binding Path=DataContext.Text,RelativeSource={RelativeSource AncestorType={x:Type UserControl}},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <TextBox Text="{Binding Path=DataContext.Text,RelativeSource={RelativeSource AncestorType={x:Type UserControl}},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
 
+            <usercontrols:AutoCompleteTextBox
+                SearchDataProvider="{Binding Path= DataContext.ClientSearchProvider,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                
+            </usercontrols:AutoCompleteTextBox>
 
         </StackPanel>
 
