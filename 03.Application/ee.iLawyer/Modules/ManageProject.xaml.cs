@@ -13,12 +13,12 @@ namespace ee.iLawyer.Modules
     /// </summary>
     public partial class ManageProject : UserControl
     {
-        private ClientViewModel viewModel;
+        private ProjectViewModel viewModel;
 
         public ManageProject()
         {
             InitializeComponent();
-            viewModel = new ClientViewModel();
+            viewModel = new ProjectViewModel();
             DataContext = viewModel;
         }
 

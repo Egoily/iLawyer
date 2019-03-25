@@ -7,26 +7,25 @@
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:modules="clr-namespace:ee.iLawyer.Modules"
              mc:Ignorable="d" 
-             d:DesignHeight="768" Width="1024">
-    <Grid Margin="0,10,0,0">
-        <Grid.Resources>
+             >
+    <DockPanel Margin="0,10,0,0">
+        <DockPanel.Resources>
             <modules:IsNPToType x:Key="IsNPToType"/>
-        </Grid.Resources>
-
-
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="48*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Button Name="btnAdd" Content="新增" Command="{Binding NewCommand}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.286,-0.677" Grid.RowSpan="2"/>
-        <Button x:Name="btnQuery" Content="查询" Command="{Binding QueryCommand}" HorizontalAlignment="Left" Margin="110,10,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.286,-0.677" Grid.RowSpan="2"/>
-
-        <DataGrid ItemsSource="{Binding Clients}" Margin="0,35.661,0,0" IsReadOnly="True" AutoGenerateColumns="False" Grid.ColumnSpan="2" Grid.Row="1" 
-                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+        </DockPanel.Resources>
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+            <Button Name="btnAdd" Content="新增" Command="{Binding NewCommand}"/>
+            <Button x:Name="btnQuery" Content="查询" Command="{Binding QueryCommand}" Margin="10,0,0,0"/>
+        </StackPanel>
+        <DataGrid 
+            ItemsSource="{Binding Clients}" 
+            Margin="0,4,0,0" 
+            IsReadOnly="True" 
+            AutoGenerateColumns="False" 
+            HorizontalAlignment="Stretch" 
+            VerticalAlignment="Stretch" 
+            ScrollViewer.VerticalScrollBarVisibility="Auto" 
+            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+            MaxHeight="640">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="" Width="10">
                     <DataGridTemplateColumn.CellTemplate>
@@ -35,12 +34,11 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Binding="{Binding Id , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="Id" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding IsNP, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,Converter={StaticResource IsNPToType}}" ClipboardContentBinding="{x:Null}" Header="类型" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="名称" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding Abbreviation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="简称" Width="Auto"/>
-
-
+                <DataGridTextColumn Header="Id"  Binding="{Binding Id , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto"/>
+                <DataGridTextColumn Header="类型" Binding="{Binding IsNP, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,Converter={StaticResource IsNPToType}}" Width="Auto"/>
+                <DataGridTextColumn Header="名称" Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto"/>
+                <DataGridTextColumn Header="联系电话" Binding="{Binding ContactNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto"/>
+                <DataGridTextColumn Header="简称" Binding="{Binding Abbreviation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto"/>
                 <DataGridTemplateColumn Header="操作" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -88,5 +86,5 @@
 
             </DataGrid.Columns>
         </DataGrid>
-    </Grid>
+    </DockPanel>
 </UserControl>

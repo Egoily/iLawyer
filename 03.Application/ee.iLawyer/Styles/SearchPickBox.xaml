@@ -1,0 +1,144 @@
+<ResourceDictionary
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:excontrols="clr-namespace:ee.iLawyer.ExControls" >
+
+    <SolidColorBrush x:Key="SearchPickBox_Background" Color="White" />
+    <SolidColorBrush x:Key="SearchPickBox_Foreground" Color="Black" />
+    <LinearGradientBrush x:Key="SearchPickBox_Border" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#FFABADB3" Offset="0.05" />
+        <GradientStop Color="#FFE2E3EA" Offset="0.07" />
+        <GradientStop Color="#FFE4E9EF" Offset="1" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="SearchPickBox_BorderMouseOver" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#FF5C97C1" Offset="0.05" />
+        <GradientStop Color="#FFB9D7EB" Offset="0.07" />
+        <GradientStop Color="#FFC7E2F1" Offset="1" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="SearchPickBox_IconBorder" Color="White" />
+    <SolidColorBrush x:Key="SearchPickBox_IconBackground" Color="White" />
+    <LinearGradientBrush x:Key="SearchPickBox_SearchIconBorder_MouseOver" StartPoint="0,0" EndPoint="0,1" >
+        <GradientStop Color="#FFFFFFFF" Offset="0" />
+        <GradientStop Color="#FFE5F4FC" Offset="1" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="SearchPickBox_SearchIconBackground_MouseOver" StartPoint="0,0" EndPoint="0,1" >
+        <GradientStop Color="#FFE7F5FD" Offset="0" />
+        <GradientStop Color="#FFD2EDFC" Offset="0.5" />
+        <GradientStop Color="#FFB6E3FD" Offset="0.51" />
+        <GradientStop Color="#FF9DD5F3" Offset="1" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="SearchPickBox_SearchIconBorder_MouseDown" StartPoint="0,0" EndPoint="0,1" >
+        <GradientStop Color="#FFFFFFFF" Offset="0" />
+        <GradientStop Color="#FFE5F4FC" Offset="1" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="SearchPickBox_SearchIconBackground_MouseDown" StartPoint="0,0" EndPoint="0,1" >
+        <GradientStop Color="#FFE7F5FD" Offset="0" />
+        <GradientStop Color="#FFD2EDFC" Offset="0.5" />
+        <GradientStop Color="#FFB6E3FD" Offset="0.51" />
+        <GradientStop Color="#FF9DD5F3" Offset="1" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="SearchPickBox_WatermarkColor" Color="Gray" />
+
+    <DrawingImage x:Key="RightSearchDrawingImage">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V1024 H1024 V0 H0 Z">
+                <GeometryDrawing Brush="#515151" Geometry="F1 M1024,1024z M0,0z M672,64C513.28,64,384,193.28,384,352A284.8,284.8,0,0,0,448,530.752L129.472,849.28 174.528,894.72 493.248,576C542.528,615.488 604.224,640 672,640 830.72,640 960,510.72 960,352 960,193.28 830.72,64 672,64z M672,128C796.032,128 896,228.032 896,352 896,476.032 795.968,576 672,576A223.616,223.616,0,0,1,448,352C448,227.968,548.032,128,672,128z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+    <DrawingImage x:Key="ClearDrawingImage">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V1024 H1024 V0 H0 Z">
+                <GeometryDrawing Brush="#FF515151" Geometry="F1 M1024,1024z M0,0z M780.8,710.4L582.4,505.6 780.8,307.2C800,288 800,256 780.8,236.8 761.6,217.6 729.6,217.6 710.4,236.8L518.4,441.6 313.6,243.2C294.4,224 262.4,224 236.8,243.2 217.6,262.4 217.6,294.4 236.8,320L435.2,518.4 236.8,716.8C217.6,736 217.6,768 236.8,787.2 256,806.4 288,806.4 307.2,787.2L505.6,588.8 704,787.2C723.2,806.4 755.2,806.4 780.8,787.2 806.4,761.6 806.4,729.6 780.8,710.4z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+    <DrawingImage x:Key="DropdownDrawingImage">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V1024 H1024 V0 H0 Z">
+                <GeometryDrawing Brush="#515151" Geometry="F1 M1024,1024z M0,0z M260.45,384.043L511.974,635.567 763.497,384.043 260.451,384.043z M260.45,384.043z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <Style x:Key="SearchPickBoxStyle" TargetType="{x:Type excontrols:SearchPickBox}">
+        <Setter Property="Background" Value="{StaticResource SearchPickBox_Background}" />
+        <Setter Property="BorderBrush" Value="{StaticResource SearchPickBox_Border}" />
+        <Setter Property="Foreground" Value="{StaticResource SearchPickBox_Foreground}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Watermark" Value="Search" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="WatermarkColor" Value="{StaticResource SearchPickBox_WatermarkColor}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type excontrols:SearchPickBox}">
+                    <Border x:Name="Border"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid x:Name="LayoutGrid">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ScrollViewer Margin="2" x:Name="PART_ContentHost" Grid.Column="0" VerticalAlignment="Center"/>
+                            <Label x:Name="Watermark"
+                                   Grid.Column="0"
+                                   Margin="2"
+                                   Foreground="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=WatermarkColor}"
+                                   Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Watermark}"
+                                   Padding="2,0,0,0"
+                                   VerticalAlignment="Center"
+                                   FontStyle="Italic" />
+                            <Border x:Name="PART_IconBorder" 
+                                    Grid.Column="1"
+                                    VerticalAlignment="Stretch"
+                                    HorizontalAlignment="Stretch"
+                                    BorderBrush="{StaticResource SearchPickBox_IconBorder}"
+                            >
+                                <Image x:Name="SearchIcon"
+                                       Stretch="Uniform"
+                                       Width="15"
+                                       Height="15" 
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Source="{StaticResource RightSearchDrawingImage}" 
+                                />
+                            </Border>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" SourceName="Watermark" Value="True">
+                            <Setter Property="Background" TargetName="LayoutGrid" Value="#F3F9F2" />
+                            <Setter Property="Cursor" Value="IBeam" />
+                        </Trigger>
+
+                        <Trigger Property="IsMouseOver" SourceName="PART_IconBorder" Value="True">
+                            <Setter Property="Cursor" Value="Hand" />
+                        </Trigger>
+
+                        <Trigger Property="IsMouseOver" Value="False">
+                            <Setter Property="Background" TargetName="LayoutGrid" Value="#DCEED9" />
+                        </Trigger>
+
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                            <Setter Property="BorderBrush" Value="{StaticResource SearchPickBox_BorderMouseOver}" />
+                        </Trigger>
+
+
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsNotEmptyKey" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Source" TargetName="SearchIcon" Value="{StaticResource ClearDrawingImage }" />
+                            <Setter Property="Visibility" TargetName="Watermark" Value="Hidden" />
+                        </MultiTrigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

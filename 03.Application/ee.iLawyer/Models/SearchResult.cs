@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace ee.iLawyer.Models
 {
-    public struct SearchResult
+    public class SearchResult
     {
         public string SearchTerm { get; set; }
-        public Dictionary<object, string> Results { get; set; }
+        public IList<object> Results { get; set; }
     }
 
     public interface ISearchDataProvider

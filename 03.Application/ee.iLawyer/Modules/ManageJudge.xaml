@@ -6,21 +6,23 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:DesignHeight="768" Width="1024">
-    <Grid Margin="0,10,0,0">
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="48*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="160*"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Button Name="btnAdd" Content="新增" Command="{Binding NewCommand}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.286,-0.677" Grid.RowSpan="2"/>
-        <Button x:Name="btnQuery" Content="查询" Command="{Binding QueryCommand}" HorizontalAlignment="Left" Margin="110,10,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.286,-0.677" Grid.RowSpan="2"/>
+             >
 
-        <DataGrid ItemsSource="{Binding Judges}" Margin="0,35.661,0,0" IsReadOnly="True" AutoGenerateColumns="False" Grid.ColumnSpan="2" Grid.Row="1" 
-                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+    <DockPanel Margin="0,10,0,0">
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+            <Button Name="btnAdd" Content="新增" Command="{Binding NewCommand}"/>
+            <Button x:Name="btnQuery" Content="查询" Command="{Binding QueryCommand}"  Margin="10,0,0,0"/>
+        </StackPanel>
+        <DataGrid 
+            ItemsSource="{Binding Judges}" 
+            Margin="0,4,0,0" 
+            IsReadOnly="True" 
+            AutoGenerateColumns="False"
+            HorizontalAlignment="Stretch" 
+            VerticalAlignment="Stretch"
+            ScrollViewer.VerticalScrollBarVisibility="Auto" 
+            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+            MaxHeight="640">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="" Width="10">
                     <DataGridTemplateColumn.CellTemplate>
@@ -29,11 +31,13 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Binding="{Binding Id , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="Id" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="姓名" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding GenderString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="性别" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding PhoneNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="手机号码" Width="Auto"/>
-                <DataGridTextColumn Binding="{Binding InCourtName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ClipboardContentBinding="{x:Null}" Header="所属法院" Width="Auto"/>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto"/>
+                <DataGridTextColumn Header="姓名" Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto"/>
+                <DataGridTextColumn Header="性别" Binding="{Binding Gender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,Converter={StaticResource EnumItemsSourceOfGenders}}" Width="Auto"/>
+                <DataGridTextColumn Header="联系电话" Binding="{Binding ContactNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto"/>
+                <DataGridTextColumn Header="所属法院" Binding="{Binding InCourtName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto"/>
+                <DataGridTextColumn Header="职务" Binding="{Binding Duty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto"/>
+                <DataGridTextColumn Header="等级" Binding="{Binding Grade, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,Converter={StaticResource EnumItemsSourceOfJudgeGrades}}" Width="Auto"/>
 
                 <DataGridTemplateColumn Header="操作" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
@@ -78,9 +82,11 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                
-                
+
+
             </DataGrid.Columns>
         </DataGrid>
-    </Grid>
+
+    </DockPanel>
+
 </UserControl>

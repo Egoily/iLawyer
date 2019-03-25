@@ -18,7 +18,7 @@ namespace ee.iLawyer.Db.Entity
         /// <summary>
         /// 项目名称
         /// </summary>
-        public virtual Project Project { get; set; }
+        public virtual Project InProject { get; set; }
         /// <summary>
         /// 关联客户
         /// </summary>

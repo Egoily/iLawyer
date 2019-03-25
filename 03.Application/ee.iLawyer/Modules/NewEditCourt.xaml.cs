@@ -42,7 +42,7 @@ namespace ee.iLawyer.Modules
                 IsNew = true;
                 TreatedObject = new Court();
             }
-            areaSelector.Provinces = GlobalViewModel.Provinces;
+            areaSelector.Provinces = Cacher.Provinces;
         }
 
 

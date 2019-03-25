@@ -19,29 +19,28 @@ namespace ee.iLawyer.Ops.Contact.DTO
         /// </summary>
         public virtual int Id { get; set; }
         /// <summary>
-        /// 手机号码
+        /// 联系电话
         /// </summary>
-        public virtual string PhoneNo { get; set; }
+        public virtual string ContactNo { get; set; }
         /// <summary>
         /// 法官名
         /// </summary>
         public virtual string Name { get; set; }
 
-        private int _gender;
+     
         /// <summary>
         /// 性别
         /// </summary>
-        public virtual int Gender
-        {
-            get => _gender;
-            set
-            {
-                _gender = value;
-                GenderString = GetGender(value);
-            }
-        }
-        public virtual string GenderString { get; set; }
+        public virtual Gender Gender { get; set; }
 
+        /// <summary>
+        /// 职务
+        /// </summary>
+        public virtual string Duty { get; set; }
+        /// <summary>
+        /// 法官等级
+        /// </summary>
+        public virtual JudgeGrade Grade { get; set; }
         /// <summary>
         /// 所属法院Id
         /// </summary>
@@ -56,12 +55,5 @@ namespace ee.iLawyer.Ops.Contact.DTO
             return this.MemberwiseClone();
         }
 
-
-        public static string GetGender(int gender)
-        {
-            if (gender == 1) return "男";
-            else if (gender == 2) return "女";
-            else return "未定义";
-        }
     }
 }

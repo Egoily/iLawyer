@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ee.iLawyer.Db.Entity
 {
     /// <summary>
-    /// 项目类别
+    /// 项目类型
     /// </summary>
     public class ProjectCategory
     {

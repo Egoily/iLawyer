@@ -1,0 +1,111 @@
+﻿<Window x:Class="ee.iLawyer.Modules.NewEditProgress"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:vm="clr-namespace:ee.iLawyer.ViewModels"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:converters="clr-namespace:ee.iLawyer.Converters"
+        mc:Ignorable="d"  
+             WindowChrome.WindowChrome="{DynamicResource WindowChromeKey}"
+   
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Topmost="True"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterScreen"
+        Width="320"
+        Height="300"
+             >
+    <Window.Resources>
+        <WindowChrome x:Key="WindowChromeKey">
+            <WindowChrome.ResizeBorderThickness>
+                <Thickness>0</Thickness>
+            </WindowChrome.ResizeBorderThickness>
+        </WindowChrome>
+        <converters:BoolToReverseVisibilityConverter x:Key="BoolToReverseVisibilityConverter"/>
+    </Window.Resources>
+
+
+    <GroupBox       
+        x:Name="groupBox" 
+        Background="{DynamicResource PopupWindowBackground}"
+        Header="{Binding DataContext.Title,ElementName=grid}"
+        Style="{DynamicResource MaterialDesignCardGroupBox}" >
+        <GroupBox.HeaderTemplate>
+            <DataTemplate>
+                <StackPanel  Orientation="Horizontal">
+                    <materialDesign:PackIcon   Kind="TableEdit"  Height="32"  Width="32" VerticalAlignment="Center" />
+                    <TextBlock   Margin="8,0,0,0"  VerticalAlignment="Center"  Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="{Binding}" />
+                </StackPanel>
+            </DataTemplate>
+        </GroupBox.HeaderTemplate>
+        <Grid Name="grid" Margin="20,4,20,4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" x:Name="gridFields" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <DatePicker Grid.Row="0" Grid.Column="0" 
+                    SelectedDate="{Binding Path=TreatedObject.HandleTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    DisplayDate="{x:Static sys:DateTime.Now}"
+                    Style="{StaticResource MaterialDesignFloatingHintDatePicker}" >
+                    <materialDesign:HintAssist.Hint >
+                        <StackPanel Orientation="Horizontal" >
+                            <materialDesign:PackIcon Kind="TimelineTextOutline" />
+                            <TextBlock>处理时间</TextBlock>
+                        </StackPanel>
+                    </materialDesign:HintAssist.Hint>
+                </DatePicker>
+                <TextBox Grid.Row="1" Grid.ColumnSpan="2"
+                         Margin="4"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                         VerticalAlignment="Top" 
+                         AcceptsReturn="True" 
+                         TextWrapping="Wrap" 
+                         VerticalScrollBarVisibility="Auto"
+                         materialDesign:HintAssist.Hint="详情"
+                         Text="{Binding Path=TreatedObject.Content, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                         Height="100">
+                </TextBox>
+             
+            </Grid>
+            <Grid Grid.Row="1" x:Name="gridOps">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="50*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="1" 
+                        x:Name="btnAccept"
+                        IsDefault="True" 
+                        Style="{DynamicResource MaterialDesignFlatButton}"
+                        Click="btnAccept_Click" >
+                    ACCEPT
+                </Button>
+                <Button Grid.Column="3" 
+                        x:Name="btnCancel"
+                        IsCancel="True"  
+                        Style="{DynamicResource MaterialDesignFlatButton}"
+                        Click="BtnCancel_Click">
+                    CANCEL
+                </Button>
+            </Grid>
+        </Grid>
+
+    </GroupBox>
+</Window>

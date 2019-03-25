@@ -1,0 +1,181 @@
+﻿<UserControl x:Class="ee.iLawyer.UserControls.MultiItemSelector"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ee.iLawyer.UserControls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:excontrols="clr-namespace:ee.iLawyer.ExControls"
+             xmlns:converters="clr-namespace:ee.iLawyer.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <converters:BoolToReverseVisibilityConverter x:Key="BoolToReverseVisibilityConverter"/>
+        <converters:ImageSourceConverter x:Key="ImageSourceConverter"/>
+        <converters:FirstCharConverter x:Key="FirstCharConverter"/>
+        <converters:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter" />
+        <converters:NullableToReverseVisibilityConverter x:Key="NullableToReverseVisibilityConverter" />
+        <CollectionViewSource Source="{Binding RelativeSource={RelativeSource AncestorType=local:MultiItemSelector}, Path=SelectedItems,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }" x:Key="items" />
+
+        <DataTemplate x:Key="ItemDataTemplate">
+            <StackPanel>
+                <Border 
+                    CornerRadius="8" 
+                    BorderBrush="#FF9DACCC" 
+                    BorderThickness="1" 
+                    VerticalAlignment="Center"
+                    Margin="0,0,4,0"
+                    Background="#FFE2E6F0">
+                    <StackPanel Orientation="Horizontal">
+
+                        <materialDesign:Chip 
+                            Content="{Binding Path=DisplayText}" 
+                            IsDeletable="True"
+                            DeleteClick="Chip_DeleteClick"
+                            >
+                            <materialDesign:Chip.Icon>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image
+                                        x:Name="image"
+                                        Visibility="{Binding Path=Source,ElementName=image,Converter={StaticResource NullableToReverseVisibilityConverter }}"
+                                        Source="{Binding Path=Icon,Converter={StaticResource ImageSourceConverter}}" 
+                                    />
+                                    <TextBlock 
+                                        Visibility="{Binding Path=Source,ElementName=image,Converter={StaticResource NullableToVisibilityConverter }}"
+                                        Text="{Binding Path=DisplayText,Converter={StaticResource FirstCharConverter}}"                                    
+                                    />
+
+                                </StackPanel>
+
+                            </materialDesign:Chip.Icon>
+                        </materialDesign:Chip>
+
+
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="DataSourceDataTemplate">
+            <StackPanel>
+                <excontrols:HighlightedTextBlock Highlight="{Binding ElementName=searchTextBox, Path=Text}" RawText="{Binding Path=DisplayText}" />
+            </StackPanel>
+        </DataTemplate>
+
+
+
+    </UserControl.Resources>
+
+    <Grid
+        x:Name="root" 
+        VerticalAlignment="Center" >
+        <materialDesign:HintAssist.Hint >
+            <StackPanel Orientation="Horizontal" >
+                <materialDesign:PackIcon Kind="AddCircle" />
+            </StackPanel>
+        </materialDesign:HintAssist.Hint>
+        <Border 
+            x:Name="border"
+            BorderBrush="#FF9DACCC" 
+            BorderThickness="1"
+            >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <ScrollViewer 
+                    Grid.Column="0" 
+                    VerticalScrollBarVisibility="Auto">
+
+                    <ItemsControl
+                        Focusable="false"
+                        x:Name="itemList"
+                        ItemTemplate="{StaticResource ItemDataTemplate}">
+                        <ItemsControl.ItemsSource>
+                            <CompositeCollection>
+                                <CollectionContainer Collection="{Binding Source={StaticResource ResourceKey=items}}"/>
+                                <TextBox
+                                    x:Name="searchTextBox"
+                                    BorderThickness="0"
+                                    VerticalContentAlignment="Center"
+                                    MinWidth="100"
+                                    GotFocus="SearchTextBox_GotFocus"
+                                    LostFocus="SearchTextBox_LostFocus"
+                                    KeyDown="SearchTextBox_KeyDown"
+                                    KeyUp="SearchTextBox_KeyUp"
+                                    PreviewKeyDown="SearchTextBox_PreviewKeyDown"
+                                    MouseWheel="SearchTextBox_MouseWheel" 
+                                    MouseLeftButtonUp="SearchTextBox_MouseLeftButtonUp"
+                                    >
+                                </TextBox>
+                            </CompositeCollection>
+                        </ItemsControl.ItemsSource>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel></WrapPanel>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+
+                </ScrollViewer>
+            </Grid>
+        </Border>
+
+        <Popup 
+            Name="popup" 
+            IsOpen="false" 
+            StaysOpen="false"
+            PlacementTarget="{Binding ElementName=searchTextBox}"
+            PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
+            Placement="Bottom"
+            MinWidth="{Binding Path=ActualWidth, ElementName=searchTextBox}">
+            <StackPanel>
+                <ListBox  
+                    x:Name="dataSourceListBox" 
+                    MaxHeight="250" 
+                    MinHeight="25"
+                    Background="White"           
+                  
+                    ItemTemplate="{StaticResource DataSourceDataTemplate}" 
+                    Visibility="{Binding Path=IsFetchingData, Converter={StaticResource BoolToReverseVisibilityConverter}}"
+                    MouseDoubleClick="dataSourceListBox_MouseDoubleClick" 
+                    MouseUp="dataSourceListBox_MouseUp"
+                    >
+
+                    <ListBox.Resources>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <Border Name="Border" SnapsToDevicePixels="true">
+                                            <ContentPresenter />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsSelected" Value="true">
+                                                <Setter TargetName="Border" Property="Background"
+                                              Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.Resources>
+
+                </ListBox>
+                <Border
+                BorderBrush="Black"
+                BorderThickness="1"
+                Background="white"
+                Visibility="{Binding Path=IsFetchingData, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock   Margin="5"> Fetching ..</TextBlock>
+                </Border>
+            </StackPanel>
+        </Popup>
+
+    </Grid>
+
+</UserControl>

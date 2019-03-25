@@ -8,6 +8,7 @@ namespace ee.iLawyer.Db.Entity.Mapping
         public ProjectCategortyMap()
         {
             Table("ProjectCategories");
+            LazyLoad();
             Id(x => x.Code).GeneratedBy.Assigned();
             Map(x => x.Name);
             Map(x => x.OrderNo);

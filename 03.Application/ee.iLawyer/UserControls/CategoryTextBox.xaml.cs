@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 
 namespace ee.iLawyer.UserControls
 {
@@ -49,6 +51,7 @@ namespace ee.iLawyer.UserControls
             InitializeComponent();
             DataContext = this;
             this.LostFocus += CategoryTextBox_LostFocus;
+            popup.CustomPopupPlacementCallback += new CustomPopupPlacementCallback(PopupRepositioning);
         }
 
         public void SetCategoryNameAndIcon()
@@ -69,7 +72,18 @@ namespace ee.iLawyer.UserControls
 
             }
         }
+        private CustomPopupPlacement[] PopupRepositioning(Size popupSize, Size targetSize, Point offset)
+        {
+            Point p = Mouse.GetPosition(this);
+            var item = this.InputHitTest(p);
+            if (item == null)
+            {
+                popup.IsOpen = false;
+            }
 
+            return new CustomPopupPlacement[] {
+                new CustomPopupPlacement(new Point(0.01 - offset.X, grid.ActualHeight - offset.Y), PopupPrimaryAxis.Horizontal) };
+        }
         private void CategoryTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             if (!this.popup.IsKeyboardFocusWithin && !this.tvCategories.IsMouseOver)

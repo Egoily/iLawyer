@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ee.iLawyer.Ops.Contact.Args
 {
-    public class AddCourtRequest : BaseRequest
+    public class CreateCourtRequest : BaseRequest
     {
         /// <summary>
         /// 法院名

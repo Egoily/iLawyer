@@ -5,7 +5,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:codedisplayer="clr-namespace:CodeDisplayer;assembly=CodeDisplayer"
         xmlns:excontrols="clr-namespace:ee.iLawyer.ExControls"
-        WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="CenterScreen"   
         WindowState="Maximized"
         Title="iLawyer" Height="600" Width="800"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -25,75 +25,71 @@
 
         </ResourceDictionary>
     </Window.Resources>
-    <Grid>
-        
-    <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">
-        <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
-            <materialDesign:DrawerHost.LeftDrawerContent>
-                <DockPanel MinWidth="212">
-                    <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
+
+    <Grid >
+
+        <materialDesign:DialogHost Identifier="RootDialog" SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">
+            <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
+                <materialDesign:DrawerHost.LeftDrawerContent>
+                    <DockPanel MinWidth="212">
+                        <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
                                     DockPanel.Dock="Top"
                                     HorizontalAlignment="Right" Margin="16"
                                     IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
-                    <ListBox x:Name="ModuleItemsListBox" Margin="0 16 0 16" SelectedIndex="0"                         
+                        <ListBox x:Name="ModuleItemsListBox" Margin="0 16 0 16" SelectedIndex="0"                         
                              ItemsSource="{Binding ModuleItems}"
                              PreviewMouseLeftButtonUp="UIElement_OnPreviewMouseLeftButtonUp">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate DataType="domain:ModuleItem">
-                                <TextBlock Text="{Binding Name}" Margin="32 0 32 0" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </DockPanel>
-            </materialDesign:DrawerHost.LeftDrawerContent>        
-            <DockPanel>
-         
-                <materialDesign:ColorZone Padding="8" materialDesign:ShadowAssist.ShadowDepth="Depth2"  Mode="PrimaryMid" DockPanel.Dock="Top">
-                    <DockPanel>
-                        <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False"
-                                        x:Name="MenuToggleButton"/>
-                        <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
-                            <StackPanel>
-                                <Button Content="Goodbye" Click="MenuPopupButton_OnClick"/>
-                            </StackPanel>
-                        </materialDesign:PopupBox>
-                        
-                        <TextBlock x:Name="Catalog" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16">菜单</TextBlock>
-                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Lawyer System</TextBlock>
-                        
+                            <ListBox.ItemTemplate>
+                                <DataTemplate DataType="domain:ModuleItem">
+                                    <TextBlock Text="{Binding Name}" Margin="32 0 32 0" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </DockPanel>
-              
-                </materialDesign:ColorZone>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
+                </materialDesign:DrawerHost.LeftDrawerContent>
+                <DockPanel >
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                    <materialDesign:ColorZone Padding="8" materialDesign:ShadowAssist.ShadowDepth="Depth2"  Mode="PrimaryMid" DockPanel.Dock="Top">
+                        <DockPanel>
+                            <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False"
+                                        x:Name="MenuToggleButton"/>
+                            <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
+                                <StackPanel>
+                                    <Button Content="Goodbye" Click="MenuPopupButton_OnClick"/>
+                                </StackPanel>
+                            </materialDesign:PopupBox>
 
-                    <ScrollViewer Grid.Row="1" 
-                                  HorizontalScrollBarVisibility="{Binding ElementName=ModuleItemsListBox, Path=SelectedItem.HorizontalScrollBarVisibilityRequirement}"
-                                  VerticalScrollBarVisibility="{Binding ElementName=ModuleItemsListBox, Path=SelectedItem.VerticalScrollBarVisibilityRequirement}" 
-                                  Padding="{Binding ElementName=ModuleItemsListBox, Path=SelectedItem.MarginRequirement}">
-                        <codedisplayer:XamlDisplayerHost Content="{Binding ElementName=ModuleItemsListBox, Path=SelectedItem.Content}" />
-                    </ScrollViewer>
-                </Grid>
-       
-                <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" x:Name="MainSnackbar"
+                            <TextBlock x:Name="Catalog" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16">菜单</TextBlock>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Lawyer System</TextBlock>
+
+                        </DockPanel>
+
+                    </materialDesign:ColorZone>
+
+                    <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" x:Name="MainSnackbar"
                                             HorizontalAlignment="Center" Background="SeaGreen" DockPanel.Dock="Top"/>
-              
-            </DockPanel>
 
-        
-        </materialDesign:DrawerHost>
-        
-    </materialDesign:DialogHost>
+                    <DockPanel Background="AliceBlue">
 
-    <excontrols:FloatButton  />
+                        <ScrollViewer 
+                            HorizontalScrollBarVisibility="{Binding ElementName=ModuleItemsListBox, Path=SelectedItem.HorizontalScrollBarVisibilityRequirement}"
+                            VerticalScrollBarVisibility="{Binding ElementName=ModuleItemsListBox, Path=SelectedItem.VerticalScrollBarVisibilityRequirement}" 
+                            Padding="{Binding ElementName=ModuleItemsListBox, Path=SelectedItem.MarginRequirement}">
+
+                            <codedisplayer:XamlDisplayerHost Content="{Binding ElementName=ModuleItemsListBox, Path=SelectedItem.Content}" />
+                        </ScrollViewer>
+
+                    </DockPanel>
+
+
+                </DockPanel>
+
+
+            </materialDesign:DrawerHost>
+
+        </materialDesign:DialogHost>
+
+        <excontrols:FloatButton  />
 
     </Grid>
 </Window>

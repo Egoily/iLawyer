@@ -8,9 +8,6 @@
              mc:Ignorable="d" 
             >
     <Grid>
-        <Grid.Resources>
-            <converters:DatabindingDebugConverter x:Key="debugConverter" />
-        </Grid.Resources>
         <ScrollViewer x:Name="scrollViewer"  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" >
 
             <ItemsControl x:Name="itemsControl"   Background="Transparent" ItemsSource="{Binding DataSource ,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }">

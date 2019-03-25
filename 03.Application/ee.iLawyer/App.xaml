@@ -6,16 +6,21 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/ee.iLawyer;component/Styles/ColorsAndAppearance.xaml"/>
+
                 <ResourceDictionary Source="pack://application:,,,/ee.iLawyer;component/Styles/TabControl.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/ee.iLawyer;component/Styles/FillWrapPanel.xaml"/>
-                
+                <ResourceDictionary Source="pack://application:,,,/ee.iLawyer;component/Styles/SearchBox.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/ee.iLawyer;component/Styles/SearchPickBox.xaml"/>
+
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBox.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
 
-
+                <ResourceDictionary Source="pack://application:,,,/ee.iLawyer;component/ItemsSource/EnumItemsSourceDictionary.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/ee.iLawyer;component/Converters/ConverterDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

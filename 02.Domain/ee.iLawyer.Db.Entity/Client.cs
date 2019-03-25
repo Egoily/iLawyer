@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ee.iLawyer.Db.Entity
 {
@@ -23,6 +20,10 @@ namespace ee.iLawyer.Db.Entity
         /// 名称
         /// </summary>
         public virtual string Name { get; set; }
+        /// <summary>
+        /// 联系号码
+        /// </summary>
+        public virtual string ContactNo { get; set; }
         /// <summary>
         /// 简称
         /// </summary>

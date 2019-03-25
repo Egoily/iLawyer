@@ -7,11 +7,12 @@ namespace ee.iLawyer.Db.Entity.Mapping
         public ProjectClientMap()
         {
             Table("ProjectClients");
+            LazyLoad();
             Id(x => x.Id);
             //.GeneratedBy.Assigned();
             Map(x => x.OrderNo);
             Map(x => x.CreateTime);
-            References(x => x.Project).Column("ProjectId").NotFound.Ignore();
+            References(x => x.InProject).Column("ProjectId").NotFound.Ignore();
             References(x => x.Client).Column("ClientId").NotFound.Ignore();
 
         }

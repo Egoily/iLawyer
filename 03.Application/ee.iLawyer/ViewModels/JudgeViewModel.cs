@@ -1,22 +1,20 @@
-﻿using PropertyChanged;
+﻿using ee.Framework;
+using ee.iLawyer.Modules;
+using ee.iLawyer.Ops;
+using ee.iLawyer.Ops.Contact.Args;
+using ee.iLawyer.Ops.Contact.DTO;
+using MaterialDesignThemes.Wpf;
+using PropertyChanged;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using ee.iLawyer.Modules;
-using MaterialDesignThemes.Wpf;
-using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows;
-using ee.iLawyer.Domain;
-using ee.Framework;
-using ee.iLawyer.Ops.Contact.DTO;
-using ee.iLawyer.Ops.Contact.Args;
-using ee.iLawyer.Ops;
+using System.Windows.Controls;
 namespace ee.iLawyer.ViewModels
 {
     [AddINotifyPropertyChangedInterface]
-    public class JudgeViewModel
+    public class JudgeViewModel : AbstractViewModel
     {
 
         public ObservableCollection<Judge> Judges { get; protected set; }
@@ -25,18 +23,14 @@ namespace ee.iLawyer.ViewModels
 
         public ObservableCollection<Court> Courts { get; protected set; }
 
-        public ICommand QueryCommand => new CommandImpl(ExecuteQueryCommand);
-        public ICommand NewCommand => new CommandImpl(ExecuteNewCommand);
-        public ICommand EditCommand => new CommandImpl(ExecuteEditCommand);
-        public ICommand DeleteCommand => new CommandImpl(ExecuteDeleteCommand);
 
         public JudgeViewModel()
         {
-            Courts = GlobalViewModel.Courts;
+            Courts = Cacher.Courts;
         }
 
 
-        public void Query()
+        public override void Query()
         {
             System.Threading.ThreadPool.QueueUserWorkItem(delegate
             {
@@ -51,15 +45,7 @@ namespace ee.iLawyer.ViewModels
                         if (response.Code == ErrorCodes.Ok && response.QueryList != null)
                         {
                             Judges = new ObservableCollection<Judge>();
-                            response.QueryList.ToList().ForEach(x => Judges.Add(new Judge()
-                            {
-                                Id = x.Id,
-                                Name = x.Name,
-                                Gender = x.Gender,
-                                InCourtId = x.InCourtId,
-                                InCourtName = x.InCourtName,
-                                PhoneNo = x.PhoneNo,
-                            }));
+                            response.QueryList.ToList().ForEach(x => Judges.Add(x));
                         }
 
                     }
@@ -72,19 +58,24 @@ namespace ee.iLawyer.ViewModels
             });
         }
 
-        public BaseResponse Add()
+        public override BaseResponse Create()
         {
-            if (SelectedItem == null) return new BaseResponse() { Code = ErrorCodes.NullParameter, Message = "新增的对象为空." };
+            if (SelectedItem == null)
+            {
+                return new BaseResponse() { Code = ErrorCodes.NullParameter, Message = "新增的对象为空." };
+            }
 
             try
             {
                 var server = new CtsService();
-                var response = server.AddJudge(new AddJudgeRequest()
+                var response = server.CreateJudge(new CreateJudgeRequest()
                 {
                     Name = SelectedItem.Name,
                     Gender = SelectedItem.Gender,
                     InCourtId = SelectedItem.InCourtId,
-                    PhoneNo = SelectedItem.PhoneNo,
+                    Grade = SelectedItem.Grade,
+                    Duty = SelectedItem.Duty,
+                    ContactNo = SelectedItem.ContactNo,
 
                 });
                 return response;
@@ -96,9 +87,12 @@ namespace ee.iLawyer.ViewModels
             }
 
         }
-        public BaseResponse Update()
+        public override BaseResponse Update()
         {
-            if (SelectedItem == null) return new BaseResponse() { Code = ErrorCodes.NullParameter, Message = "更新的对象为空." };
+            if (SelectedItem == null)
+            {
+                return new BaseResponse() { Code = ErrorCodes.NullParameter, Message = "更新的对象为空." };
+            }
 
             try
             {
@@ -109,7 +103,9 @@ namespace ee.iLawyer.ViewModels
                     Name = SelectedItem.Name,
                     Gender = SelectedItem.Gender,
                     InCourtId = SelectedItem.InCourtId,
-                    PhoneNo = SelectedItem.PhoneNo,
+                    Grade = SelectedItem.Grade,
+                    Duty = SelectedItem.Duty,
+                    ContactNo = SelectedItem.ContactNo,
                 });
                 return response;
             }
@@ -121,9 +117,12 @@ namespace ee.iLawyer.ViewModels
 
         }
 
-        public BaseResponse Delete()
+        public override BaseResponse Delete()
         {
-            if (SelectedItem == null) return new BaseResponse() { Code = ErrorCodes.NullParameter, Message = "删除的对象为空." };
+            if (SelectedItem == null)
+            {
+                return new BaseResponse() { Code = ErrorCodes.NullParameter, Message = "删除的对象为空." };
+            }
 
             try
             {
@@ -144,14 +143,14 @@ namespace ee.iLawyer.ViewModels
         }
 
 
-        private void ExecuteQueryCommand(object o)
+        public override void ExecuteQueryCommand(object o)
         {
-            Courts = GlobalViewModel.Courts;
+            Courts = Cacher.Courts;
             Query();
         }
-        private async void ExecuteNewCommand(object o)
+        public override async void ExecuteNewCommandAsync(object o)
         {
-            Courts = GlobalViewModel.Courts;
+            Courts = Cacher.Courts;
             //let's set up a little MVVM, cos that's what the cool kids are doing:
             var view = new NewEditJudge()
             {
@@ -161,9 +160,9 @@ namespace ee.iLawyer.ViewModels
             //show the dialog
             var result = await DialogHost.Show(view, "RootDialog", ExtendedOpenedEventHandler, ExtendedClosingEventHandler);
         }
-        private async void ExecuteEditCommand(object o)
+        public override async void ExecuteEditCommandAsync(object o)
         {
-            Courts = GlobalViewModel.Courts;
+            Courts = Cacher.Courts;
             var judge = ((Button)o).DataContext as Judge;
             this.SelectedItem = judge;
             var view = new NewEditJudge(judge)
@@ -174,13 +173,32 @@ namespace ee.iLawyer.ViewModels
             //show the dialog
             var result = await DialogHost.Show(view, "RootDialog", ExtendedOpenedEventHandler, ExtendedClosingEventHandler);
         }
-        private void ExecuteDeleteCommand(object o)
+        public override void ExecuteDeleteCommand(object o)
         {
             var judge = ((Button)o).DataContext as Judge;
             this.SelectedItem = judge;
             Delete();
             SelectedItem = null;
             Query();
+        }
+
+        public override void DeleteItem(object sender, DialogClosingEventArgs eventArgs)
+        {
+
+            if (!Equals(eventArgs.Parameter, true))
+            {
+                return;
+            }
+
+            if (eventArgs.Session.Content != null && ((FrameworkElement)eventArgs.Session.Content).DataContext != null)
+            {
+                var judge = ((FrameworkElement)eventArgs.Session.Content).DataContext as Judge;
+
+                SelectedItem = judge;
+                Delete();
+                Query();
+            }
+
         }
         private void ExtendedOpenedEventHandler(object sender, DialogOpenedEventArgs eventargs)
         {
@@ -189,30 +207,31 @@ namespace ee.iLawyer.ViewModels
 
         private void ExtendedClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
         {
-            if ((bool)eventArgs.Parameter == false) return;
+            if ((bool)eventArgs.Parameter == false)
+            {
+                return;
+            }
 
             //note, you can also grab the session when the dialog opens via the DialogOpenedEventHandler
             if (eventArgs.Session.Content is NewEditJudge)
             {
                 var content = eventArgs.Session.Content as NewEditJudge;
+                SelectedItem = content.TreatedObject;
                 if (content.IsNew)
                 {
-                    SelectedItem = content.TreatedObject;
-                    var task = new Task<BaseResponse>(Add);
+                    var task = new Task<BaseResponse>(Create);
                     task.Start();
 
                     var taskResult = task.Result;
 
                     if (taskResult != null && taskResult.Code == ErrorCodes.Ok)
                     {
-                        task.ContinueWith((t) => { Query(); GlobalViewModel.UpdateCourts(); }, TaskContinuationOptions.OnlyOnRanToCompletion)
+                        task.ContinueWith((t) => { Query(); Cacher.UpdateCourts(); }, TaskContinuationOptions.OnlyOnRanToCompletion)
                         .ContinueWith((t, _) => eventArgs.Session.Close(false), null, TaskScheduler.FromCurrentSynchronizationContext());
                     }
                 }
                 else
                 {
-                    SelectedItem = content.TreatedObject;
-
                     var task = new Task<BaseResponse>(Update);
                     task.Start();
 
@@ -220,7 +239,7 @@ namespace ee.iLawyer.ViewModels
 
                     if (taskResult != null && taskResult.Code == ErrorCodes.Ok)
                     {
-                        task.ContinueWith((t) => { Query(); GlobalViewModel.UpdateCourts(); }, TaskContinuationOptions.OnlyOnRanToCompletion)
+                        task.ContinueWith((t) => { Query(); Cacher.UpdateCourts(); }, TaskContinuationOptions.OnlyOnRanToCompletion)
                         .ContinueWith((t, _) => eventArgs.Session.Close(false), null, TaskScheduler.FromCurrentSynchronizationContext());
                     }
                 }
@@ -230,20 +249,6 @@ namespace ee.iLawyer.ViewModels
 
             //TODO:Show message here
 
-
-        }
-        public void DeleteItem(object sender, DialogClosingEventArgs eventArgs)
-        {
-
-            if (!Equals(eventArgs.Parameter, true)) return;
-            if (eventArgs.Session.Content != null && ((FrameworkElement)eventArgs.Session.Content).DataContext != null)
-            {
-                var judge = ((FrameworkElement)eventArgs.Session.Content).DataContext as Judge;
-
-                SelectedItem = judge;
-                Delete();
-                Query();
-            }
 
         }
 

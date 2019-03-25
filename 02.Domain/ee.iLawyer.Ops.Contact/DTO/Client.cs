@@ -21,6 +21,10 @@ namespace ee.iLawyer.Ops.Contact.DTO
         /// </summary>
         public virtual string Name { get; set; }
         /// <summary>
+        /// 联系号码
+        /// </summary>
+        public virtual string ContactNo { get; set; }
+        /// <summary>
         /// 简称
         /// </summary>
         public virtual string Abbreviation { get; set; }

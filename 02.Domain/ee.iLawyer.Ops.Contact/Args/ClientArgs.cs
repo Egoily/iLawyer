@@ -1,14 +1,10 @@
 ﻿using ee.Framework;
 using ee.iLawyer.Ops.Contact.DTO;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ee.iLawyer.Ops.Contact.Args
 {
-    public class AddClientRequest : BaseRequest
+    public class CreateClientRequest : BaseRequest
     {
         /// <summary>
         /// 客户名
@@ -25,6 +21,10 @@ namespace ee.iLawyer.Ops.Contact.Args
         /// 是否是自然人
         /// </summary>
         public virtual bool IsNP { get; set; }
+        /// <summary>
+        /// 联系号码
+        /// </summary>
+        public virtual string ContactNo { get; set; }
         /// <summary>
         /// 简称
         /// </summary>
@@ -47,6 +47,10 @@ namespace ee.iLawyer.Ops.Contact.Args
         /// </summary>
         [Required]
         public virtual string Name { get; set; }
+        /// <summary>
+        /// 联系号码
+        /// </summary>
+        public virtual string ContactNo { get; set; }
         /// <summary>
         /// 属性列表
         /// </summary>
@@ -76,6 +80,7 @@ namespace ee.iLawyer.Ops.Contact.Args
     }
     public class QueryClientRequest : BasePageRequest
     {
+        public virtual int[] Keys { get; set; }
     }
 
 }

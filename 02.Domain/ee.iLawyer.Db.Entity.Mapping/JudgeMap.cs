@@ -1,5 +1,4 @@
 ﻿using FluentNHibernate.Mapping;
-using ee.iLawyer.Db.Entity;
 
 namespace ee.iLawyer.Db.Entity.Mapping
 {
@@ -8,11 +7,14 @@ namespace ee.iLawyer.Db.Entity.Mapping
         public JudgeMap()
         {
             Table("Judges");
+            LazyLoad();
             Id(x => x.Id);
             //.GeneratedBy.Assigned();
-            Map(x => x.PhoneNo);
+            Map(x => x.ContactNo);
             Map(x => x.Name);
             Map(x => x.Gender);
+            Map(x => x.Duty);
+            Map(x => x.Grade);
             References(x => x.InCourt).Column("CourtId").NotFound.Ignore();
         }
     }

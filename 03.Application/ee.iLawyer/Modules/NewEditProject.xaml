@@ -9,11 +9,16 @@
              xmlns:local="clr-namespace:ee.iLawyer.UserControls" 
              xmlns:contact="clr-namespace:ee.iLawyer.Ops.Contact;assembly=ee.iLawyer.Ops.Contact"
              xmlns:converters="clr-namespace:ee.iLawyer.Converters"
+             xmlns:vm="clr-namespace:ee.iLawyer.ViewModels"
              mc:Ignorable="d" 
               
-             Width="600"
+             Width="800"
+             Height="600"
            >
-    <GroupBox x:Name="groupBox" Header="{Binding DataContext.Title,ElementName=grid}"  Style="{DynamicResource MaterialDesignCardGroupBox}" >
+    <GroupBox
+        x:Name="groupBox" 
+        Header="{Binding DataContext.Title,ElementName=grid}"  
+        Style="{DynamicResource MaterialDesignCardGroupBox}">
         <GroupBox.HeaderTemplate>
             <DataTemplate>
                 <StackPanel  Orientation="Horizontal">
@@ -28,56 +33,486 @@
                 <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
             </Grid.Resources>
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <TextBox Grid.Row="0" x:Name="txtName" Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
-                <materialDesign:HintAssist.Hint >
-                    <StackPanel Orientation="Horizontal" >
-                        <materialDesign:PackIcon Kind="Account" />
-                        <TextBlock>项目名称</TextBlock>
-                    </StackPanel>
-                </materialDesign:HintAssist.Hint>
-                <TextBox.Text>
-                    <Binding Path="TreatedObject.Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
-            <TextBox Grid.Row="1" x:Name="txtCode" Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
-                <materialDesign:HintAssist.Hint >
-                    <StackPanel Orientation="Horizontal" >
-                        <materialDesign:PackIcon Kind="Account" />
-                        <TextBlock>项目代码</TextBlock>
-                    </StackPanel>
-                </materialDesign:HintAssist.Hint>
-                <TextBox.Text>
-                    <Binding Path="TreatedObject.Code" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
+            <TabControl Grid.Row="0"
+                x:Name="tabControl"
+                DockPanel.Dock="Top" 
+                Margin="5"     
+                VerticalAlignment="Top" 
+                TabStripPlacement="Top">
+                <TabItem Header="基本信息">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <Grid 
+                            x:Name="gridFields" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="2" Orientation="Horizontal">
-                <Label>项目等级:</Label>
-                <RadioButton GroupName="projectLevel" IsChecked="{Binding Path=ProjectLevel,Converter={StaticResource EnumToBooleanConverter},ConverterParameter={x:Static contact:ProjectLevel.Default}}">无</RadioButton>
-                <RadioButton GroupName="projectLevel" IsChecked="{Binding Path=ProjectLevel,Converter={StaticResource EnumToBooleanConverter},ConverterParameter={x:Static contact:ProjectLevel.Low}}">低</RadioButton>
-                <RadioButton GroupName="projectLevel" IsChecked="{Binding Path=ProjectLevel,Converter={StaticResource EnumToBooleanConverter},ConverterParameter={x:Static contact:ProjectLevel.Middle}}">中</RadioButton>
-                <RadioButton GroupName="projectLevel" IsChecked="{Binding Path=ProjectLevel,Converter={StaticResource EnumToBooleanConverter},ConverterParameter={x:Static contact:ProjectLevel.High}}">高</RadioButton>
-            </StackPanel>
-            <TextBox Grid.Row="3" Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
-                                         VerticalAlignment="Top" Height="100" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
-                                         materialDesign:HintAssist.Hint="项目详情">
-                <TextBox.Text>
-                    <Binding Path="TreatedObject.Details" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
+                            <TextBox Grid.Row="0" Grid.ColumnSpan="2"
+                                     x:Name="txtName" 
+                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
+                                <materialDesign:HintAssist.Hint >
+                                    <StackPanel Orientation="Horizontal" >
+                                        <materialDesign:PackIcon Kind="Account" />
+                                        <TextBlock>项目名称</TextBlock>
+                                    </StackPanel>
+                                </materialDesign:HintAssist.Hint>
+                                <TextBox.Text>
+                                    <Binding Path="TreatedObject.Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
 
-            <Grid Grid.Row="5">
+                            <ComboBox Grid.Row="1" Grid.Column="0"
+                                      IsEditable="False"
+                                      Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                      ItemsSource="{Binding Source={x:Static vm:Cacher.ProjectCategories}}"
+                                      DisplayMemberPath="Name"
+                                      SelectedValuePath="Code" 
+                                      SelectedItem="{Binding Path=TreatedObject.Category,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                <materialDesign:HintAssist.Hint >
+                                    <StackPanel Orientation="Horizontal" >
+                                        <materialDesign:PackIcon Kind="TimelineTextOutline" />
+                                        <TextBlock>项目类型</TextBlock>
+                                    </StackPanel>
+                                </materialDesign:HintAssist.Hint>
+                            </ComboBox>
+                            <ComboBox Grid.Row="1" Grid.Column="1"
+                                      IsEditable="False"
+                                      Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                      ItemsSource="{Binding Source={x:Static vm:Cacher.ProjectCauses}}"
+                                      DisplayMemberPath="Name"
+                                      SelectedValuePath="Id" 
+                                      SelectedItem="{Binding Path=TreatedObject.Cause,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                <materialDesign:HintAssist.Hint >
+                                    <StackPanel Orientation="Horizontal" >
+                                        <materialDesign:PackIcon Kind="Briefcase" />
+                                        <TextBlock>案由</TextBlock>
+                                    </StackPanel>
+                                </materialDesign:HintAssist.Hint>
+                            </ComboBox>
+
+                            <TextBox  Grid.Row="2" Grid.Column="0"
+                    x:Name="txtCode" 
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
+                                <materialDesign:HintAssist.Hint >
+                                    <StackPanel Orientation="Horizontal" >
+                                        <materialDesign:PackIcon Kind="Barcode" />
+                                        <TextBlock>项目代码</TextBlock>
+                                    </StackPanel>
+                                </materialDesign:HintAssist.Hint>
+                                <TextBox.Text>
+                                    <Binding Path="TreatedObject.Code" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                            <StackPanel Grid.Row="2" Grid.Column="1"
+                                        Orientation="Horizontal" >
+                                <Label>项目等级:</Label>
+                                <RadioButton GroupName="projectLevel" IsChecked="{Binding Path=TreatedObject.Level,Converter={StaticResource EnumToBooleanConverter},ConverterParameter={x:Static contact:ProjectLevel.Default}}">无</RadioButton>
+                                <RadioButton GroupName="projectLevel" IsChecked="{Binding Path=TreatedObject.Level,Converter={StaticResource EnumToBooleanConverter},ConverterParameter={x:Static contact:ProjectLevel.Low}}">低</RadioButton>
+                                <RadioButton GroupName="projectLevel" IsChecked="{Binding Path=TreatedObject.Level,Converter={StaticResource EnumToBooleanConverter},ConverterParameter={x:Static contact:ProjectLevel.Middle}}">中</RadioButton>
+                                <RadioButton GroupName="projectLevel" IsChecked="{Binding Path=TreatedObject.Level,Converter={StaticResource EnumToBooleanConverter},ConverterParameter={x:Static contact:ProjectLevel.High}}">高</RadioButton>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="3" Grid.ColumnSpan="2"
+                                        Orientation="Horizontal">
+                                <Label>客户:</Label>
+                                <local:MultiItemSelector    
+                                    SearchDataProvider="{Binding Path=DataContext.ClientSearchProvider,ElementName=grid}"
+                                    SelectedItems="{Binding Path=DataContext.SelectedItems,ElementName=grid}">
+
+                                </local:MultiItemSelector>
+                            </StackPanel>
+
+                            <Border Grid.Row="4" Grid.ColumnSpan="2">
+                                <TextBox
+                                    Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"
+                                    VerticalAlignment="Top"
+                                    AcceptsReturn="True"
+                                    TextWrapping="Wrap"
+                                    materialDesign:HintAssist.Hint="其他当事人"
+                                    Text="{Binding Path=TreatedObject.OtherLitigant,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </Border>
+
+                            <Border Grid.Row="5" Grid.ColumnSpan="2">
+                                <TextBox
+                                    Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"
+                                    VerticalAlignment="Top"
+                                    AcceptsReturn="True"
+                                    TextWrapping="Wrap"
+                                    materialDesign:HintAssist.Hint="相关方"
+                                    Text="{Binding Path=TreatedObject.InterestedParty,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </Border>
+
+                            <TextBox Grid.Row="6" Grid.ColumnSpan="2"
+                                     Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                                     VerticalAlignment="Top" 
+                                     Height="100" 
+                                     AcceptsReturn="True" 
+                                     TextWrapping="Wrap" 
+                                     VerticalScrollBarVisibility="Auto"
+                                     materialDesign:HintAssist.Hint="项目详情"
+                                     Text="{Binding Path=TreatedObject.Details, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+
+                            </TextBox>
+
+                            <DatePicker Grid.Row="7" Grid.Column="0"
+                                        Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
+                                        SelectedDate="{Binding Path=TreatedObject.DealDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        DisplayDate="{x:Static system:DateTime.Now}">
+                                <materialDesign:HintAssist.Hint >
+                                    <StackPanel Orientation="Horizontal" >
+                                        <materialDesign:PackIcon Kind="TimelineTextOutline" />
+                                        <TextBlock>收案时间</TextBlock>
+                                    </StackPanel>
+                                </materialDesign:HintAssist.Hint>
+                            </DatePicker>
+
+
+                        </Grid>
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem Header="费用">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+
+                            <GroupBox
+                                Header="委托费用"
+                                Style="{DynamicResource MaterialDesignGroupBox}"
+                                Margin="16"
+                                materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                                BorderThickness="1">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBox Grid.Row="0" Grid.Column="0"
+                                          Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
+                                        <materialDesign:HintAssist.Hint >
+                                            <StackPanel Orientation="Horizontal" >
+                                                <materialDesign:PackIcon Kind="AchievementVariantOutline" />
+                                                <TextBlock>总金额</TextBlock>
+                                            </StackPanel>
+                                        </materialDesign:HintAssist.Hint>
+                                        <TextBox.Text>
+                                            <Binding Path="TreatedObject.Account.TotalAmount" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" />
+                                        </TextBox.Text>
+                                    </TextBox>
+                                    <TextBox Grid.Row="0" Grid.Column="1"
+                                          Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
+                                        <materialDesign:HintAssist.Hint >
+                                            <StackPanel Orientation="Horizontal" >
+                                                <materialDesign:PackIcon Kind="AchievementVariant" />
+                                                <TextBlock>已收金额</TextBlock>
+                                            </StackPanel>
+                                        </materialDesign:HintAssist.Hint>
+                                        <TextBox.Text>
+                                            <Binding Path="TreatedObject.Account.ReceivedFee" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" />
+                                        </TextBox.Text>
+                                    </TextBox>
+                                    <TextBox Grid.Row="1" Grid.Column="0"
+                                          Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
+                                        <materialDesign:HintAssist.Hint >
+                                            <StackPanel Orientation="Horizontal" >
+                                                <materialDesign:PackIcon Kind="AchievementVariant" />
+                                                <TextBlock>风险比例(%)</TextBlock>
+                                            </StackPanel>
+                                        </materialDesign:HintAssist.Hint>
+                                        <TextBox.Text>
+                                            <Binding Path="TreatedObject.Account.RiskPercent" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" />
+                                        </TextBox.Text>
+                                    </TextBox>
+                                    <TextBox Grid.Row="2" Grid.Column="0"
+                                          Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
+                                        <materialDesign:HintAssist.Hint >
+                                            <StackPanel Orientation="Horizontal" >
+                                                <materialDesign:PackIcon Kind="AchievementVariant" />
+                                                <TextBlock>需上交所</TextBlock>
+                                            </StackPanel>
+                                        </materialDesign:HintAssist.Hint>
+                                        <TextBox.Text>
+                                            <Binding Path="TreatedObject.Account.TurnOverFee" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" />
+                                        </TextBox.Text>
+                                    </TextBox>
+                                    <TextBox Grid.Row="2" Grid.Column="1"
+                                          Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
+                                        <materialDesign:HintAssist.Hint >
+                                            <StackPanel Orientation="Horizontal" >
+                                                <materialDesign:PackIcon Kind="AchievementVariant" />
+                                                <TextBlock>已上交所</TextBlock>
+                                            </StackPanel>
+                                        </materialDesign:HintAssist.Hint>
+                                        <TextBox.Text>
+                                            <Binding Path="TreatedObject.Account.TurnOverFeePaid" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" />
+                                        </TextBox.Text>
+                                    </TextBox>
+                                </Grid>
+                            </GroupBox>
+
+                            <GroupBox
+                                Header="提成费用"
+                                Style="{DynamicResource MaterialDesignGroupBox}"
+                                Margin="16"
+                                materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                                BorderThickness="1">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBox Grid.Row="0" Grid.Column="0"
+                                          Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
+                                        <materialDesign:HintAssist.Hint >
+                                            <StackPanel Orientation="Horizontal" >
+                                                <materialDesign:PackIcon Kind="AchievementVariantOutline" />
+                                                <TextBlock>介绍人</TextBlock>
+                                            </StackPanel>
+                                        </materialDesign:HintAssist.Hint>
+                                        <TextBox.Text>
+                                            <Binding Path="TreatedObject.Account.Introducer" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" />
+                                        </TextBox.Text>
+                                    </TextBox>
+                                    <TextBox Grid.Row="1" Grid.Column="0"
+                                          Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
+                                        <materialDesign:HintAssist.Hint >
+                                            <StackPanel Orientation="Horizontal" >
+                                                <materialDesign:PackIcon Kind="AchievementVariant" />
+                                                <TextBlock>介绍费</TextBlock>
+                                            </StackPanel>
+                                        </materialDesign:HintAssist.Hint>
+                                        <TextBox.Text>
+                                            <Binding Path="TreatedObject.Account.IntroduceFee" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" />
+                                        </TextBox.Text>
+                                    </TextBox>
+                                    <TextBox Grid.Row="1" Grid.Column="1"
+                                          Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
+                                        <materialDesign:HintAssist.Hint >
+                                            <StackPanel Orientation="Horizontal" >
+                                                <materialDesign:PackIcon Kind="AchievementVariant" />
+                                                <TextBlock>已付</TextBlock>
+                                            </StackPanel>
+                                        </materialDesign:HintAssist.Hint>
+                                        <TextBox.Text>
+                                            <Binding Path="TreatedObject.Account.IntroduceFeePaid" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" />
+                                        </TextBox.Text>
+                                    </TextBox>
+
+                                </Grid>
+
+                            </GroupBox>
+
+                            <TextBox 
+                                     Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                                     VerticalAlignment="Top" 
+                                     Height="100" 
+                                     AcceptsReturn="True" 
+                                     TextWrapping="Wrap" 
+                                     VerticalScrollBarVisibility="Auto"
+                                     materialDesign:HintAssist.Hint="备注"
+                                     Text="{Binding Path=TreatedObject.Account.Remark, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+
+                            </TextBox>
+
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem Header="待办事项">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+
+                        <Grid Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="32"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Button Grid.Row="0" Grid.Column="0"
+                                x:Name="btnAddTodoItem"
+                                Content="新增" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                Width="75" 
+                                Click="BtnAddTodoItem_Click"/>
+
+                            <DataGrid Grid.Row="1" Grid.ColumnSpan="2"
+                                x:Name="dataGridTodoList"
+                                ItemsSource="{Binding TreatedObject.TodoList ,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                IsReadOnly="True"
+                                AutoGenerateColumns="False" 
+                                HorizontalAlignment="Stretch" 
+                                VerticalAlignment="Stretch"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Header="" Width="10">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Header="名称" Binding="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <DataGridTextColumn Header="优先级" Binding="{Binding Priority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <DataGridTextColumn Header="状态" Binding="{Binding Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <DataGridTextColumn Header="到期时间" Binding="{Binding ExpiredTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,StringFormat='yyyy-MM-dd HH:mm'}" />
+                                    <DataGridTextColumn Header="完成时间" Binding="{Binding FinishedTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,StringFormat='yyyy-MM-dd HH:mm'}"/>
+                                    <DataGridTextColumn Header="详情" Binding="{Binding Content, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                    <DataGridTemplateColumn Header="操作" Width="Auto">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" >
+                                                    <Button 
+                                                        x:Name="btnEditTodoItem"
+                                                        Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
+                                                        ToolTip="编辑" 
+                                                        Width="24" 
+                                                        Height="24"
+                                                        Click="BtnEditTodoItem_Click"
+                                                        >
+                                                        <materialDesign:PackIcon Width="20" Height="20" Kind="Edit" />
+                                                    </Button>
+
+                                                    <Button 
+                                                        x:Name="btnRemoveTodoItem"
+                                                        Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
+                                                        ToolTip="删除"
+                                                        Width="24" 
+                                                        Height="24" 
+                                                        Margin="5,0,0,0" 
+                                                        Click="BtnRemoveTodoItem_Click"
+                                                        >
+                                                        <materialDesign:PackIcon Width="20" Height="20" Kind="Delete" />
+
+                                                    </Button>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem Header="进展">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <Grid Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="32"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Button Grid.Row="0" Grid.Column="0"
+                                x:Name="btnAddProgress"
+                                Content="新增" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Top" 
+                                Width="75" 
+                                Click="BtnAddProgress_Click"
+                                />
+
+                            <DataGrid Grid.Row="1" Grid.ColumnSpan="2"
+                                      x:Name="dataGridProgress"
+                                ItemsSource="{Binding TreatedObject.Progresses}"
+                                IsReadOnly="True"
+                                AutoGenerateColumns="False" 
+                                HorizontalAlignment="Stretch" 
+                                VerticalAlignment="Stretch"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Header="" Width="10">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Header="时间" Binding="{Binding HandleTime , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <DataGridTextColumn Header="详情" Binding="{Binding Content , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                    <DataGridTemplateColumn Header="操作" Width="Auto">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" >
+                                                    <Button 
+                                                        x:Name="btnEditProgress"
+                                                        Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
+                                                        ToolTip="编辑" 
+                                                        Width="24" 
+                                                        Height="24"
+                                                        Click="BtnEditProgress_Click">
+                                                        <materialDesign:PackIcon Width="20" Height="20" Kind="Edit" />
+                                                    </Button>
+
+                                                    <Button 
+                                                        x:Name="btnRemoveProgress"
+                                                        Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
+                                                        ToolTip="删除"
+                                                        Width="24" 
+                                                        Height="24" 
+                                                        Margin="5,0,0,0" 
+                                                        Click="BtnRemoveProgress_Click">
+                                                        <materialDesign:PackIcon Width="20" Height="20" Kind="Delete" />
+
+                                                    </Button>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
+
+
+
+
+            <Grid Grid.Row="1" x:Name="gridOps">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50*"/>
                     <ColumnDefinition Width="100"/>
@@ -85,14 +520,19 @@
                     <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="50*"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="1" IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
-                    Command="{x:Static wpf:DialogHost.CloseDialogCommand}" >
+                <Button Grid.Column="1" 
+                    IsDefault="True" 
+                    Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{x:Static wpf:DialogHost.CloseDialogCommand}" 
+                    Click="Accept_Click">
                     <Button.CommandParameter>
                         <system:Boolean>True</system:Boolean>
                     </Button.CommandParameter>
                     ACCEPT
                 </Button>
-                <Button Grid.Column="3" IsCancel="True"  Style="{DynamicResource MaterialDesignFlatButton}"
+                <Button Grid.Column="3" 
+                    IsCancel="True"  
+                    Style="{DynamicResource MaterialDesignFlatButton}"
                     Command="{x:Static wpf:DialogHost.CloseDialogCommand}">
                     <Button.CommandParameter>
                         <system:Boolean>False</system:Boolean>

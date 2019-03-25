@@ -43,12 +43,16 @@
     <Compile Include="Area.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="ClientPropertyItem.cs" />
+    <Compile Include="ProjectAccount.cs" />
+    <Compile Include="ProjectProgress.cs" />
+    <Compile Include="ProjectTodoItem.cs" />
     <Compile Include="Counsel.cs" />
     <Compile Include="CounselDetail.cs" />
     <Compile Include="Court.cs" />
     <Compile Include="Document.cs" />
     <Compile Include="Judge.cs" />
     <Compile Include="Project.cs" />
+    <Compile Include="ProjectCause.cs" />
     <Compile Include="ProjectCategory.cs" />
     <Compile Include="ProjectClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

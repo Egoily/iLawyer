@@ -86,6 +86,7 @@
     <Reference Include="System.Data.SQLite.Linq, Version=1.0.109.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Data.SQLite.Linq.1.0.109.0\lib\net46\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Reactive, Version=4.1.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Reactive.4.1.2\lib\net46\System.Reactive.dll</HintPath>
     </Reference>
@@ -100,10 +101,8 @@
       <HintPath>..\..\packages\System.Threading.Tasks.Extensions.4.5.1\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Transactions" />
-    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
@@ -119,6 +118,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Z.ExtensionMethods, Version=2.1.1.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Z.ExtensionMethods.2.1.1\lib\net45\Z.ExtensionMethods.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -128,6 +130,10 @@
     <Compile Include="Converters\ValueConverter.cs" />
     <Compile Include="Domain\BrushProps.cs" />
     <Compile Include="Domain\ControlExtession.cs" />
+    <Compile Include="Domain\EnumDicItemsSource.cs" />
+    <Compile Include="Domain\EnumItemsSource.cs" />
+    <Compile Include="Domain\Extensions.cs" />
+    <Compile Include="Domain\ImageHelper.cs" />
     <Compile Include="Domain\ReactiveRelayCommand.cs" />
     <Compile Include="Domain\WatermarkBehavior.cs" />
     <Compile Include="ExControls\CircularProgressBar.xaml.cs">
@@ -137,6 +143,7 @@
     <Compile Include="ExControls\FloatButton.xaml.cs">
       <DependentUpon>FloatButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ExControls\HighlightedTextBlock.cs" />
     <Compile Include="ExControls\ImageButton.xaml.cs">
       <DependentUpon>ImageButton.xaml</DependentUpon>
     </Compile>
@@ -144,7 +151,19 @@
       <DependentUpon>PathButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="ExControls\PopupEx.cs" />
-    <Compile Include="ExControls\WaterDropsButtonGroup.xaml.cs">
+    <Compile Include="ExControls\SearchPickBox.cs" />
+    <Compile Include="ExControls\SearchBox.cs" />
+    <Compile Include="ExControls\SearchPopupBox.cs" />
+    <Compile Include="Modules\NewEditProgress.xaml.cs">
+      <DependentUpon>NewEditProgress.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\NewEditTodoItem.xaml.cs">
+      <DependentUpon>NewEditTodoItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\MultiItemSelector.xaml.cs">
+      <DependentUpon>MultiItemSelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\WaterDropsButtonGroup.xaml.cs">
       <DependentUpon>WaterDropsButtonGroup.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\PropertyPickerItem.cs" />
@@ -179,13 +198,20 @@
     <Compile Include="UserControls\AutoCompleteTextBox.xaml.cs">
       <DependentUpon>AutoCompleteTextBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\ClientSearchProvider.cs" />
+    <Compile Include="ViewModels\AbstractViewModel.cs" />
+    <Compile Include="ViewModels\ProjectViewModel.cs" />
     <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\CourtViewModel.cs" />
     <Compile Include="ViewModels\PropertyPickerControlViewModel.cs" />
-    <Compile Include="ViewModels\GlobalViewModel.cs" />
+    <Compile Include="ViewModels\Cacher.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\JudgeViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Page Include="Converters\ConverterDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ExControls\CircularProgressBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -202,7 +228,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ExControls\WaterDropsButtonGroup.xaml">
+    <Page Include="ItemsSource\EnumItemsSourceDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\NewEditProgress.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\NewEditTodoItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\SearchPickBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\MultiItemSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\WaterDropsButtonGroup.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -260,13 +306,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\Colors.xaml">
+    <Page Include="Styles\ColorsAndAppearance.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Styles\FillWrapPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\SearchBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Styles\TabControl.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -378,6 +428,14 @@
       <Project>{7dff2702-d6cb-47f9-bf63-ecfe99c37c1f}</Project>
       <Name>ee.iLawyer.Ops</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Chartridge046_small.jpg" />
+    <Resource Include="Resources\Contact.png" />
+    <Resource Include="Resources\ProfilePic.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\bg.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

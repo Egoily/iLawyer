@@ -68,7 +68,11 @@
     <Compile Include="DocumentMap.cs" />
     <Compile Include="Factory\RealAssembly.cs" />
     <Compile Include="JudgeMap.cs" />
+    <Compile Include="ProjectProgressMap.cs" />
+    <Compile Include="ProjectCauseMap.cs" />
     <Compile Include="ProjectCategoryMap.cs" />
+    <Compile Include="ProjectAccountMap.cs" />
+    <Compile Include="ProjectTodoListMap.cs" />
     <Compile Include="ProjectClientMap.cs" />
     <Compile Include="ProjectMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

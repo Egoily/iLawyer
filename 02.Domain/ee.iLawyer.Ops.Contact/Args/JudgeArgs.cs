@@ -1,13 +1,9 @@
 ﻿using ee.Framework;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ee.iLawyer.Ops.Contact.Args
 {
-    public class AddJudgeRequest : BaseRequest
+    public class CreateJudgeRequest : BaseRequest
     {
         /// <summary>
         /// 法官名
@@ -15,13 +11,21 @@ namespace ee.iLawyer.Ops.Contact.Args
         [Required]
         public virtual string Name { get; set; }
         /// <summary>
-        /// 手机号码
+        /// 联系电话
         /// </summary>
-        public virtual string PhoneNo { get; set; }
+        public virtual string ContactNo { get; set; }
         /// <summary>
         /// 性别
         /// </summary>
-        public virtual int Gender { get; set; }
+        public virtual Gender Gender { get; set; }
+        /// <summary>
+        /// 职务
+        /// </summary>
+        public virtual string Duty { get; set; }
+        /// <summary>
+        /// 法官等级
+        /// </summary>
+        public virtual JudgeGrade Grade { get; set; }
         /// <summary>
         /// 所属法院Id
         /// </summary>
@@ -35,9 +39,9 @@ namespace ee.iLawyer.Ops.Contact.Args
         [Required]
         public virtual int Id { get; set; }
         /// <summary>
-        /// 手机号码
+        /// 联系电话
         /// </summary>
-        public virtual string PhoneNo { get; set; }
+        public virtual string ContactNo { get; set; }
         /// <summary>
         /// 法官名
         /// </summary>
@@ -46,7 +50,15 @@ namespace ee.iLawyer.Ops.Contact.Args
         /// <summary>
         /// 性别
         /// </summary>
-        public virtual int Gender { get; set; }
+        public virtual Gender Gender { get; set; }
+        /// <summary>
+        /// 职务
+        /// </summary>
+        public virtual string Duty { get; set; }
+        /// <summary>
+        /// 法官等级
+        /// </summary>
+        public virtual JudgeGrade Grade { get; set; }
         /// <summary>
         /// 所属法院
         /// </summary>
@@ -62,6 +74,10 @@ namespace ee.iLawyer.Ops.Contact.Args
     }
     public class QueryJudgeRequest : BasePageRequest
     {
+        /// <summary>
+        /// 主键
+        /// </summary>
+        public virtual IList<int> Ids { get; set; }
     }
 
 }

@@ -22,90 +22,106 @@
             </DataTemplate>
         </GroupBox.HeaderTemplate>
         <Grid Name="grid" Margin="20,4,20,4" >
-
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
+            <Grid Grid.Row="0" x:Name="gridFields" >
 
-            <TextBox Grid.Row="0" x:Name="txtName" Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
-                <materialDesign:HintAssist.Hint >
-                    <StackPanel Orientation="Horizontal" >
-                        <materialDesign:PackIcon Kind="Account" />
-                        <TextBlock>名称</TextBlock>
-                    </StackPanel>
-                </materialDesign:HintAssist.Hint>
-                <TextBox.Text>
-                    <Binding Path="TreatedObject.Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
-            <ComboBox Grid.Row="1" x:Name="cbbRank" Style="{StaticResource MaterialDesignFloatingHintComboBox}"   
-                  ItemsSource="{Binding Source={x:Static vm:GlobalViewModel.CourtRanks}}" SelectedValue="{Binding TreatedObject.Rank,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
-                <materialDesign:HintAssist.Hint >
-                    <StackPanel Orientation="Horizontal" >
-                        <materialDesign:PackIcon Kind="Domain" />
-                        <TextBlock>级别</TextBlock>
-                    </StackPanel>
-                </materialDesign:HintAssist.Hint>
-            </ComboBox>
-            <local:AreaSelector Grid.Row="2" x:Name="areaSelector" 
-                 Province="{Binding TreatedObject.Province,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                 City="{Binding TreatedObject.City,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                 County="{Binding TreatedObject.County,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-             />
-            <TextBox Grid.Row="3" x:Name="txtAddress" Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
-                <materialDesign:HintAssist.Hint >
-                    <StackPanel Orientation="Horizontal" >
-                        <materialDesign:PackIcon Kind="AddressMarker" />
-                        <TextBlock>地址</TextBlock>
-                    </StackPanel>
-                </materialDesign:HintAssist.Hint>
-                <TextBox.Text>
-                    <Binding Path="TreatedObject.Address" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
-            <TextBox Grid.Row="4" x:Name="txtContactNo" Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                 Text="{Binding TreatedObject.ContactNo , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                <materialDesign:HintAssist.Hint >
-                    <StackPanel Orientation="Horizontal" >
-                        <materialDesign:PackIcon Kind="Phone" />
-                        <TextBlock>联系电话</TextBlock>
-                    </StackPanel>
-                </materialDesign:HintAssist.Hint>
-            </TextBox>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
 
-                <Grid Grid.Row="6">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50*"/>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="10"/>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="50*"/>
-                    </Grid.ColumnDefinitions>
-                    <Button Grid.Column="1" IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}"
-                    Command="{x:Static wpf:DialogHost.CloseDialogCommand}" >
-                        <Button.CommandParameter>
-                            <system:Boolean>True</system:Boolean>
-                        </Button.CommandParameter>
-                        ACCEPT
-                    </Button>
-                    <Button Grid.Column="3" IsCancel="True"  Style="{DynamicResource MaterialDesignFlatButton}"
-                    Command="{x:Static wpf:DialogHost.CloseDialogCommand}">
-                        <Button.CommandParameter>
-                            <system:Boolean>False</system:Boolean>
-                        </Button.CommandParameter>
-                        CANCEL
-                    </Button>
-                </Grid>
+                <TextBox Grid.Row="0" 
+                     x:Name="txtName" Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
+                    <materialDesign:HintAssist.Hint >
+                        <StackPanel Orientation="Horizontal" >
+                            <materialDesign:PackIcon Kind="Account" />
+                            <TextBlock>名称</TextBlock>
+                        </StackPanel>
+                    </materialDesign:HintAssist.Hint>
+                    <TextBox.Text>
+                        <Binding Path="TreatedObject.Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <ComboBox Grid.Row="1" 
+                      x:Name="cbbRank" 
+                      Style="{StaticResource MaterialDesignFloatingHintComboBox}"   
+                       ItemsSource="{StaticResource EnumItemsSourceOfCourtRanks}" 
+                       SelectedValuePath="Key" DisplayMemberPath="Value" 
+                       SelectedValue="{Binding TreatedObject.Rank,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <materialDesign:HintAssist.Hint >
+                        <StackPanel Orientation="Horizontal" >
+                            <materialDesign:PackIcon Kind="Domain" />
+                            <TextBlock>级别</TextBlock>
+                        </StackPanel>
+                    </materialDesign:HintAssist.Hint>
+                </ComboBox>
+                <local:AreaSelector Grid.Row="2" 
+                                x:Name="areaSelector" 
+                                Province="{Binding TreatedObject.Province,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                City="{Binding TreatedObject.City,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                County="{Binding TreatedObject.County,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Grid.Row="3" 
+                     x:Name="txtAddress" 
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
+                    <materialDesign:HintAssist.Hint >
+                        <StackPanel Orientation="Horizontal" >
+                            <materialDesign:PackIcon Kind="AddressMarker" />
+                            <TextBlock>地址</TextBlock>
+                        </StackPanel>
+                    </materialDesign:HintAssist.Hint>
+                    <TextBox.Text>
+                        <Binding Path="TreatedObject.Address" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <TextBox Grid.Row="4" 
+                     x:Name="txtContactNo" 
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                     Text="{Binding TreatedObject.ContactNo , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <materialDesign:HintAssist.Hint >
+                        <StackPanel Orientation="Horizontal" >
+                            <materialDesign:PackIcon Kind="Phone" />
+                            <TextBlock>联系电话</TextBlock>
+                        </StackPanel>
+                    </materialDesign:HintAssist.Hint>
+                </TextBox>
 
+            </Grid>
+            <Grid Grid.Row="1" x:Name="gridOps">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="50*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="1" 
+                        IsDefault="True" 
+                        Style="{DynamicResource MaterialDesignFlatButton}"
+                        Command="{x:Static wpf:DialogHost.CloseDialogCommand}" >
+                    <Button.CommandParameter>
+                        <system:Boolean>True</system:Boolean>
+                    </Button.CommandParameter>
+                    ACCEPT
+                </Button>
+                <Button Grid.Column="3" 
+                        IsCancel="True"  
+                        Style="{DynamicResource MaterialDesignFlatButton}"
+                        Command="{x:Static wpf:DialogHost.CloseDialogCommand}">
+                    <Button.CommandParameter>
+                        <system:Boolean>False</system:Boolean>
+                    </Button.CommandParameter>
+                    CANCEL
+                </Button>
+            </Grid>
         </Grid>
     </GroupBox>
 </UserControl>

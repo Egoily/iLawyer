@@ -52,7 +52,7 @@ namespace ee.iLawyer.Ops.Tests
 
 
         [TestMethod()]
-        public void AddClientTest()
+        public void CreateClientTest()
         {
             var properties = new List<CategoryValue>
             {
@@ -62,7 +62,7 @@ namespace ee.iLawyer.Ops.Tests
             };
 
 
-            var request = new AddClientRequest()
+            var request = new CreateClientRequest()
             {
                 Abbreviation = "Ego2",
                 Impression = "good",
@@ -70,7 +70,21 @@ namespace ee.iLawyer.Ops.Tests
                 Name = "Ego Huang",
                 Properties = properties,
             };
-            var response = service.AddClient(request);
+            var response = service.CreateClient(request);
+
+            Assert.AreEqual(0, response.Code);
+        }
+
+        [TestMethod()]
+        public void QueryClientTest()
+        {
+           
+
+            var request = new QueryClientRequest()
+            {
+                Keys = new int[] { 1,2,3}
+            };
+            var response = service.QueryClient(request);
 
             Assert.AreEqual(0, response.Code);
         }

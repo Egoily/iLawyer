@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:domain="clr-namespace:ee.iLawyer.Domain"
+                    xmlns:contact="clr-namespace:ee.iLawyer.Ops.Contact;assembly=ee.iLawyer.Ops.Contact">
+
+    <domain:EnumDicItemsSource x:Key="EnumItemsSourceOfCourtRanks"  Type="{x:Type contact:CourtRank}"/>
+    <domain:EnumDicItemsSource x:Key="EnumItemsSourceOfJudgeGrades"  Type="{x:Type contact:JudgeGrade}"/>
+    <domain:EnumDicItemsSource x:Key="EnumItemsSourceOfGenders"  Type="{x:Type contact:Gender}"/>
+    <domain:EnumDicItemsSource x:Key="EnumItemsSourceOfUrgencyDegreeOfTodoItem"  Type="{x:Type contact:UrgencyDegreeOfTodoItem}"/>
+    <domain:EnumDicItemsSource x:Key="EnumItemsSourceOfStatusOfTodoItem"  Type="{x:Type contact:StatusOfTodoItem}"/>
+ 
+</ResourceDictionary>

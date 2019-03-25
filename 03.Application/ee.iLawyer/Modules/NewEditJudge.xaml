@@ -8,6 +8,7 @@
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:ee.iLawyer.UserControls"
              xmlns:vm="clr-namespace:ee.iLawyer.ViewModels"
+             xmlns:converters="clr-namespace:ee.iLawyer.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="300">
 
@@ -21,59 +22,105 @@
             </DataTemplate>
         </GroupBox.HeaderTemplate>
 
-        <Grid x:Name="grid"  Margin="20,4,20,4" >
-
+        <Grid Name="grid" Margin="20,4,20,4" >
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <TextBox Grid.Row="0" x:Name="txtName" Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
-                <materialDesign:HintAssist.Hint >
-                    <StackPanel Orientation="Horizontal" >
-                        <materialDesign:PackIcon Kind="Account" />
-                        <TextBlock>姓名</TextBlock>
-                    </StackPanel>
-                </materialDesign:HintAssist.Hint>
-                <TextBox.Text>
-                    <Binding Path="TreatedObject.Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
-            <ComboBox Grid.Row="1" x:Name="cbbGender" Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
-                  ItemsSource="{Binding Source={x:Static vm:GlobalViewModel.Genders}}" DisplayMemberPath="Value" SelectedValuePath="Key" 
-                  SelectedValue="{Binding TreatedObject.Gender,Mode=TwoWay}">
-                <materialDesign:HintAssist.Hint >
-                    <StackPanel Orientation="Horizontal" >
-                        <materialDesign:PackIcon Kind="Face" />
-                        <TextBlock>性别</TextBlock>
-                    </StackPanel>
-                </materialDesign:HintAssist.Hint>
-            </ComboBox>
-            <ComboBox Grid.Row="2" x:Name="cbbInCourt" Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
-                  ItemsSource="{Binding Source={x:Static vm:GlobalViewModel.Courts}}"  DisplayMemberPath="Name" SelectedValuePath="Id" 
-                  SelectedValue="{Binding TreatedObject.InCourtId}">
-                <materialDesign:HintAssist.Hint >
-                    <StackPanel Orientation="Horizontal" >
-                        <materialDesign:PackIcon Kind="Location" />
-                        <TextBlock>所在法院</TextBlock>
-                    </StackPanel>
-                </materialDesign:HintAssist.Hint>
-            </ComboBox>
-            <TextBox Grid.Row="3" x:Name="txtPhoneNo" Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                 Text="{Binding TreatedObject.PhoneNo , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                <materialDesign:HintAssist.Hint >
-                    <StackPanel Orientation="Horizontal" >
-                        <materialDesign:PackIcon Kind="Phone" />
-                        <TextBlock>联系电话</TextBlock>
-                    </StackPanel>
-                </materialDesign:HintAssist.Hint>
-            </TextBox>
-            <Grid Grid.Row="5">
+            <Grid Grid.Row="0" x:Name="gridFields" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+
+                </Grid.RowDefinitions>
+
+                <TextBox Grid.Row="0" Grid.Column="0"
+                         x:Name="txtName" 
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" >
+                    <materialDesign:HintAssist.Hint >
+                        <StackPanel Orientation="Horizontal" >
+                            <materialDesign:PackIcon Kind="Account" />
+                            <TextBlock>姓名</TextBlock>
+                        </StackPanel>
+                    </materialDesign:HintAssist.Hint>
+                    <TextBox.Text>
+                        <Binding Path="TreatedObject.Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <ComboBox Grid.Row="0" Grid.Column="1"
+                          x:Name="cbbGender" 
+                          Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                          ItemsSource="{StaticResource EnumItemsSourceOfGenders}" 
+                          SelectedValuePath="Key" DisplayMemberPath="Value" 
+                          SelectedValue="{Binding TreatedObject.Gender,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <materialDesign:HintAssist.Hint >
+                        <StackPanel Orientation="Horizontal" >
+                            <materialDesign:PackIcon Kind="Face" />
+                            <TextBlock>性别</TextBlock>
+                        </StackPanel>
+                    </materialDesign:HintAssist.Hint>
+                </ComboBox>
+                <ComboBox Grid.Row="1" Grid.Column="0"
+                          x:Name="cbbInCourt" 
+                          Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                          ItemsSource="{Binding Source={x:Static vm:Cacher.Courts}}" 
+                          DisplayMemberPath="Name" 
+                          SelectedValuePath="Id" 
+                          SelectedValue="{Binding TreatedObject.InCourtId}">
+                    <materialDesign:HintAssist.Hint >
+                        <StackPanel Orientation="Horizontal" >
+                            <materialDesign:PackIcon Kind="Location" />
+                            <TextBlock>所在法院</TextBlock>
+                        </StackPanel>
+                    </materialDesign:HintAssist.Hint>
+                </ComboBox>
+                <ComboBox Grid.Row="1" Grid.Column="1"
+                          x:Name="cbbJudgeGrade" 
+                          Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                          ItemsSource="{StaticResource EnumItemsSourceOfJudgeGrades}" 
+                          SelectedValuePath="Key" DisplayMemberPath="Value"  
+                          SelectedValue="{Binding TreatedObject.Grade}">
+                    <materialDesign:HintAssist.Hint >
+                        <StackPanel Orientation="Horizontal" >
+                            <materialDesign:PackIcon Kind="Location" />
+                            <TextBlock>等级</TextBlock>
+                        </StackPanel>
+                    </materialDesign:HintAssist.Hint>
+                </ComboBox>
+                <TextBox Grid.Row="2" Grid.ColumnSpan="2"
+                         x:Name="txtDuty" 
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                         Text="{Binding TreatedObject.Duty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <materialDesign:HintAssist.Hint >
+                        <StackPanel Orientation="Horizontal" >
+                            <materialDesign:PackIcon Kind="Phone" />
+                            <TextBlock>职务</TextBlock>
+                        </StackPanel>
+                    </materialDesign:HintAssist.Hint>
+                </TextBox>
+                <TextBox Grid.Row="3" Grid.ColumnSpan="2"
+                         x:Name="txtContactNo" 
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                         Text="{Binding TreatedObject.ContactNo , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <materialDesign:HintAssist.Hint >
+                        <StackPanel Orientation="Horizontal" >
+                            <materialDesign:PackIcon Kind="Phone" />
+                            <TextBlock>联系电话</TextBlock>
+                        </StackPanel>
+                    </materialDesign:HintAssist.Hint>
+                </TextBox>
+
+            </Grid>
+            <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50*"/>
                     <ColumnDefinition Width="100"/>
@@ -97,6 +144,5 @@
                 </Button>
             </Grid>
         </Grid>
-
     </GroupBox>
 </UserControl>

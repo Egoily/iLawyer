@@ -11,6 +11,7 @@ using MaterialDesignThemes.Wpf;
 using System.IO;
 using ee.iLawyer.ViewModels;
 using System;
+using System.Linq;
 
 namespace ee.iLawyer
 {
@@ -38,7 +39,7 @@ namespace ee.iLawyer
                 });
             Task.Factory.StartNew(() =>
             {
-                Thread.Sleep(2500);
+                Cacher.Load();
             }).ContinueWith(t =>
             {
                 //note you can use the message queue from any thread, but just for the demo here we 
@@ -50,6 +51,7 @@ namespace ee.iLawyer
 
             Snackbar = this.MainSnackbar;
 
+ 
         }
      
         private void UIElement_OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)

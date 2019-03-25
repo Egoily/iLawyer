@@ -8,6 +8,7 @@ namespace ee.iLawyer.Db.Entity.Mapping
         public CourtMap()
         {
             Table("Courts");
+            LazyLoad();
             Id(x => x.Id);
                 //.GeneratedBy.Assigned();
             Map(x => x.Name);

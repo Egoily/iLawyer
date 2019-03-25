@@ -54,7 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Args\AreaArgs.cs" />
-    <Compile Include="Args\CaseArgs.cs" />
     <Compile Include="Args\ClientArgs.cs" />
     <Compile Include="Args\CourtArgs.cs" />
     <Compile Include="Args\JudgeArgs.cs" />
@@ -64,6 +63,7 @@
     <Compile Include="AutoMapper\DtoConverter.cs" />
     <Compile Include="CacheKeys.cs" />
     <Compile Include="DTO\Area.cs" />
+    <Compile Include="DTO\MultiItemSelectorItemInfo.cs" />
     <Compile Include="DTO\Category.cs" />
     <Compile Include="DTO\CategoryValue.cs" />
     <Compile Include="DTO\Project.cs" />
@@ -71,6 +71,11 @@
     <Compile Include="DTO\Court.cs" />
     <Compile Include="DTO\Judge.cs" />
     <Compile Include="DTO\KeyValue.cs" />
+    <Compile Include="DTO\ProjectAccount.cs" />
+    <Compile Include="DTO\ProjectCause.cs" />
+    <Compile Include="DTO\ProjectCategory.cs" />
+    <Compile Include="DTO\ProjectProgress.cs" />
+    <Compile Include="DTO\ProjectTodoItem.cs" />
     <Compile Include="DTO\PropertyItemCategory.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Interfaces\ICtsService.cs" />

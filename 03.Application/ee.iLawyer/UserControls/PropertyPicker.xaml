@@ -12,7 +12,6 @@
 
     <Grid>
         <Grid.Resources>
-            <converters:DatabindingDebugConverter x:Key="debugConverter" />
             <local:PickerTypeToVisible x:Key="PickerTypeToVisible"/>
             <local:PickerTypeToHidden x:Key="PickerTypeToHidden"/>
             <local:StringToPackIconKind x:Key="StringToPackIconKind"/>

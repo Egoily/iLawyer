@@ -9,64 +9,39 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
           >
+    <UserControl.Resources>
+        <DataTemplate x:Key="ItemDataTemplate">
+            <Grid Margin="0,4,0,4" Width="{Binding Path=Width,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100*"/>
+                    <ColumnDefinition Width="46"/>
+                </Grid.ColumnDefinitions>
+                <Grid x:Name="templateGrid">
+                    <local:CategoryTextBox 
+                        Grid.Column="0"
+                        CategorySource="{Binding Path=CategorySource ,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                        CategoryValue="{Binding ElementName=templateGrid, Path=DataContext}"
+                        />
+                </Grid>
+                <Border Grid.Column="1" Background="Transparent" >
+                    <StackPanel Orientation="Horizontal">
+                        <Button 
+                            x:Name="btnRemove" 
+                            Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}" 
+                            Margin="8,0,0,0"
+                            Width="20" Height="20"  
+                            Background="Transparent"
+                            Visibility="Hidden"
+                            Click="btnRemove_Click"  
+                            >
+                            <materialDesign:PackIcon Kind="RemoveCircle"  Width="16" Height="16" />
+                        </Button>
 
-    <Grid x:Name="grid">
-        <Grid.Resources>
-            <converters:DatabindingDebugConverter x:Key="debugConverter" />
-            <local:PickerTypeToVisible x:Key="PickerTypeToVisible"/>
-            <local:PickerTypeToHidden x:Key="PickerTypeToHidden"/>
-            <local:StringToPackIconKind x:Key="StringToPackIconKind"/>
-
-        </Grid.Resources>
-        <ScrollViewer x:Name="scrollViewer"  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" >
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="40"></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
-                <ItemsControl x:Name="itemsControl"   
-                          Grid.Row="0"
-                          Background="Transparent" 
-                          ItemsSource="{Binding Path=CategoryValues ,RelativeSource={RelativeSource AncestorType={x:Type UserControl}},Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Vertical" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Margin="0,4,0,4" Width="{Binding Path=Width,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100*"/>
-                                    <ColumnDefinition Width="46"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid x:Name="templateGrid">
-                                    <local:CategoryTextBox Grid.Column="0"
-                                                   CategorySource="{Binding Path=CategorySource ,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                                                   CategoryValue="{Binding ElementName=templateGrid, Path=DataContext}"
-                                                   ></local:CategoryTextBox>
-                                </Grid>
-                                <Border Grid.Column="1" Background="Transparent" >
-                                    <StackPanel Orientation="Horizontal">
-                                        <Button x:Name="btnRemove" 
-                                                Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}" 
-                                                Margin="8,0,0,0"
-                                                Width="20" Height="20"  
-                                                Background="Transparent"
-                                                Visibility="Hidden"
-                                                Click="btnRemove_Click"  
-                                        >
-                                            <materialDesign:PackIcon Kind="RemoveCircle"  Width="16" Height="16" />
-                                        </Button>
-
-                                    </StackPanel>
-                                </Border>
-                            </Grid>
-
-
-                            <DataTemplate.Triggers>
-                                <!--<MultiDataTrigger>
+                    </StackPanel>
+                </Border>
+            </Grid>
+            <DataTemplate.Triggers>
+                <!--<MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
                                         <Condition  Binding="{Binding CategoryId}" Value="0"/>
                                     </MultiDataTrigger.Conditions>
@@ -74,30 +49,65 @@
                                         <Setter TargetName="btnRemove" Property="Visibility" Value="Visible"/>
                                     </MultiDataTrigger.Setters>
                                 </MultiDataTrigger>-->
-                                <Trigger Property="IsMouseOver" Value="true">
-                                    <Setter TargetName="btnRemove" Property="Visibility" Value="Visible"/>
-                                </Trigger>
-                            </DataTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter TargetName="btnRemove" Property="Visibility" Value="Visible"/>
+                </Trigger>
+            </DataTemplate.Triggers>
 
-                        </DataTemplate>
+        </DataTemplate>
 
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+        <CollectionViewSource x:Key="items"  Source="{Binding Path=CategoryValues ,RelativeSource={RelativeSource AncestorType={x:Type UserControl}},Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }" />
+    </UserControl.Resources>
 
-                <materialDesign:Chip Grid.Row="1" 
+    <Grid x:Name="grid">
+        <Grid.Resources>
+            <local:PickerTypeToVisible x:Key="PickerTypeToVisible"/>
+            <local:PickerTypeToHidden x:Key="PickerTypeToHidden"/>
+            <local:StringToPackIconKind x:Key="StringToPackIconKind"/>
+
+        </Grid.Resources>
+        <Border 
+            Margin="0,2,0,2"
+            BorderBrush="Gray" 
+            BorderThickness="1">
+            <ScrollViewer 
+                x:Name="scrollViewer" 
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                ScrollViewer.VerticalScrollBarVisibility="Auto" >
+                <Grid>
+
+                    <ItemsControl 
+                        x:Name="itemsControl"   
+                        Background="Transparent" 
+                        ItemTemplate="{StaticResource ItemDataTemplate}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemsSource>
+                            <CompositeCollection>
+                                <CollectionContainer Collection="{Binding Source={StaticResource ResourceKey=items}}"/>
+                                <materialDesign:Chip 
                                      Margin="10,2,10,2"
                                      Content="添加属性项"
                                      IconBackground="{DynamicResource PrimaryHueDarkBrush}"
                                      IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
-                                     Click="btnAdd_Click"
-                 >
-                    <materialDesign:Chip.Icon>
-                        <materialDesign:PackIcon  Kind="AddBox"></materialDesign:PackIcon>
-                    </materialDesign:Chip.Icon>
-                </materialDesign:Chip>
-            </Grid>
-        </ScrollViewer>
+                                     Click="btnAdd_Click" >
+                                    <materialDesign:Chip.Icon>
+                                        <materialDesign:PackIcon  Kind="AddBox"></materialDesign:PackIcon>
+                                    </materialDesign:Chip.Icon>
+                                </materialDesign:Chip>
+                            </CompositeCollection>
+                        </ItemsControl.ItemsSource>
 
+                    </ItemsControl>
+
+                  
+                </Grid>
+            </ScrollViewer>
+        </Border>
 
     </Grid>
+    
 </UserControl>

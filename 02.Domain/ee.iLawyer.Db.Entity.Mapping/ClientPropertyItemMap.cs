@@ -8,6 +8,7 @@ namespace ee.iLawyer.Db.Entity.Mapping
         public ClientPropertyItemMap()
         {
             Table("ClientPropertyItems");
+            LazyLoad();
             Id(x => x.Id);
             //.GeneratedBy.Assigned();   
             Map(x => x.Value);

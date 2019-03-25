@@ -10,10 +10,12 @@
     <Grid x:Name="grid">
         <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Center" >
             <Border x:Name="orgBorder"
-                    CornerRadius="8,0,0,8" 
+                    
+                    CornerRadius="10,0,0,10" 
                     BorderBrush="Black" 
                     BorderThickness="1" 
-                    Width="54" 
+                    Width="60" 
+                    Height="20"
                     Background="Orange"
                     MouseLeftButtonDown="Border_MouseLeftButtonDown"
                     MouseEnter="Border_MouseEnter"
@@ -25,10 +27,11 @@
                 </StackPanel>
             </Border>
             <Border x:Name="npnBorder"
-                    CornerRadius="0,8,8,0" 
+                    CornerRadius="0,10,10,0" 
                     BorderBrush="Black" 
                     BorderThickness="1" 
-                    Width="54"
+                    Width="60"
+                    Height="20"
                     Background="Transparent"
                     MouseLeftButtonDown="Border_MouseLeftButtonDown"
                     MouseEnter="Border_MouseEnter"

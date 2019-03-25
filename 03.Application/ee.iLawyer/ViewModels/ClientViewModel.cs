@@ -1,5 +1,4 @@
 ﻿using ee.Framework;
-using ee.iLawyer.Domain;
 using ee.iLawyer.Modules;
 using ee.iLawyer.Ops;
 using ee.iLawyer.Ops.Contact.Args;
@@ -13,29 +12,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace ee.iLawyer.ViewModels
 {
     [AddINotifyPropertyChangedInterface]
-    public class ClientViewModel
+    public class ClientViewModel : AbstractViewModel
     {
 
         public ObservableCollection<Client> Clients { get; protected set; }
         public Client SelectedItem { get; set; }
 
 
-        public ICommand QueryCommand => new CommandImpl(ExecuteQueryCommand);
-        public ICommand NewCommand => new CommandImpl(ExecuteNewCommand);
-        public ICommand EditCommand => new CommandImpl(ExecuteEditCommand);
-        public ICommand DeleteCommand => new CommandImpl(ExecuteDeleteCommand);
-
         public ClientViewModel()
         {
         }
 
 
-        public void Query()
+        public override void Query()
         {
             System.Threading.ThreadPool.QueueUserWorkItem(delegate
             {
@@ -50,16 +43,7 @@ namespace ee.iLawyer.ViewModels
                         if (response.Code == ErrorCodes.Ok && response.QueryList != null)
                         {
                             Clients = new ObservableCollection<Client>();
-                            response.QueryList.ToList().ForEach(x => Clients.Add(new Client()
-                            {
-                                Id = x.Id,
-                                Name = x.Name,
-                                Properties = x.Properties,
-                                IsNP = x.IsNP,
-                                Abbreviation = x.Abbreviation,
-                                Impression = x.Impression,
-
-                            }));
+                            response.QueryList.ToList().ForEach(x => Clients.Add(x));
                         }
 
                     }
@@ -73,14 +57,17 @@ namespace ee.iLawyer.ViewModels
 
         }
 
-        public BaseResponse Add()
+        public override BaseResponse Create()
         {
-            if (SelectedItem == null) return new BaseResponse() { Code = ErrorCodes.NullParameter, Message = "新增的对象为空." };
+            if (SelectedItem == null)
+            {
+                return new BaseResponse() { Code = ErrorCodes.NullParameter, Message = "新增的对象为空." };
+            }
 
             try
             {
                 var server = new CtsService();
-                var response = server.AddClient(new AddClientRequest()
+                var response = server.CreateClient(new CreateClientRequest()
                 {
                     Name = SelectedItem.Name,
                     IsNP = SelectedItem.IsNP,
@@ -98,9 +85,12 @@ namespace ee.iLawyer.ViewModels
             }
 
         }
-        public BaseResponse Update()
+        public override BaseResponse Update()
         {
-            if (SelectedItem == null) return new BaseResponse() { Code = ErrorCodes.NullParameter, Message = "更新的对象为空." };
+            if (SelectedItem == null)
+            {
+                return new BaseResponse() { Code = ErrorCodes.NullParameter, Message = "更新的对象为空." };
+            }
 
             try
             {
@@ -108,8 +98,9 @@ namespace ee.iLawyer.ViewModels
                 var response = server.UpdateClient(new UpdateClientRequest()
                 {
                     Id = SelectedItem.Id,
-                    Name = SelectedItem.Name,
                     IsNP = SelectedItem.IsNP,
+                    Name = SelectedItem.Name,
+                    ContactNo = SelectedItem.ContactNo,
                     Properties = SelectedItem.Properties,
                     Abbreviation = SelectedItem.Abbreviation,
                     Impression = SelectedItem.Impression,
@@ -125,9 +116,12 @@ namespace ee.iLawyer.ViewModels
 
         }
 
-        public BaseResponse Delete()
+        public override BaseResponse Delete()
         {
-            if (SelectedItem == null) return new BaseResponse() { Code = ErrorCodes.NullParameter, Message = "删除的对象为空." };
+            if (SelectedItem == null)
+            {
+                return new BaseResponse() { Code = ErrorCodes.NullParameter, Message = "删除的对象为空." };
+            }
 
             try
             {
@@ -148,11 +142,7 @@ namespace ee.iLawyer.ViewModels
         }
 
 
-        private void ExecuteQueryCommand(object o)
-        {
-            Query();
-        }
-        private async void ExecuteNewCommand(object o)
+        public override async void ExecuteNewCommandAsync(object o)
         {
             //let's set up a little MVVM, cos that's what the cool kids are doing:
             var view = new NewEditClient()
@@ -163,7 +153,7 @@ namespace ee.iLawyer.ViewModels
             //show the dialog
             var result = await DialogHost.Show(view, "RootDialog", ExtendedOpenedEventHandler, ExtendedClosingEventHandler);
         }
-        private async void ExecuteEditCommand(object o)
+        public override async void ExecuteEditCommandAsync(object o)
         {
             var Client = ((Button)o).DataContext as Client;
             this.SelectedItem = Client;
@@ -175,7 +165,7 @@ namespace ee.iLawyer.ViewModels
             //show the dialog
             var result = await DialogHost.Show(view, "RootDialog", ExtendedOpenedEventHandler, ExtendedClosingEventHandler);
         }
-        private void ExecuteDeleteCommand(object o)
+        public override void ExecuteDeleteCommand(object o)
         {
             var Client = ((Button)o).DataContext as Client;
             this.SelectedItem = Client;
@@ -183,6 +173,26 @@ namespace ee.iLawyer.ViewModels
             SelectedItem = null;
             Query();
         }
+
+        public override void DeleteItem(object sender, DialogClosingEventArgs eventArgs)
+        {
+
+            if (!Equals(eventArgs.Parameter, true))
+            {
+                return;
+            }
+
+            if (eventArgs.Session.Content != null && ((FrameworkElement)eventArgs.Session.Content).DataContext != null)
+            {
+                var client = ((FrameworkElement)eventArgs.Session.Content).DataContext as Client;
+
+                SelectedItem = client;
+                Delete();
+                Query();
+            }
+
+        }
+
         private void ExtendedOpenedEventHandler(object sender, DialogOpenedEventArgs eventargs)
         {
             Console.WriteLine("You could intercept the open and affect the dialog using eventArgs.Session.");
@@ -190,22 +200,24 @@ namespace ee.iLawyer.ViewModels
 
         private void ExtendedClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
         {
-            if ((bool)eventArgs.Parameter == false) return;
+            if ((bool)eventArgs.Parameter == false)
+            {
+                return;
+            }
 
             //note, you can also grab the session when the dialog opens via the DialogOpenedEventHandler
             if (eventArgs.Session.Content is NewEditClient)
             {
                 var content = eventArgs.Session.Content as NewEditClient;
+                SelectedItem = content.TreatedObject;
                 if (content.IsNew)
                 {
-                    SelectedItem = content.TreatedObject;
-                    Task.Run(() => Add())
+                    Task.Run(() => Create())
                         .ContinueWith((t) => Query(), TaskContinuationOptions.OnlyOnRanToCompletion)
                         .ContinueWith((t, _) => eventArgs.Session.Close(false), null, TaskScheduler.FromCurrentSynchronizationContext());
                 }
                 else
                 {
-                    SelectedItem = content.TreatedObject;
                     Task.Run(() => Update())
                         .ContinueWith((t) => Query(), TaskContinuationOptions.OnlyOnRanToCompletion)
                         .ContinueWith((t, _) => eventArgs.Session.Close(false), null, TaskScheduler.FromCurrentSynchronizationContext());
@@ -217,20 +229,6 @@ namespace ee.iLawyer.ViewModels
             eventArgs.Cancel();
             //...now, lets update the "session" with some new content!
             eventArgs.Session.UpdateContent(new ProgressDialog());
-        }
-        public void DeleteItem(object sender, DialogClosingEventArgs eventArgs)
-        {
-
-            if (!Equals(eventArgs.Parameter, true)) return;
-            if (eventArgs.Session.Content != null && ((FrameworkElement)eventArgs.Session.Content).DataContext != null)
-            {
-                var client = ((FrameworkElement)eventArgs.Session.Content).DataContext as Client;
-
-                SelectedItem = client;
-                Delete();
-                Query();
-            }
-
         }
     }
 }

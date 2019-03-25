@@ -13,10 +13,10 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
-        <converters:VisToBool x:Key="TrueIfVisible" Inverted="False" Not="False" />
-        <converters:VisToBool x:Key="TrueIfNotVisible" Inverted="False" Not="True" />
-        <converters:VisToBool x:Key="VisibleIfTrue" Inverted="True" Not="False" />
-        <converters:VisToBool x:Key="VisibleIfNotTrue" Inverted="True" Not="True" />
+        <converters:VisibilityToBool x:Key="TrueIfVisible" Inverted="False" Not="False" />
+        <converters:VisibilityToBool x:Key="TrueIfNotVisible" Inverted="False" Not="True" />
+        <converters:VisibilityToBool x:Key="VisibleIfTrue" Inverted="True" Not="False" />
+        <converters:VisibilityToBool x:Key="VisibleIfNotTrue" Inverted="True" Not="True" />
     </UserControl.Resources>
     <Grid x:Name="grid" >
         <Border x:Name="brdButton" Grid.Column="1" BorderThickness="1" BorderBrush="Gray">

@@ -8,7 +8,7 @@ namespace ee.iLawyer.Db.Entity.Mapping
         public AreaMap()
         {
             Table("Areas");
-
+            LazyLoad();
             Id(x => x.AreaCode);
             //.GeneratedBy.Assigned();
             Map(x => x.Name);

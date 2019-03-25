@@ -298,7 +298,7 @@ namespace ee.iLawyer.UserControls
                         SearchResults.Clear();
                         //LogOutput.Insert(0, string.Format("Search for '{0}' returned '{1}' items", result.SearchTerm, result.Results.Count()));
                         if (result.Results == null) return;
-                        result.Results.ToList().ForEach(item => SearchResults.Add(item));
+                        result.Results.ToList().ForEach(item => SearchResults.Add((KeyValuePair<object, string>)item));
                         if (SearchResults.Count == 1)
                         {
                             this.listBox.SelectedItem = listBox.Items[0];
@@ -391,7 +391,7 @@ namespace ee.iLawyer.UserControls
                 if (!me.popup.IsOpen)
                 {                 
                     var result = me.odp.SearchByKey(e.NewValue);
-                    result.Results.ToList().ForEach(item => me.SearchResults.Add(item));
+                    result.Results.ToList().ForEach(item => me.SearchResults.Add((KeyValuePair<object, string>)item));
                     me.SetTextAndHide();
                 }
                 else
@@ -540,7 +540,7 @@ namespace ee.iLawyer.UserControls
                 return new SearchResult
                 {
                     SearchTerm = string.Empty,
-                    Results = new Dictionary<object, string>()
+                    Results = null
                 };
                
             }

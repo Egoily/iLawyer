@@ -59,39 +59,15 @@ namespace ee.iLawyer.Modules
                 Title = objectName + "新增";
                 IsNew = true;
                 clientType.IsEnabled = true;
-                TreatedObject = new Client
-                {
+                TreatedObject = new Client();
+            }
 
-                };
-             
-            }
-            if (TreatedObject.IsNP)
-            {
-                txtName.Text = "姓名";
+            txtName.Text = TreatedObject.IsNP ? "姓名" : "机构名称";
 
-            }
-            else
-            {
-                txtName.Text = "机构名称";
-            }
 
 
         }
 
-
-
-        private void tab_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.Source is ListBox)
-            {
-                if (IsNew)
-                {
-                    ;
-                }
-
-            }
-
-        }
 
         private void Accept_Click(object sender, System.Windows.RoutedEventArgs e)
         {
@@ -103,15 +79,8 @@ namespace ee.iLawyer.Modules
 
         private void ClientTypeControl_TypeChanged(object sender, UserControls.TypeRoutedEventArge e)
         {
-            if (e.IsNaturalPerson)
-            {
-                txtName.Text = "姓名";
+            txtName.Text = e.IsNaturalPerson ? "姓名" : "机构名称";
 
-            }
-            else
-            {
-                txtName.Text = "机构名称";
-            }
         }
 
 

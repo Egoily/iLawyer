@@ -26,7 +26,7 @@ namespace ee.iLawyer.Ops.Contact.DTO
         /// <summary>
         /// 级别
         /// </summary>
-        public string Rank { get; set; }
+        public CourtRank Rank { get; set; }
         /// <summary>
         /// 省
         /// </summary>
