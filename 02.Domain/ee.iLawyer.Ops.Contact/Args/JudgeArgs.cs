@@ -1,4 +1,5 @@
-﻿using ee.Framework;
+﻿using ee.Framework.Attributes;
+using ee.Framework.Schema;
 using System.Collections.Generic;
 
 namespace ee.iLawyer.Ops.Contact.Args

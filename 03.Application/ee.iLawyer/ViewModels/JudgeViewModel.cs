@@ -1,4 +1,5 @@
 ﻿using ee.Framework;
+using ee.Framework.Schema;
 using ee.iLawyer.Modules;
 using ee.iLawyer.Ops;
 using ee.iLawyer.Ops.Contact.Args;

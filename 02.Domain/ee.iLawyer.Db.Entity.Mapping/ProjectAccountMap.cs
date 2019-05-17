@@ -7,8 +7,11 @@ namespace ee.iLawyer.Db.Entity.Mapping
         {
             Table("ProjectAccounts");
             LazyLoad();
-            Id(x => x.Id).GeneratedBy.Foreign("Project");
+            Id(x => x.Id).GeneratedBy.Foreign("InProject");
             //.GeneratedBy.Assigned();
+
+            HasOne(x => x.InProject).Cascade.None().Constrained();
+
             Map(x => x.TotalAmount);
             Map(x => x.RiskBonusPercent);
             Map(x => x.ReceivedFee);
@@ -18,7 +21,6 @@ namespace ee.iLawyer.Db.Entity.Mapping
             Map(x => x.IntroduceFee);
             Map(x => x.IntroduceFeePaid);
             Map(x => x.Remark);
-            HasOne(x => x.InProject).Cascade.All();
         }
     }
 }

@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ee.Framework</RootNamespace>
     <AssemblyName>ee.Framework</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Caching" />
@@ -41,15 +45,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseRequest.cs" />
-    <Compile Include="BaseResponse.cs" />
-    <Compile Include="EeException.cs" />
+    <Compile Include="Schema\BaseRequest.cs" />
+    <Compile Include="Schema\BaseResponse.cs" />
+    <Compile Include="Schema\EeException.cs" />
     <Compile Include="EnumHelper.cs" />
     <Compile Include="ErrorCodes.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Attributes\JsonMarkBigObjectAttibute.cs" />
+    <Compile Include="JsonMarkBigObjectConverter.cs" />
     <Compile Include="MemoryCacheHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Validate\RequiredAttribute.cs" />
-    <Compile Include="Validate\ValidateAttibute.cs" />
+    <Compile Include="Attributes\RequiredAttribute.cs" />
+    <Compile Include="Attributes\ValidateAttibute.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

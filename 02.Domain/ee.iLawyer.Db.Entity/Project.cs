@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ee.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -90,6 +91,12 @@ namespace ee.iLawyer.Db.Entity
         {
             this.Account = account;
             account.InProject = this;
+        }
+        public virtual void UpdateAccount(ProjectAccount account)
+        {
+            account.InProject = this;
+            this.Account.Assign(account);
+            this.Account.Id = this.Id;
         }
         public virtual void AddInvolvedClients(IList<ProjectClient> involvedClients)
         {

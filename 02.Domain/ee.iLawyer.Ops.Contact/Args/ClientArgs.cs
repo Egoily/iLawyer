@@ -1,4 +1,5 @@
-﻿using ee.Framework;
+﻿using ee.Framework.Attributes;
+using ee.Framework.Schema;
 using ee.iLawyer.Ops.Contact.DTO;
 using System.Collections.Generic;
 

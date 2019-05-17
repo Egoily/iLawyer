@@ -1,4 +1,5 @@
 ﻿using ee.Framework;
+using ee.Framework.Schema;
 using ee.iLawyer.Modules;
 using ee.iLawyer.Ops;
 using ee.iLawyer.Ops.Contact.Args;
@@ -118,6 +119,8 @@ namespace ee.iLawyer.ViewModels
                     DealDate = SelectedItem.DealDate,
 
                     Account = SelectedItem.Account,
+                    TodoList = SelectedItem.TodoList,
+                    Progresses = SelectedItem.Progresses,
 
                 });
                 return response;

@@ -2,6 +2,7 @@
 using ee.iLawyer.Ops.Contact.DTO;
 using PropertyChanged;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Forms;
 
@@ -61,7 +62,9 @@ namespace ee.iLawyer.Modules
             opResult = System.Windows.Forms.DialogResult.OK;
             if (cbbStatus.SelectedItem != null)
             {
-                switch (cbbStatus.SelectedItem)
+
+                var selectItem = ((KeyValuePair<Object, Object>)cbbStatus.SelectedItem).Key;
+                switch (selectItem)
                 {
                     case StatusOfTodoItem.Pending:
                         TreatedObject.CompletedTime = null;
@@ -89,19 +92,20 @@ namespace ee.iLawyer.Modules
 
         private void CbbStatus_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            if (cbbStatus.SelectedItem != null )
+            if (cbbStatus.SelectedItem != null)
             {
-                switch (cbbStatus.SelectedItem)
+                var selectItem = ((KeyValuePair<Object, Object>)cbbStatus.SelectedItem).Key;
+                switch (selectItem)
                 {
                     case StatusOfTodoItem.Pending:
                         dpCompletedTime.Text = "";
                         break;
                     case StatusOfTodoItem.Completed:
-                        if(TreatedObject.CompletedTime==null)
+                        if (TreatedObject.CompletedTime == null)
                         {
                             dpCompletedTime.SelectedDate = DateTime.Now;
                         }
-                            break;
+                        break;
                     case StatusOfTodoItem.Canceled:
                         dpCompletedTime.Text = "";
                         break;

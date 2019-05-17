@@ -1,4 +1,4 @@
-﻿using ee.Framework;
+﻿using ee.Framework.Schema;
 using ee.iLawyer.Ops.Contact.Args;
 using ee.iLawyer.Ops.Contact.DTO;
 
@@ -35,5 +35,7 @@ namespace ee.iLawyer.Ops.Contact.Interfaces
         BaseResponse RemoveProject(RemoveProjectRequest request);
         BaseQueryResponse<Project> QueryProject(QueryProjectRequest request);
 
+        BaseResponse SaveOrUpdateProjectTodoList(SaveOrUpdateProjectTodoListRequest request);
+        BaseResponse SaveOrUpdateProjectProgress(SaveOrUpdateProjectProgressRequest request);
     }
 }

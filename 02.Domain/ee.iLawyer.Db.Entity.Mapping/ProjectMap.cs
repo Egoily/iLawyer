@@ -20,10 +20,12 @@ namespace ee.iLawyer.Db.Entity.Mapping
             Map(x => x.DealDate);
             Map(x => x.CreateTime);
             Map(x => x.UpdateTime);
-            HasOne(x => x.Account).Cascade.All().PropertyRef(x=>x.InProject);
+
+            HasOne(x => x.Account).Cascade.All();
 
             HasMany(x => x.InvolvedClients).Cascade.All().Inverse();
             HasMany(x => x.TodoList).Cascade.All().Inverse();
+            HasMany(x => x.Progresses).Cascade.All().Inverse();
             References(x => x.Category).Column("CategoryCode").NotFound.Ignore();
             References(x => x.Owner).Column("OwnerId").NotFound.Ignore();
 

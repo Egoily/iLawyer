@@ -1,4 +1,5 @@
 ﻿using ee.Framework;
+using ee.Framework.Schema;
 using ee.iLawyer.Db.Entity;
 using ee.iLawyer.Ops.Contact.Args;
 using ee.iLawyer.Ops.Contact.AutoMapper;
@@ -115,12 +116,12 @@ namespace ee.iLawyer.Ops
                     using (var repo = new NhRepository<Db.Entity.Court>())
                     {
 
-                        var entity = repo.Query(x => x.Name == req.Name).FirstOrDefault();
-                        if (entity != null)
+                        var court = repo.Query(x => x.Name == req.Name).FirstOrDefault();
+                        if (court != null)
                         {
                             throw new EeException(ErrorCodes.Existed, "Object is existed.");
                         }
-                        entity = new Db.Entity.Court()
+                        court = new Db.Entity.Court()
                         {
                             Name = req.Name,
                             Province = req.Province,
@@ -131,7 +132,7 @@ namespace ee.iLawyer.Ops
                             ContactNo = req.ContactNo,
 
                         };
-                        repo.Create(entity);
+                        repo.Create(court);
                     }
                     return response;
                 }
@@ -152,19 +153,19 @@ namespace ee.iLawyer.Ops
                     var response = new BaseResponse();
                     using (var repo = new NhRepository<Db.Entity.Court>())
                     {
-                        var entity = repo.GetById(req.Id);
-                        if (entity == null)
+                        var court = repo.GetById(req.Id);
+                        if (court == null)
                         {
                             throw new EeException(ErrorCodes.NotFound, "Object is not found.");
                         }
-                        entity.Name = req.Name;
-                        entity.Rank = req.Rank;
-                        entity.Province = req.Province;
-                        entity.City = req.City;
-                        entity.County = req.County;
-                        entity.Address = req.Address;
-                        entity.ContactNo = req.ContactNo;
-                        repo.Update(entity);
+                        court.Name = req.Name;
+                        court.Rank = req.Rank;
+                        court.Province = req.Province;
+                        court.City = req.City;
+                        court.County = req.County;
+                        court.Address = req.Address;
+                        court.ContactNo = req.ContactNo;
+                        repo.Update(court);
                     }
                     return response;
                 }
@@ -187,10 +188,10 @@ namespace ee.iLawyer.Ops
                     {
                         foreach (var id in req.Ids)
                         {
-                            var entity = repo.GetById(id);
-                            if (entity != null)
+                            var court = repo.GetById(id);
+                            if (court != null)
                             {
-                                repo.Delete(entity);
+                                repo.Delete(court);
                             }
                         }
                     }
@@ -237,13 +238,13 @@ namespace ee.iLawyer.Ops
                     using (var repo = new NhGlobalRepository())
                     {
 
-                        var entity = repo.Query<Db.Entity.Judge>(x => x.Name == req.Name && x.ContactNo == req.ContactNo).FirstOrDefault();
-                        if (entity != null)
+                        var judge = repo.Query<Db.Entity.Judge>(x => x.Name == req.Name && x.ContactNo == req.ContactNo).FirstOrDefault();
+                        if (judge != null)
                         {
                             throw new EeException(ErrorCodes.Existed, "Object is existed.");
                         }
                         var court = repo.GetById<Db.Entity.Court>(req.InCourtId);
-                        entity = new Db.Entity.Judge()
+                        judge = new Db.Entity.Judge()
                         {
                             Name = req.Name,
                             ContactNo = req.ContactNo,
@@ -252,7 +253,7 @@ namespace ee.iLawyer.Ops
                             Duty = req.Duty,
                             InCourt = court,
                         };
-                        repo.Create(entity);
+                        repo.Create(judge);
                     }
                     return response;
                 }
@@ -273,20 +274,20 @@ namespace ee.iLawyer.Ops
                     var response = new BaseResponse();
                     using (var repo = new NhGlobalRepository())
                     {
-                        var entity = repo.GetById<Db.Entity.Judge>(req.Id);
-                        if (entity == null)
+                        var judge = repo.GetById<Db.Entity.Judge>(req.Id);
+                        if (judge == null)
                         {
                             throw new EeException(ErrorCodes.NotFound, "Object is not found.");
                         }
 
-                        entity.Name = req.Name;
-                        entity.ContactNo = req.ContactNo;
-                        entity.Gender = (int)req.Gender;
-                        entity.Grade = req.Grade.ToString();
-                        entity.Duty = req.Duty;
-                        entity.InCourt = repo.GetById<Db.Entity.Court>(req.InCourtId) ?? throw new EeException(ErrorCodes.NotFound, "Court is not found.");
+                        judge.Name = req.Name;
+                        judge.ContactNo = req.ContactNo;
+                        judge.Gender = (int)req.Gender;
+                        judge.Grade = req.Grade.ToString();
+                        judge.Duty = req.Duty;
+                        judge.InCourt = repo.GetById<Db.Entity.Court>(req.InCourtId) ?? throw new EeException(ErrorCodes.NotFound, "Court is not found.");
 
-                        repo.Update(entity);
+                        repo.Update(judge);
                     }
                     return response;
                 }
@@ -309,10 +310,10 @@ namespace ee.iLawyer.Ops
                     {
                         foreach (var id in req.Ids)
                         {
-                            var entity = repo.GetById(id);
-                            if (entity != null)
+                            var judge = repo.GetById(id);
+                            if (judge != null)
                             {
-                                repo.Delete(entity);
+                                repo.Delete(judge);
                             }
                         }
                     }
@@ -360,13 +361,13 @@ namespace ee.iLawyer.Ops
                      using (var repo = new NhGlobalRepository())
                      {
 
-                         var entity = repo.Query<Db.Entity.Client>(x => x.Name == req.Name && x.Abbreviation == req.Abbreviation).FirstOrDefault();
-                         if (entity != null)
+                         var client = repo.Query<Db.Entity.Client>(x => x.Name == req.Name && x.Abbreviation == req.Abbreviation).FirstOrDefault();
+                         if (client != null)
                          {
                              throw new EeException(ErrorCodes.Existed, "Object is existed.");
                          }
 
-                         entity = new Db.Entity.Client()
+                         client = new Db.Entity.Client()
                          {
                              Name = req.Name,
                              ContactNo = req.ContactNo,
@@ -385,13 +386,13 @@ namespace ee.iLawyer.Ops
                                  CreateTime = now,
                                  Value = p.Value,
                                  Category = repo.GetById<Db.Entity.PropertyItemCategory>(p.CategoryId),
-                                 Client = entity,
+                                 Client = client,
                              };
                              repo.Create(clientPropertyItem);
                              properties.Add(clientPropertyItem);
                          }
-                         entity.Properties = properties;
-                         repo.Create(entity);
+                         client.Properties = properties;
+                         repo.Create(client);
 
                      }
                      return response;
@@ -502,10 +503,10 @@ namespace ee.iLawyer.Ops
                     {
                         foreach (var id in req.Ids)
                         {
-                            var entity = repo.GetById(id);
-                            if (entity != null)
+                            var client = repo.GetById(id);
+                            if (client != null)
                             {
-                                repo.Delete(entity);
+                                repo.Delete(client);
                             }
                         }
                     }
@@ -614,13 +615,13 @@ namespace ee.iLawyer.Ops
                     using (var repo = new NhGlobalRepository())
                     {
 
-                        var entity = repo.Query<Db.Entity.Project>(x => x.Name == req.Name && x.Code == req.Code).FirstOrDefault();
-                        if (entity != null)
+                        var project = repo.Query<Db.Entity.Project>(x => x.Name == req.Name && x.Code == req.Code).FirstOrDefault();
+                        if (project != null)
                         {
                             throw new EeException(ErrorCodes.Existed, "Object is existed.");
                         }
 
-                        entity = new Db.Entity.Project()
+                        project = new Db.Entity.Project()
                         {
                             Category = repo.GetById<Db.Entity.ProjectCategory>(req.CategoryCode),
                             Name = req.Name,
@@ -633,7 +634,7 @@ namespace ee.iLawyer.Ops
                             Owner = repo.GetById<Db.Entity.SysUser>(req.OwnerId),
                             CreateTime = now,
                         };
-                        entity.AddAccount(DtoConverter.Convert(req.Account));
+                        project.AddAccount(DtoConverter.Convert(req.Account));
 
                         var involvedClients = new List<Db.Entity.ProjectClient>();
                         var todoList = new List<Db.Entity.ProjectTodoItem>();
@@ -652,7 +653,7 @@ namespace ee.iLawyer.Ops
                                         var projectClient = new ProjectClient()
                                         {
                                             Id = 0,
-                                            InProject = entity,
+                                            InProject = project,
                                             Client = existedClient,
                                             CreateTime = now,
                                             OrderNo = projectClientOrderNo++,
@@ -664,13 +665,13 @@ namespace ee.iLawyer.Ops
                             }
                         }
 
-                        req.TodoList?.ToList().ForEach(x => todoList.Add(DtoConverter.Convert(x)));
-                        req.Progresses?.ToList().ForEach(x => progresses.Add(DtoConverter.Convert(x)));
+                        req.TodoList?.ToList().ForEach(x => todoList.Add(DtoConverter.Convert(x, project)));
+                        req.Progresses?.ToList().ForEach(x => progresses.Add(DtoConverter.Convert(x, project)));
 
-                        entity.AddInvolvedClients(involvedClients);
-                        entity.AddTodoList(todoList);
-                        entity.AddProgresses(progresses);
-                        repo.Create(entity);
+                        project.AddInvolvedClients(involvedClients);
+                        project.AddTodoList(todoList);
+                        project.AddProgresses(progresses);
+                        repo.Create(project);
                     }
                     return response;
                 }
@@ -680,44 +681,150 @@ namespace ee.iLawyer.Ops
 
         public BaseResponse UpdateProject(UpdateProjectRequest request)
         {
+            var now = DateTime.Now;
             return ServiceProcessor.ProcessRequest(request,
-        //inbound.do validate or do something here
-        () =>
+                //inbound.do validate or do something here
+                () =>
         {
         },
 
-        req =>
-        {
-            var response = new BaseResponse();
-            using (var repo = new NhGlobalRepository())
-            {
-                var entity = repo.GetById<Db.Entity.Project>(req.Id);
-                if (entity == null)
+                req =>
                 {
-                    throw new EeException(ErrorCodes.NotFound, "Object is not found.");
+                    var response = new BaseResponse();
+                    using (var repo = new NhGlobalRepository())
+                    {
+                        var project = repo.GetById<Db.Entity.Project>(req.Id);
+                        if (project == null)
+                        {
+                            throw new EeException(ErrorCodes.NotFound, "Object is not found.");
+                        }
+                        project.Name = req.Name;
+
+                        project.Code = req.Code;
+                        project.Details = req.Details;
+                        project.Level = req.Level;
+                        project.OtherLitigant = req.OtherLitigant;
+                        project.InterestedParty = req.InterestedParty;
+                        project.DealDate = req.DealDate;
+                        project.UpdateTime = DateTime.Now;
+
+                        project.UpdateAccount(DtoConverter.Convert(req.Account));
+
+                        project.Category = repo.GetById<ProjectCategory>(req.CategoryCode);
+                        project.Owner = repo.GetById<Db.Entity.SysUser>(req.OwnerId);
+
+
+
+                        //update todolist
+                        if (req.TodoList != null )
+                        {
+                            if (project.TodoList != null && project.TodoList.Any())
+                            {
+                                var toRemove = project.TodoList.Where(x => !req.TodoList.Select(o => o.Id).Contains(x.Id));
+                                if (toRemove != null && toRemove.Any())
+                                {
+                                    foreach (var item in toRemove.ToList())
+                                    {
+                                        project.TodoList.Remove(item);
+                                        repo.Delete(item);
+                                    }
+
+                                }
+                                foreach (var item in req.TodoList)
+                                {
+                                    var existedObj = project.TodoList.FirstOrDefault(x => x.Id == item.Id);
+                                    //update
+                                    if (existedObj != null)
+                                    {
+                                        existedObj.Name = item.Name;
+                                        existedObj.Priority = (int)item.Priority;
+                                        existedObj.IsSetRemind = item.IsSetRemind;
+                                        existedObj.RemindTime = item.RemindTime;
+                                        existedObj.ExpiredTime = item.ExpiredTime;
+                                        existedObj.Content = item.Content;
+                                        existedObj.Status = (int)item.Status;
+                                        existedObj.CompletedTime = item.CompletedTime;
+                                    }
+                                    //add
+                                    else
+                                    {
+                                        var todoItem = new Db.Entity.ProjectTodoItem()
+                                        {
+                                            Id = item.Id,
+                                            InProject = project,
+                                            Name = item.Name,
+                                            Priority = (int)item.Priority,
+                                            IsSetRemind = item.IsSetRemind,
+                                            RemindTime = item.RemindTime,
+                                            ExpiredTime = item.ExpiredTime,
+                                            Content = item.Content,
+                                            Status = (int)item.Status,
+                                            CompletedTime = item.CompletedTime,
+                                            CreateTime = now,
+                                        };
+                                        project.TodoList.Add(todoItem);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                project.TodoList = new List<ProjectTodoItem>();
+                                req.TodoList.ToList().ForEach(x => project.TodoList.Add(DtoConverter.Convert(x, project)));
+                            }
+                        }
+                        //update progresses
+                        if (req.Progresses != null )
+                        {
+                            if (project.Progresses != null && project.Progresses.Any())
+                            {
+                                var toRemove = project.Progresses.Where(x => !req.Progresses.Select(o => o.Id).Contains(x.Id));
+                                if (toRemove != null && toRemove.Any())
+                                {
+                                    foreach (var item in toRemove.ToList())
+                                    {
+                                        project.Progresses.Remove(item);
+                                        repo.Delete(item);
+                                    }
+
+                                }
+                                foreach (var item in req.Progresses)
+                                {
+                                    var existedObj = project.Progresses.FirstOrDefault(x => x.Id == item.Id);
+                                    //update
+                                    if (existedObj != null)
+                                    {
+                                        existedObj.Content = item.Content;
+                                        existedObj.HandleTime = item.HandleTime;
+                                    }
+                                    //add
+                                    else
+                                    {
+                                        var todoItem = new Db.Entity.ProjectProgress()
+                                        {
+                                            Id = item.Id,
+                                            InProject = project,
+                                            Content = item.Content,
+                                            HandleTime = item.HandleTime,
+                                            CreateTime = now,
+                                        };
+                                        project.Progresses.Add(todoItem);
+                                    }
+                                }
+                                repo.Update(project);
+                            }
+                            else
+                            {
+                                project.Progresses = new List<ProjectProgress>();
+                                req.Progresses.ToList().ForEach(x => project.Progresses.Add(DtoConverter.Convert(x, project)));
+                                repo.Update(project);
+                            }
+                        }
+
+                        repo.Update(project);
+                    }
+                    return response;
                 }
-                entity.Name = req.Name;
-
-                entity.Code = req.Code;
-                entity.Details = req.Details;
-                entity.Level = req.Level;
-                entity.OtherLitigant = req.OtherLitigant;
-                entity.InterestedParty = req.InterestedParty;
-                entity.DealDate = req.DealDate;
-                entity.UpdateTime = DateTime.Now;
-
-
-                entity.Category = repo.GetById<ProjectCategory>(req.CategoryCode);
-                entity.Owner = repo.GetById<Db.Entity.SysUser>(req.OwnerId);
-
-
-                //TODO:
-
-                repo.Update(entity);
-            }
-            return response;
-        }
-        );
+            );
 
         }
 
@@ -736,10 +843,10 @@ namespace ee.iLawyer.Ops
                    {
                        foreach (var id in req.Ids)
                        {
-                           var entity = repo.GetById(id);
-                           if (entity != null)
+                           var project = repo.GetById(id);
+                           if (project != null)
                            {
-                               repo.Delete(entity);
+                               repo.Delete(project);
                            }
                        }
                    }
@@ -751,34 +858,192 @@ namespace ee.iLawyer.Ops
         public BaseQueryResponse<Contact.DTO.Project> QueryProject(QueryProjectRequest request)
         {
             return ServiceProcessor.ProcessRequest(request,
-            //inbound.do validate or do something here
-            () =>
+                //inbound.do validate or do something here
+                () =>
+                {
+                },
+
+                req =>
+                 {
+                     var response = new BaseQueryResponse<Contact.DTO.Project>();
+                     using (var repo = new NhRepository<Db.Entity.Project>())
+                     {
+                         IEnumerable<Db.Entity.Project> query;
+
+                         if (req.Keys != null && req.Keys.Any())
+                         {
+                             var queryOver = repo.GetQuery().WhereRestrictionOn(x => x.Id).IsIn(req.Keys);
+                             query = queryOver.List();
+                         }
+                         else
+                         {
+                             query = repo.Query();
+                         }
+                         response.Total = query.Count();
+                         response.QueryList = query.ToList().Select(DtoConverter.Convert).ToList();
+                     }
+                     return response;
+                 }
+            );
+        }
+
+        public BaseResponse SaveOrUpdateProjectTodoList(SaveOrUpdateProjectTodoListRequest request)
+        {
+            var now = DateTime.Now;
+            return ServiceProcessor.ProcessRequest(request,
+                //inbound.do validate or do something here
+                () =>
             {
             },
 
-            req =>
-            {
-                var response = new BaseQueryResponse<Contact.DTO.Project>();
-                using (var repo = new NhRepository<Db.Entity.Project>())
+                req =>
                 {
-                    IEnumerable<Db.Entity.Project> query;
+                    var response = new BaseResponse();
+                    //TODO:
+                    using (var repo = new NhGlobalRepository())
+                    {
+                        var project = repo.GetById<Db.Entity.Project>(req.ProjectId);
+                        if (project == null)
+                        {
+                            throw new EeException(ErrorCodes.NotFound, "Object is not found.");
+                        }
+                        if (req.TodoList != null)
+                        {
+                            if (project.TodoList != null && project.TodoList.Any())
+                            {
+                                var toRemove = project.TodoList.Where(x => !req.TodoList.Select(o => o.Id).Contains(x.Id));
+                                if (toRemove != null && toRemove.Any())
+                                {
+                                    foreach (var item in toRemove.ToList())
+                                    {
+                                        project.TodoList.Remove(item);
+                                        repo.Delete(item);
+                                    }
 
-                    if (req.Keys != null && req.Keys.Any())
-                    {
-                        var queryOver = repo.GetQuery().WhereRestrictionOn(x => x.Id).IsIn(req.Keys);
-                        query = queryOver.List();
+                                }
+                                foreach (var item in req.TodoList)
+                                {
+                                    var existedObj = project.TodoList.FirstOrDefault(x => x.Id == item.Id);
+                                    //update
+                                    if (existedObj != null)
+                                    {
+                                        existedObj.Name = item.Name;
+                                        existedObj.Priority = (int)item.Priority;
+                                        existedObj.IsSetRemind = item.IsSetRemind;
+                                        existedObj.RemindTime = item.RemindTime;
+                                        existedObj.ExpiredTime = item.ExpiredTime;
+                                        existedObj.Content = item.Content;
+                                        existedObj.Status = (int)item.Status;
+                                        existedObj.CompletedTime = item.CompletedTime;
+                                    }
+                                    //add
+                                    else
+                                    {
+                                        var todoItem = new Db.Entity.ProjectTodoItem()
+                                        {
+                                            Id = item.Id,
+                                            InProject = project,
+                                            Name = item.Name,
+                                            Priority = (int)item.Priority,
+                                            IsSetRemind = item.IsSetRemind,
+                                            RemindTime = item.RemindTime,
+                                            ExpiredTime = item.ExpiredTime,
+                                            Content = item.Content,
+                                            Status = (int)item.Status,
+                                            CompletedTime = item.CompletedTime,
+                                            CreateTime = now,
+                                        };
+                                        project.TodoList.Add(todoItem);
+                                    }
+                                }
+                                repo.Update(project);
+                            }
+                            else
+                            {
+                                project.TodoList = new List<ProjectTodoItem>();
+                                req.TodoList.ToList().ForEach(x => project.TodoList.Add(DtoConverter.Convert(x, project)));
+                                repo.Update(project);
+                            }
+                        }
                     }
-                    else
-                    {
-                        query = repo.Query();
-                    }
-                    response.Total = query.Count();
-                    response.QueryList = query.ToList().Select(DtoConverter.Convert).ToList();
+                    return response;
                 }
-                return response;
-            }
-         );
+            );
         }
+
+        public BaseResponse SaveOrUpdateProjectProgress(SaveOrUpdateProjectProgressRequest request)
+        {
+            var now = DateTime.Now;
+            return ServiceProcessor.ProcessRequest(request,
+                //inbound.do validate or do something here
+                () =>
+                {
+                },
+
+                req =>
+                {
+                    var response = new BaseResponse();
+                    //TODO:
+                    using (var repo = new NhGlobalRepository())
+                    {
+                        var project = repo.GetById<Db.Entity.Project>(req.ProjectId);
+                        if (project == null)
+                        {
+                            throw new EeException(ErrorCodes.NotFound, "Object is not found.");
+                        }
+                        if (req.Progresses != null )
+                        {
+                            if (project.Progresses != null && project.Progresses.Any())
+                            {
+                                var toRemove = project.Progresses.Where(x => !req.Progresses.Select(o => o.Id).Contains(x.Id));
+                                if (toRemove != null && toRemove.Any())
+                                {
+                                    foreach (var item in toRemove.ToList())
+                                    {
+                                        project.Progresses.Remove(item);
+                                        repo.Delete(item);
+                                    }
+
+                                }
+                                foreach (var item in req.Progresses)
+                                {
+                                    var existedObj = project.Progresses.FirstOrDefault(x => x.Id == item.Id);
+                                    //update
+                                    if (existedObj != null)
+                                    {
+                                        existedObj.Content = item.Content;
+                                        existedObj.HandleTime = item.HandleTime;
+                                    }
+                                    //add
+                                    else
+                                    {
+                                        var todoItem = new Db.Entity.ProjectProgress()
+                                        {
+                                            Id = item.Id,
+                                            InProject = project,
+                                            Content = item.Content,
+                                            HandleTime = item.HandleTime,
+                                            CreateTime = now,
+                                        };
+                                        project.Progresses.Add(todoItem);
+                                    }
+                                }
+                                repo.Update(project);
+                            }
+                            else
+                            {
+                                project.Progresses = new List<ProjectProgress>();
+                                req.Progresses.ToList().ForEach(x => project.Progresses.Add(DtoConverter.Convert(x, project)));
+                                repo.Update(project);
+                            }
+                        }
+                    }
+                    return response;
+                }
+            );
+        }
+
+
 
 
     }

@@ -1,4 +1,5 @@
-﻿using ee.Framework;
+﻿using ee.Framework.Attributes;
+using ee.Framework.Schema;
 using ee.iLawyer.Ops.Contact.DTO;
 using System;
 using System.Collections.Generic;
@@ -126,6 +127,14 @@ namespace ee.iLawyer.Ops.Contact.Args
         /// 项目帐目
         /// </summary>
         public virtual ProjectAccount Account { get; set; }
+        /// <summary>
+        /// 待办事项
+        /// </summary>
+        public virtual IList<ProjectTodoItem> TodoList { get; set; }
+        /// <summary>
+        /// 项目进展
+        /// </summary>
+        public virtual IList<ProjectProgress> Progresses { get; set; }
 
     }
     public class RemoveProjectRequest : BaseRequest
@@ -150,5 +159,14 @@ namespace ee.iLawyer.Ops.Contact.Args
     {
 
     }
-
+    public class SaveOrUpdateProjectTodoListRequest : BaseRequest
+    {
+        public virtual int ProjectId { get; set; }
+        public virtual IList<ProjectTodoItem> TodoList { get; set; }
+    }
+    public class SaveOrUpdateProjectProgressRequest : BaseRequest
+    {
+        public virtual int ProjectId { get; set; }
+        public virtual IList<ProjectProgress> Progresses { get; set; }
+    }
 }

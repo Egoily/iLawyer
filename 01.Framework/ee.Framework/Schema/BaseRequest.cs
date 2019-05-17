@@ -1,4 +1,6 @@
-﻿namespace ee.Framework
+﻿using ee.Framework.Attributes;
+
+namespace ee.Framework.Schema
 {
     public class BaseRequest
     {

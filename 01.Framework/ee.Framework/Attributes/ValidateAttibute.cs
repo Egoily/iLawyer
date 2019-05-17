@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ee.Framework
+namespace ee.Framework.Attributes
 {
     public abstract class ValidateAttibute : Attribute
     {

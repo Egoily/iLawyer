@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ee.Framework
+namespace ee.Framework.Attributes
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class RequiredAttribute : ValidateAttibute

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ee.Framework
+namespace ee.Framework.Schema
 {
     public class EeException : Exception
     {

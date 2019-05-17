@@ -387,7 +387,7 @@
                                     <DataGridTextColumn Header="优先级" Binding="{Binding Priority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                     <DataGridTextColumn Header="状态" Binding="{Binding Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                     <DataGridTextColumn Header="到期时间" Binding="{Binding ExpiredTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,StringFormat='yyyy-MM-dd HH:mm'}" />
-                                    <DataGridTextColumn Header="完成时间" Binding="{Binding FinishedTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,StringFormat='yyyy-MM-dd HH:mm'}"/>
+                                    <DataGridTextColumn Header="完成时间" Binding="{Binding CompletedTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,StringFormat='yyyy-MM-dd HH:mm'}"/>
                                     <DataGridTextColumn Header="详情" Binding="{Binding Content, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                                     <DataGridTemplateColumn Header="操作" Width="Auto">

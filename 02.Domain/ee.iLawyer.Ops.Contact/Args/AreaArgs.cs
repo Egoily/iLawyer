@@ -1,9 +1,4 @@
-﻿using ee.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ee.Framework.Schema;
 
 namespace ee.iLawyer.Ops.Contact.Args
 {

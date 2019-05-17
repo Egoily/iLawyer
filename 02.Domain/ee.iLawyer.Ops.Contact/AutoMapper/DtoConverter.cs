@@ -108,13 +108,18 @@ namespace ee.iLawyer.Ops.Contact.AutoMapper
         {
             return Mapper.Map<Db.Entity.ProjectAccount>(source);
         }
-        public static Db.Entity.ProjectProgress Convert(DTO.ProjectProgress source)
+
+        public static Db.Entity.ProjectProgress Convert(DTO.ProjectProgress source, Db.Entity.Project project)
         {
-            return Mapper.Map<Db.Entity.ProjectProgress>(source);
+            var target = Mapper.Map<Db.Entity.ProjectProgress>(source);
+            target.InProject = project;
+            return target;
         }
-        public static Db.Entity.ProjectTodoItem Convert(DTO.ProjectTodoItem source)
+        public static Db.Entity.ProjectTodoItem Convert(DTO.ProjectTodoItem source, Db.Entity.Project project)
         {
-            return Mapper.Map<Db.Entity.ProjectTodoItem>(source);
+            var target = Mapper.Map<Db.Entity.ProjectTodoItem>(source);
+            target.InProject = project;
+            return target;
         }
 
     }

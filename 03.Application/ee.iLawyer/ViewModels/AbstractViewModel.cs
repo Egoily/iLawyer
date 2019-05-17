@@ -1,4 +1,4 @@
-﻿using ee.Framework;
+﻿using ee.Framework.Schema;
 using ee.iLawyer.Domain;
 using MaterialDesignThemes.Wpf;
 using System.Windows.Input;

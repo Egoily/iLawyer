@@ -2,6 +2,7 @@
 using log4net;
 using ee.Framework;
 using ee.SessionFactory;
+using ee.Framework.Schema;
 
 namespace ee.iLawyer.Ops
 {

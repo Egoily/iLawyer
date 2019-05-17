@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ee.Framework
+namespace ee.Framework.Schema
 {
     public class BaseResponse
     {

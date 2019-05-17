@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ee.iLawyer.Db.Entity</RootNamespace>
     <AssemblyName>ee.iLawyer.Db.Entity</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -58,6 +59,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyItemCategory.cs" />
     <Compile Include="SysUser.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\01.Framework\ee.Framework\ee.Framework.csproj">
+      <Project>{7D3D1F1D-973E-464A-9E60-B33CD0B34163}</Project>
+      <Name>ee.Framework</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

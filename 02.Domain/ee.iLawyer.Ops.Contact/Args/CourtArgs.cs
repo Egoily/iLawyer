@@ -1,4 +1,5 @@
-﻿using ee.Framework;
+﻿using ee.Framework.Attributes;
+using ee.Framework.Schema;
 using System;
 using System.Collections.Generic;
 using System.Linq;
