@@ -8,5 +8,5 @@
     <domain:EnumDicItemsSource x:Key="EnumItemsSourceOfGenders"  Type="{x:Type contact:Gender}"/>
     <domain:EnumDicItemsSource x:Key="EnumItemsSourceOfUrgencyDegreeOfTodoItem"  Type="{x:Type contact:UrgencyDegreeOfTodoItem}"/>
     <domain:EnumDicItemsSource x:Key="EnumItemsSourceOfStatusOfTodoItem"  Type="{x:Type contact:StatusOfTodoItem}"/>
- 
+    <domain:EnumDicItemsSource x:Key="EnumItemsSourceOfRemindTimeType"  Type="{x:Type contact:RemindTimeType}"/>
 </ResourceDictionary>

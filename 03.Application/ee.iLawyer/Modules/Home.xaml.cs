@@ -43,5 +43,10 @@ namespace ee.iLawyer.Modules
         {
             var vm = (this.DataContext as HomeViewModel);
         }
+
+        private void DisplayMonthChanged(UserControls.Agenda.MonthChangedEventArgs e)
+        {
+
+        }
     }
 }

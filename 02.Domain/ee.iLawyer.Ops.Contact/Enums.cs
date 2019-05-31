@@ -193,5 +193,29 @@ namespace ee.iLawyer.Ops.Contact
         [Description("重要日期")]
         DateTime,
     }
+
+    public enum RemindTimeType
+    {
+        /// <summary>
+        /// 不提醒
+        /// </summary>
+        [Description("不提醒")]
+        UnRemind,
+        /// <summary>
+        /// 前一天
+        /// </summary>
+        [Description("前一天")]
+        PreviousOneDay,
+        /// <summary>
+        /// 同一天
+        /// </summary>
+        [Description("同一天")]
+        CurrentDay,
+        /// <summary>
+        /// 指定时间
+        /// </summary>
+        [Description("指定时间")]
+        DesignatedDay,
+    }
 }
 

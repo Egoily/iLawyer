@@ -12,19 +12,18 @@
              xmlns:contact="clr-namespace:ee.iLawyer.Ops.Contact;assembly=ee.iLawyer.Ops.Contact"
              xmlns:converters="clr-namespace:ee.iLawyer.Converters"
              xmlns:excontrols="clr-namespace:ee.iLawyer.ExControls"
+             xmlns:agenda="clr-namespace:ee.iLawyer.UserControls.Agenda"
              mc:Ignorable="d" 
          
              >
     <Grid x:Name="grid" Background="Aqua">
-      
-        <StackPanel Grid.ColumnSpan="2">
-            <Button Click="btnOK_Click">ok</Button>
-            <StackPanel Orientation="Horizontal">
-            </StackPanel>
 
- 
-
-        </StackPanel>
+        <agenda:MonthView 
+            x:Name="AptCalendar" 
+            VerticalAlignment="Stretch" 
+            VerticalContentAlignment="Stretch"
+            DisplayMonthChanged="DisplayMonthChanged"
+            />
 
     </Grid>
 </UserControl>

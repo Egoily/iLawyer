@@ -1,0 +1,81 @@
+﻿<Popup x:Class="ee.iLawyer.UserControls.Agenda.EventDetailPopup"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+            IsOpen="false" 
+            StaysOpen="false"
+            AllowsTransparency="True"
+            PopupAnimation="Slide"
+            Placement="Right"
+            mc:Ignorable="d" 
+            >
+
+    <Border  Style="{StaticResource MainGridBorder}">
+        <Grid Margin="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="40"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <TextBox Grid.Row="0" Grid.ColumnSpan="5"  
+                     TextWrapping="Wrap" Name="txtSubject" Margin="0,20,0,0" Height="40"
+                     Text="{Binding Subject}"
+                     >
+                <TextBox.Style>
+                    <Style TargetType="TextBox">
+                        <Style.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsFocused" Value="False"></Condition>
+                                    <Condition Property="Text" Value=""></Condition>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <VisualBrush AlignmentX="Left" AlignmentY="Top" Stretch="None">
+                                            <VisualBrush.Visual>
+                                                <TextBlock Padding="5,2" Background="Transparent" Foreground="Silver"  FontSize="12">接下来,你有什么安排?</TextBlock>
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </MultiTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+            <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,10,0,0">时间:</TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" Margin="0,10,0,0"
+                               Text="{Binding Path=StartTime,StringFormat='yyyy年M月d日 dddd',ConverterCulture=zh-CN}"
+                               TextAlignment="Left"
+                               />
+            <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,10,0,0">提醒:</TextBlock>
+            <ComboBox Grid.Row="2" Grid.Column="1" Margin="0,10,0,0"
+                      ItemsSource="{StaticResource EnumItemsSourceOfRemindTimeType}"
+                      SelectedValuePath="Key" DisplayMemberPath="Value"
+                      SelectedValue="{Binding Path=RemindTimeType,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Grid.Row="2" Grid.Column="2" Margin="0,10,0,0"></TextBox>
+            <DatePicker Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,2,0,0" SelectedDateFormat="Long"
+                         SelectedDate="{Binding Path=StartTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DatePicker>
+            <Separator Grid.Row="4" Grid.ColumnSpan="5" Margin="0,10,0,10"/>
+            <Button Grid.Row="5" Click="ButtonDelete_Click">删除</Button>
+            <Button Grid.Row="5" Grid.Column="3" Click="ButtonConfirm_Click">确定</Button>
+            <Button Grid.Row="5"  Grid.Column="4" Click="ButtonClose_Click">关闭</Button>
+
+        </Grid>
+
+
+    </Border>
+
+</Popup>

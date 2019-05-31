@@ -129,12 +129,16 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\ValueConverter.cs" />
+    <Compile Include="Domain\BLDateHelper.cs" />
     <Compile Include="Domain\BrushProps.cs" />
+    <Compile Include="Domain\ChineseLunisolarCalendarWithFestival.cs" />
     <Compile Include="Domain\ControlExtession.cs" />
+    <Compile Include="Domain\DragDropHelper.cs" />
     <Compile Include="Domain\EnumDicItemsSource.cs" />
     <Compile Include="Domain\EnumItemsSource.cs" />
     <Compile Include="Domain\ImageHelper.cs" />
     <Compile Include="Domain\ReactiveRelayCommand.cs" />
+    <Compile Include="Domain\Utilities.cs" />
     <Compile Include="Domain\WatermarkBehavior.cs" />
     <Compile Include="ExControls\CircularProgressBar.xaml.cs">
       <DependentUpon>CircularProgressBar.xaml</DependentUpon>
@@ -147,6 +151,7 @@
     <Compile Include="ExControls\ImageButton.xaml.cs">
       <DependentUpon>ImageButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ExControls\NotifyIconEx.cs" />
     <Compile Include="ExControls\PathButton.xaml.cs">
       <DependentUpon>PathButton.xaml</DependentUpon>
     </Compile>
@@ -154,11 +159,27 @@
     <Compile Include="ExControls\SearchPickBox.cs" />
     <Compile Include="ExControls\SearchBox.cs" />
     <Compile Include="ExControls\SearchPopupBox.cs" />
+    <Compile Include="Models\Appointment.cs" />
     <Compile Include="Modules\NewEditProgress.xaml.cs">
       <DependentUpon>NewEditProgress.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\NewEditTodoItem.xaml.cs">
       <DependentUpon>NewEditTodoItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Agenda\DayBoxAppointmentControl.xaml.cs">
+      <DependentUpon>DayBoxAppointmentControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Agenda\DayBoxControl.xaml.cs">
+      <DependentUpon>DayBoxControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Agenda\EventDetailPopup.xaml.cs">
+      <DependentUpon>EventDetailPopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Agenda\MonthView.xaml.cs">
+      <DependentUpon>MonthView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Agenda\WeekOfDaysControls.xaml.cs">
+      <DependentUpon>WeekOfDaysControls.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MultiItemSelector.xaml.cs">
       <DependentUpon>MultiItemSelector.xaml</DependentUpon>
@@ -240,7 +261,31 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Styles\MainGridBorder.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Styles\SearchPickBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Agenda\DayBoxAppointmentControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Agenda\DayBoxControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Agenda\EventDetailPopup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Agenda\MonthView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Agenda\WeekOfDaysControls.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
