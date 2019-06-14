@@ -22,5 +22,25 @@ namespace ee.iLawyer.Domain
             return (Math.Abs(currentPosition.X - initialMousePosition.X) >= SystemParameters.MinimumHorizontalDragDistance
                     || Math.Abs(currentPosition.Y - initialMousePosition.Y) >= SystemParameters.MinimumVerticalDragDistance);
         }
+
+        public static T FindName<T>(DependencyObject obj, string name) where T : FrameworkElement
+        {
+            if (null != obj)
+            {
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+                {
+                    DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+                    if (child != null && child is T && (child as T).Name.Equals(name))
+                        return (T)child;
+                    else
+                    {
+                        T childOfChild = FindName<T>(child, name);
+                        if (childOfChild != null && childOfChild is T && (childOfChild as T).Name.Equals(name))
+                            return childOfChild;
+                    }
+                }
+            }
+            return null;
+        }
     }
 }

@@ -8,12 +8,17 @@ namespace ee.iLawyer.Domain
     {
         public DateTime CurrentDateTime { get; private set; }
 
-
+        private int weekValue = -1;
         public int WeekValue
         {
             get
             {
-                return CaculateWeekDay(CurrentDateTime.Year, CurrentDateTime.Month, CurrentDateTime.Day);
+                if (weekValue == -1)
+                {
+                    weekValue = CaculateWeekDay(CurrentDateTime.Year, CurrentDateTime.Month, CurrentDateTime.Day);
+                }
+                return weekValue;
+
             }
         }
         /// <summary>
@@ -26,6 +31,7 @@ namespace ee.iLawyer.Domain
                 var chineseWeekValue = "";
                 switch (WeekValue)
                 {
+                    case 0:
                     case 7:
                         chineseWeekValue = "星期日";
                         break;
@@ -90,7 +96,8 @@ namespace ee.iLawyer.Domain
         {
             get
             {
-                return GetWorldFestival(CurrentDateTime.Month, WeekNoOfMonth, WeekValue);
+                var noOfWeekMonth = GetNoOWeekfMonth(CurrentDateTime.Year, CurrentDateTime.Month, CurrentDateTime.Day);
+                return GetWorldFestival(CurrentDateTime.Month, noOfWeekMonth, WeekValue);
             }
         }
 
@@ -238,7 +245,7 @@ namespace ee.iLawyer.Domain
 
         private static readonly string[] monthName = { "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC" };
 
-        private static string[] lunarMonthName = { "正月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一", "腊月" };
+        private static readonly string[] lunarMonthName = { "正月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一", "腊月" };
 
         //国历节日 *表示放假日
         private static string[] sFtv = {"0101*元旦","0202 世界湿地日","0210 国际气象节","0214 情人节","0301 国际海豹日","0303 全国爱耳日",
@@ -500,7 +507,42 @@ namespace ee.iLawyer.Domain
             return weekNo;
 
         }
+        public static int GetNoOWeekfMonth(int y, int m, int d)
+        {
+            int weekNo = 0;
 
+            int week = CaculateWeekDay(y, m, d);
+
+            if (week == 7)
+            {
+                week = 0;
+            }
+
+            if (d > (week))
+            {
+                if ((d - week) % 7 == 0)
+                {
+                    weekNo = (d - week) / 7 + 1;
+                }
+                else
+                {
+                    weekNo = (d - week) / 7 + 2;
+                }
+            }
+            else
+            {
+                weekNo = 1;
+            }
+
+            int firstWeekDayOfMonth = CaculateWeekDay(y, m, 1);
+
+            if (week < firstWeekDayOfMonth)
+            {
+                weekNo = weekNo - 1;
+            }
+            return weekNo;
+
+        }
         #endregion
 
 
@@ -574,11 +616,22 @@ namespace ee.iLawyer.Domain
 
             System.Text.RegularExpressions.Regex re = new System.Text.RegularExpressions.Regex(str);
 
+            if (week == 7)
+            {
+                week = 0;
+            }
+
             for (int i = 0; i < twFtv.Length; i++)
             {
                 string[] s = re.Split(twFtv[i]);
 
-                if (Convert.ToInt32(s[1]) == month && Convert.ToInt32(s[2]) == weekNoOfMonth && Convert.ToInt32(s[2]) == week)
+                var w = Convert.ToInt32(s[3]);
+                if (w == 7)
+                {
+                    w = 0;
+                }
+
+                if (Convert.ToInt32(s[1]) == month && Convert.ToInt32(s[2]) == weekNoOfMonth && w == week)
                 {
 
                     return s[5];

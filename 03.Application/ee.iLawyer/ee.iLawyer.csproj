@@ -181,6 +181,9 @@
     <Compile Include="UserControls\Agenda\WeekOfDaysControls.xaml.cs">
       <DependentUpon>WeekOfDaysControls.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ClientCard.xaml.cs">
+      <DependentUpon>ClientCard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\MultiItemSelector.xaml.cs">
       <DependentUpon>MultiItemSelector.xaml</DependentUpon>
     </Compile>
@@ -288,6 +291,10 @@
     <Page Include="UserControls\Agenda\WeekOfDaysControls.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\ClientCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\MultiItemSelector.xaml">
       <SubType>Designer</SubType>
@@ -481,6 +488,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\bg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ForwardGreen.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

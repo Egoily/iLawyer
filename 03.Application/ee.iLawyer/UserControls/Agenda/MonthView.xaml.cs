@@ -52,6 +52,8 @@ namespace ee.iLawyer.UserControls.Agenda
                 _DisplayStartDate = value;
                 _DisplayMonth = _DisplayStartDate.Month;
                 _DisplayYear = _DisplayStartDate.Year;
+
+                BuildCalendarUI();
             }
         }
 
@@ -71,10 +73,12 @@ namespace ee.iLawyer.UserControls.Agenda
         public MonthView()
         {
             InitializeComponent();
-            _todayBackBrush = (Brush)TryFindResource("OrangeGradientBrush");
+
+            BuildDayBoxes();
         }
         private void MonthView_Loaded(object sender, RoutedEventArgs e)
         {
+
             // -- Want to have the calendar show up, even if no appoints are assigned 
             // Note - in my own app, appointments are loaded by a backgroundWorker thread to avoid a laggy UI
             if (_monthAppointments == null)
@@ -83,102 +87,219 @@ namespace ee.iLawyer.UserControls.Agenda
             }
         }
 
+        //private void BuildCalendarUI()
+        //{
+        //    int daysInCurrentMonth = sysCal.GetDaysInMonth(_DisplayStartDate.Year, _DisplayStartDate.Month);
+
+        //    int preYear = _DisplayStartDate.Month == 1 ? _DisplayStartDate.Year - 1 : _DisplayStartDate.Year;
+        //    int preMonth = _DisplayStartDate.Month == 1 ? 12 : _DisplayStartDate.Month - 1;
+        //    int daysInPreMonth = sysCal.GetDaysInMonth(preYear, preMonth);
+
+        //    int offsetDays = System.Convert.ToInt32(System.Enum.ToObject(typeof(System.DayOfWeek), _DisplayStartDate.DayOfWeek)) - 1;
+
+        //    // clear the monthview of all child controls, and reset the namescope to remove all the registered names.
+        //    MonthViewGrid.Children.Clear();
+        //    System.Windows.NameScope.SetNameScope(this, new System.Windows.NameScope());
+
+        //    MonthYearLabel.Content = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(_DisplayMonth) + " " + _DisplayYear;
+
+
+        //    for (int row = 0; row < 6; row++)
+        //    {
+        //        WeekOfDaysControls weekRowCtrl = new WeekOfDaysControls();
+        //        for (int column = 1; column <= 7; column++)
+        //        {       // -- load each weekrow with a DayBoxControl whose label is set to day number
+        //            DayBoxControl dayBox = new DayBoxControl();
+        //            DateTime currentDay;
+        //            if (row == 0 && column <= offsetDays)//previous month
+        //            {
+        //                dayBox.Name = $"DayBox{preYear}{preMonth}{daysInPreMonth - offsetDays + column}";
+        //                currentDay = new DateTime(preYear, preMonth, (daysInPreMonth - offsetDays + column));
+        //            }
+        //            else
+        //            {
+        //                var currentMonthIndex = row * 7 - offsetDays + column;
+        //                if (currentMonthIndex > daysInCurrentMonth)
+        //                {
+        //                    int nextYear = _DisplayStartDate.Month == 12 ? _DisplayStartDate.Year + 1 : _DisplayStartDate.Year;
+        //                    int nextMonth = _DisplayStartDate.Month == 12 ? 1 : _DisplayStartDate.Month + 1;
+        //                    int daysInNextMonth = sysCal.GetDaysInMonth(nextYear, nextMonth);
+
+        //                    dayBox.Name = $"DayBox{nextYear}{nextMonth}{currentMonthIndex - daysInCurrentMonth}";
+        //                    currentDay = new DateTime(nextYear, nextMonth, (currentMonthIndex - daysInCurrentMonth));
+        //                }
+        //                else
+        //                {
+        //                    dayBox.Name = $"DayBox{_DisplayStartDate.Year}{_DisplayStartDate.Month}{currentMonthIndex}";
+        //                    currentDay = new DateTime(_DisplayYear, _DisplayMonth, (currentMonthIndex));
+        //                }
+        //            }
+
+
+        //            dayBox.BindingDate = currentDay;
+        //            dayBox.MouseDoubleClick += DayBox_DoubleClick;
+        //            dayBox.PreviewDragEnter += DayBox_PreviewEnter;
+        //            dayBox.PreviewDragLeave += DayBox_PreviewLeave;
+        //            dayBox.OnSelectionClick += DayBox_SelectionClick;
+        //            dayBox.OnAppointmentClick += DayBox_AppointmentClick;
+
+        //            // rest the namescope of the daybox in case user drags appointment from this day to another day, then back again
+        //            System.Windows.NameScope.SetNameScope(dayBox, new System.Windows.NameScope());
+        //            this.RegisterName(dayBox.Name, dayBox);
+
+
+        //            // -- customize daybox for today:
+        //            if (currentDay == DateTime.Today)
+        //            {
+        //                dayBox.DayLabelRowBorder.Background = _todayBackBrush;
+        //            }
+
+        //            if (_monthAppointments != null)
+        //            {
+        //                List<Appointment> aptInDay = _monthAppointments.FindAll(new System.Predicate<Appointment>(apt => ((DateTime)apt.StartTime) == currentDay));
+        //                if (aptInDay != null && aptInDay.Any())
+        //                {
+        //                    dayBox.Appointments = new System.Collections.ObjectModel.ObservableCollection<Appointment>(aptInDay);
+        //                }
+        //                else
+        //                {
+        //                    dayBox.Appointments = new System.Collections.ObjectModel.ObservableCollection<Appointment>();
+        //                }
+        //            }
+
+
+        //            Grid.SetColumn(dayBox, column);
+        //            weekRowCtrl.WeekRowGrid.Children.Add(dayBox);
+        //        }
+
+        //        Grid.SetRow(weekRowCtrl, row);
+        //        MonthViewGrid.Children.Add(weekRowCtrl);
+        //    }
+
+
+
+        //}
+
+
+
+
         private void BuildCalendarUI()
         {
-            int iDaysInMonth = sysCal.GetDaysInMonth(_DisplayStartDate.Year, _DisplayStartDate.Month);
-            int iOffsetDays = System.Convert.ToInt32(System.Enum.ToObject(typeof(System.DayOfWeek), _DisplayStartDate.DayOfWeek));
-            int iWeekCount = 0;
-            WeekOfDaysControls weekRowCtrl = new WeekOfDaysControls();
+            int daysInCurrentMonth = sysCal.GetDaysInMonth(_DisplayStartDate.Year, _DisplayStartDate.Month);
 
-            // clear the monthview of all child controls, and reset the namescope to remove all the registered names.
-            MonthViewGrid.Children.Clear();
-            System.Windows.NameScope.SetNameScope(this, new System.Windows.NameScope());
+            int preYear = _DisplayStartDate.Month == 1 ? _DisplayStartDate.Year - 1 : _DisplayStartDate.Year;
+            int preMonth = _DisplayStartDate.Month == 1 ? 12 : _DisplayStartDate.Month - 1;
+            int daysInPreMonth = sysCal.GetDaysInMonth(preYear, preMonth);
 
-            AddRowsToMonthGrid(iDaysInMonth, iOffsetDays);
+            int offsetDays = System.Convert.ToInt32(System.Enum.ToObject(typeof(System.DayOfWeek), _DisplayStartDate.DayOfWeek)) ;
+            if (offsetDays == 0) offsetDays = 7;
+            offsetDays = offsetDays - 1;
+
             MonthYearLabel.Content = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(_DisplayMonth) + " " + _DisplayYear;
 
-            for (int i = 1; i <= iDaysInMonth; i++)
+
+            for (int row = 0; row < 6; row++)
             {
-                if ((i != 1) && System.Math.IEEERemainder((i + iOffsetDays - 1), 7) == 0)
+                WeekOfDaysControls weekRowCtrl = new WeekOfDaysControls();
+                for (int column = 1; column <= 7; column++)
                 {
-                    // -- add existing weekrowcontrol to the monthgrid
-                    Grid.SetRow(weekRowCtrl, iWeekCount);
-                    MonthViewGrid.Children.Add(weekRowCtrl);
-                    // -- make a new weekrowcontrol
-                    weekRowCtrl = new WeekOfDaysControls();
-                    iWeekCount += 1;
-                }
+                    var controlName = $"DayBox{row * 7 + column}";
+                    DayBoxControl dayBox = Utilities.FindName<DayBoxControl>(MonthViewGrid, controlName);
+                    if (dayBox == null) continue;
 
-                // -- load each weekrow with a DayBoxControl whose label is set to day number
-                DayBoxControl dayBox = new DayBoxControl
-                {
-                    Name = "DayBox" + i
-                };
-           
-                var thisDay = new DateTime(_DisplayYear, _DisplayMonth, i);
-
-                dayBox.BindingDate = thisDay;
-
-                dayBox.Tag = i;
-                dayBox.MouseDoubleClick += DayBox_DoubleClick;
-                dayBox.PreviewDragEnter += DayBox_PreviewEnter;
-                dayBox.PreviewDragLeave += DayBox_PreviewLeave;
-                dayBox.OnSelectionClick += DayBox_SelectionClick;
-                dayBox.OnAppointmentClick += DayBox_AppointmentClick;
-
-                // rest the namescope of the daybox in case user drags appointment from this day to another day, then back again
-                System.Windows.NameScope.SetNameScope(dayBox, new System.Windows.NameScope());
-                this.RegisterName("DayBox" + i.ToString(), dayBox);
-
-                // -- resets the list of control-names registered with this monthview (to avoid duplicates later)
-                System.Windows.NameScope.SetNameScope(dayBox, new System.Windows.NameScope());
-                this.RegisterName("DayBox" + i.ToString(), dayBox);
-
-                // -- customize daybox for today:
-                if ((new DateTime(_DisplayYear, _DisplayMonth, i)) == DateTime.Today)
-                {
-                    dayBox.DayLabelRowBorder.Background = _todayBackBrush;
-                }
-
-                if (_monthAppointments != null)
-                {
-                    int iday = i;
-                    List<Appointment> aptInDay = _monthAppointments.FindAll(new System.Predicate<Appointment>(apt => ((DateTime)apt.StartTime).Day == iday));
-                    if (aptInDay != null && aptInDay.Any())
+                    DateTime currentDay;
+                    if (row == 0 && column <= offsetDays)//previous month
                     {
-                        dayBox.Appointments = new System.Collections.ObjectModel.ObservableCollection<Appointment>(aptInDay);
+                        currentDay = new DateTime(preYear, preMonth, (daysInPreMonth - offsetDays + column));
+                        dayBox.Ashing(true);
                     }
                     else
                     {
-                        dayBox.Appointments = new System.Collections.ObjectModel.ObservableCollection<Appointment>();
+                        var currentMonthIndex = row * 7 - offsetDays + column;
+                        if (currentMonthIndex > daysInCurrentMonth)
+                        {
+                            int nextYear = _DisplayStartDate.Month == 12 ? _DisplayStartDate.Year + 1 : _DisplayStartDate.Year;
+                            int nextMonth = _DisplayStartDate.Month == 12 ? 1 : _DisplayStartDate.Month + 1;
+                            int daysInNextMonth = sysCal.GetDaysInMonth(nextYear, nextMonth);
+
+                            currentDay = new DateTime(nextYear, nextMonth, (currentMonthIndex - daysInCurrentMonth));
+                            dayBox.Ashing(true);
+                        }
+                        else
+                        {
+                            currentDay = new DateTime(_DisplayYear, _DisplayMonth, (currentMonthIndex));
+                            dayBox.Ashing(false);
+                        }
+                    }
+                 
+                    if (dayBox != null)
+                    {
+
+                        dayBox.BindingDate = currentDay;
+
+                   
+
+                        if (_monthAppointments != null)
+                        {
+                            List<Appointment> aptInDay = _monthAppointments.FindAll(new System.Predicate<Appointment>(apt => ((DateTime)apt.StartTime) == currentDay));
+                            if (aptInDay != null && aptInDay.Any())
+                            {
+                                dayBox.Appointments = new System.Collections.ObjectModel.ObservableCollection<Appointment>(aptInDay);
+                            }
+                            else
+                            {
+                                dayBox.Appointments = new System.Collections.ObjectModel.ObservableCollection<Appointment>();
+                            }
+                        }
                     }
                 }
-
-                Grid.SetColumn(dayBox, (i - (iWeekCount * 7)) + iOffsetDays);
-                weekRowCtrl.WeekRowGrid.Children.Add(dayBox);
             }
-            Grid.SetRow(weekRowCtrl, iWeekCount);
-            MonthViewGrid.Children.Add(weekRowCtrl);
         }
 
 
 
-        private void AddRowsToMonthGrid(int DaysInMonth, int OffSetDays)
+
+        private void BuildDayBoxes()
         {
-            MonthViewGrid.RowDefinitions.Clear();
-            System.Windows.GridLength rowHeight = new System.Windows.GridLength(60, System.Windows.GridUnitType.Star);
 
-            int EndOffSetDays = 7 - (System.Convert.ToInt32(System.Enum.ToObject(typeof(System.DayOfWeek), _DisplayStartDate.AddDays(DaysInMonth - 1).DayOfWeek)) + 1);
+            MonthViewGrid.Children.Clear();
+            System.Windows.NameScope.SetNameScope(this, new System.Windows.NameScope());
 
-            for (int i = 1; i <= System.Convert.ToInt32((DaysInMonth + OffSetDays + EndOffSetDays) / (double)7); i++)
+            MonthYearLabel.Content = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(_DisplayMonth) + " " + _DisplayYear;
+
+
+            for (int row = 0; row < 6; row++)
             {
-                var rowDef = new RowDefinition
+                WeekOfDaysControls weekRowCtrl = new WeekOfDaysControls();
+                for (int column = 1; column <= 7; column++)
                 {
-                    Height = rowHeight
-                };
-                MonthViewGrid.RowDefinitions.Add(rowDef);
+                    DayBoxControl dayBox = new DayBoxControl()
+                    {
+                        Name = $"DayBox{row * 7 + column}",
+                    };
+
+                    dayBox.MouseDoubleClick += DayBox_DoubleClick;
+                    dayBox.PreviewDragEnter += DayBox_PreviewEnter;
+                    dayBox.PreviewDragLeave += DayBox_PreviewLeave;
+                    dayBox.OnSelectionClick += DayBox_SelectionClick;
+                    dayBox.OnAppointmentClick += DayBox_AppointmentClick;
+
+                    // rest the namescope of the daybox in case user drags appointment from this day to another day, then back again
+                    System.Windows.NameScope.SetNameScope(dayBox, new System.Windows.NameScope());
+                    this.RegisterName(dayBox.Name, dayBox);
+
+                    Grid.SetColumn(dayBox, column);
+                    weekRowCtrl.WeekRowGrid.Children.Add(dayBox);
+                }
+
+                Grid.SetRow(weekRowCtrl, row);
+                MonthViewGrid.Children.Add(weekRowCtrl);
             }
+
         }
+
+
+
 
         private void UpdateMonth(int MonthsToAdd)
         {
@@ -278,12 +399,12 @@ namespace ee.iLawyer.UserControls.Agenda
 
         private void DayBox_AppointmentClick(object sender, ClickAppointmentRoutedEventArgs e)
         {
-            if(popup.IsOpen)
+            if (popup.IsOpen)
             {
                 popup.IsOpen = false;
                 popup.StaysOpen = false;
             }
-            popup.PlacementTarget =(UIElement) sender;
+            popup.PlacementTarget = (UIElement)sender;
             popup.IsOpen = true;
             popup.StaysOpen = true;
         }
@@ -311,7 +432,7 @@ namespace ee.iLawyer.UserControls.Agenda
                         // Raise the AppointmentMoved event, which your code will need to handle. Change the args to suit your taste ;-)
                         AppointmentMoved?.Invoke(Apt.AppointmentId, (int)DayBoxOld.Tag, Apt.StartTime.Value.Day);
                         DayBoxNew.AddAppointment(Apt);
-                        
+
                         RestoreDayBoxBackground(DayBoxNew);
 
                         e.Handled = true;

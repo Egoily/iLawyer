@@ -97,6 +97,7 @@ namespace ee.iLawyer.UserControls.Agenda
         {
             d.SetValue(e.Property, e.NewValue);
             (d as DayBoxControl).SetText();
+
         }
 
         private static void OnIsSelectePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -133,16 +134,18 @@ namespace ee.iLawyer.UserControls.Agenda
         }
         public void SetText()
         {
-            //if (BindingDate.Year == DateTime.Now.Year && BindingDate.Month == DateTime.Now.Month && BindingDate.Day == DateTime.Now.Day)
             if (BindingDate == DateTime.Today)
             {
                 txtTopLeft.FontSize = 12;
                 txtTopLeft.Text = $"今日({BindingDate.ToString("M月d日")})";
+                DayLabelRowBorder.Background = (Brush)TryFindResource("OrangeGradientBrush");
             }
             else
             {
                 txtTopLeft.FontSize = 20;
                 txtTopLeft.Text = BindingDate.Day.ToString();
+                DayLabelRowBorder.Background = (Brush)TryFindResource("BlueGradientBrush");
+
             }
 
             var lunarClendar = new ChineseLunisolarCalendarWithFestival(BindingDate);//获取农历日期
@@ -178,6 +181,24 @@ namespace ee.iLawyer.UserControls.Agenda
                 }
             }
         }
+
+        public void Ashing(bool flag = false)
+        {
+            if (flag)
+            {
+                txtTopLeft.Foreground = Brushes.Gray;
+                txtTopRight.Foreground = Brushes.Gray;
+                txtContent.Foreground = Brushes.Gray;
+            }
+            else
+            {
+                txtTopLeft.Foreground = Brushes.Black;
+                txtTopRight.Foreground = Brushes.Black;
+                txtContent.Foreground = Brushes.Black;
+            }
+        }
+
+
         private int _defaultBorderThickness = 1;
         private int _selectedBorderThickness = 2;
         public DayBoxControl()

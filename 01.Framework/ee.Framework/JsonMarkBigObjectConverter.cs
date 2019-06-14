@@ -54,9 +54,19 @@ namespace ee.Framework
         /// <param name="serializer"></param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
+            if (value == null)
+            {
+                writer.WriteNull();
+                return;
+            }
+
 
             var type = value.GetType();
-            if (value is IList)
+            if (value is Array)
+            {
+                SerializeMultidimensionalArray(writer, serializer, (Array)value, ArrayEmpty<int>());
+            }
+            else if (value is IList)
             {
 
                 writer.WriteStartArray();
@@ -126,8 +136,51 @@ namespace ee.Framework
         {
             return (type != typeof(object) && Type.GetTypeCode(type) == TypeCode.Object);
         }
+        private static T[] ArrayEmpty<T>()
+        {
+            T[] array = Enumerable.Empty<T>() as T[];
+            return array ?? new T[0];
 
+        }
 
+        private void SerializeMultidimensionalArray(JsonWriter writer, JsonSerializer serializer, Array values, int[] indices)
+        {
+            int dimension = indices.Length;
+            int[] newIndices = new int[dimension + 1];
+            for (int i = 0; i < dimension; i++)
+            {
+                newIndices[i] = indices[i];
+            }
+
+            writer.WriteStartArray();
+
+            for (int i = values.GetLowerBound(dimension); i <= values.GetUpperBound(dimension); i++)
+            {
+                newIndices[dimension] = i;
+                bool isTopLevel = (newIndices.Length == values.Rank);
+
+                if (isTopLevel)
+                {
+                    object value = values.GetValue(newIndices);
+
+                    try
+                    {
+                        WriteJson(writer, value, serializer);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw;
+
+                    }
+                }
+                else
+                {
+                    SerializeMultidimensionalArray(writer, serializer, values, newIndices);
+                }
+            }
+
+            writer.WriteEndArray();
+        }
 
 
 

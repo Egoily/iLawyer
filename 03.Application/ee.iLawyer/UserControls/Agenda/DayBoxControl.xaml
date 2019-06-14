@@ -19,6 +19,12 @@
                 <GradientStop Color="#FFDEECFF" Offset="0.535"/>
             </LinearGradientBrush>
             <DropShadowEffect x:Key="SelectedDropShadowEffect" ShadowDepth="0" BlurRadius="20" Direction="0" Color="LightGreen"/>
+            <LinearGradientBrush x:Key="OrangeGradientBrush" EndPoint="0,1" StartPoint="0,0">
+                <GradientStop Color="#FFFFFFDC" Offset="0"/>
+                <GradientStop Color="#FFFADC96" Offset="0.525"/>
+                <GradientStop Color="#FFF9D07D" Offset="0.732"/>
+                <GradientStop Color="#FFF7BE57" Offset="1"/>
+            </LinearGradientBrush>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid x:Name="grid"
@@ -199,8 +205,8 @@
                     <Button Grid.Row="5"  Grid.Column="4">关闭</Button>
 
                 </Grid>
-          
-         
+
+
             </Border>
         </Popup>
 

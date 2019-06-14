@@ -16,7 +16,7 @@
              mc:Ignorable="d" 
          
              >
-    <Grid x:Name="grid" Background="Aqua">
+    <Grid x:Name="grid">
 
         <agenda:MonthView 
             x:Name="AptCalendar" 
