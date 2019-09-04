@@ -36,7 +36,9 @@ namespace ee.SessionFactory
             if (session == null || !session.IsOpen)
             {
                 session = Factory.OpenSession();
+#if DEBUG
                 System.Diagnostics.Debug.WriteLine($"OpenSession({session.GetHashCode()})");
+#endif
             }
 
             return session;
@@ -50,10 +52,16 @@ namespace ee.SessionFactory
 
         public static void CloseConnection()
         {
-            if (session != null && session.IsOpen || session.IsConnected)
+            if (session != null)
             {
-                System.Diagnostics.Debug.WriteLine($"CloseSession({session.GetHashCode()})");
-                session.Close();
+                if (session.IsOpen || session.IsConnected)
+                {
+#if DEBUG
+                    System.Diagnostics.Debug.WriteLine($"CloseSession({session.GetHashCode()})");
+#endif
+                    session.Close();
+                }
+
             }
 
         }
