@@ -26,13 +26,10 @@ namespace ee.iLawyer.Ops.Contact.DTO
         /// 法官名
         /// </summary>
         public virtual string Name { get; set; }
-
-     
         /// <summary>
         /// 性别
         /// </summary>
         public virtual Gender Gender { get; set; }
-
         /// <summary>
         /// 职务
         /// </summary>

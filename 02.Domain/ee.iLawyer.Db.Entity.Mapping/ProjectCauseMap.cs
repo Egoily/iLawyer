@@ -6,6 +6,7 @@ namespace ee.iLawyer.Db.Entity.Mapping
     {
         public ProjectCauseMap()
         {
+            Cache.NonStrictReadWrite();
             Table("ProjectCauses");
             LazyLoad();
             Id(x => x.Id);

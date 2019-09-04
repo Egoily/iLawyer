@@ -1,10 +1,10 @@
 ﻿using ee.Framework;
 using ee.Framework.Schema;
 using ee.iLawyer.Modules;
-using ee.iLawyer.Ops;
 using ee.iLawyer.Ops.Contact.Args;
 using ee.iLawyer.Ops.Contact.DTO;
 using ee.iLawyer.UserControls;
+using ee.iLawyer.WebApi.Invoker;
 using MaterialDesignThemes.Wpf;
 using PropertyChanged;
 using System;
@@ -40,7 +40,7 @@ namespace ee.iLawyer.ViewModels
                 {
                     try
                     {
-                        var server = new CtsService();
+                        var server = new ILawyerServiceWebApi();
                         var response = server.QueryProject(new QueryProjectRequest());
                         if (response.Code == ErrorCodes.Ok && response.QueryList != null)
                         {
@@ -68,7 +68,7 @@ namespace ee.iLawyer.ViewModels
 
             try
             {
-                var server = new CtsService();
+                var server = new ILawyerServiceWebApi();
                 var response = server.CreateProject(new CreateProjectRequest()
                 {
                     CategoryCode = SelectedItem.Category.Code,
@@ -103,7 +103,7 @@ namespace ee.iLawyer.ViewModels
 
             try
             {
-                var server = new CtsService();
+                var server = new ILawyerServiceWebApi();
                 var response = server.UpdateProject(new UpdateProjectRequest()
                 {
                     Id = SelectedItem.Id,
@@ -142,7 +142,7 @@ namespace ee.iLawyer.ViewModels
 
             try
             {
-                var server = new CtsService();
+                var server = new ILawyerServiceWebApi();
                 var response = server.RemoveProject(new RemoveProjectRequest()
                 {
                     Ids = new int[] { SelectedItem.Id },

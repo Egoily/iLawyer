@@ -82,6 +82,14 @@ namespace ee.iLawyer.Ops.Contact.Args
     public class QueryClientRequest : BasePageRequest
     {
         public virtual int[] Keys { get; set; }
+        /// <summary>
+        /// 是否是自然人
+        /// </summary>
+        public virtual bool? IsNP { get; set; }
+        /// <summary>
+        /// 名称
+        /// </summary>
+        public virtual string Name { get; set; }
     }
 
 }

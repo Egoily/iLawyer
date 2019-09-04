@@ -7,6 +7,9 @@ namespace ee.iLawyer.Ops.Contact.AutoMapper
     {
         public MappingProfile()
         {
+
+            CreateMap<CourtRank, string>().ConvertUsing(src => src.ToString());
+
             CreateMap<Db.Entity.Area, DTO.Area>();
             CreateMap<Db.Entity.ProjectCategory, DTO.ProjectCategory>();
             CreateMap<Db.Entity.ProjectCause, DTO.ProjectCause>();
@@ -40,6 +43,7 @@ namespace ee.iLawyer.Ops.Contact.AutoMapper
 
             CreateMap<IList<Db.Entity.ClientPropertyItem>, List<DTO.CategoryValue>>().ConvertUsing<ClientPropertyItemTypeConverter>();
             CreateMap<DTO.PropertyItemCategory, DTO.Category>();
+
 
 
 

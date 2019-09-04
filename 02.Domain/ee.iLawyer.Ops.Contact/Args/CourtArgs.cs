@@ -1,10 +1,6 @@
 ﻿using ee.Framework.Attributes;
 using ee.Framework.Schema;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ee.iLawyer.Ops.Contact.Args
 {
@@ -99,6 +95,30 @@ namespace ee.iLawyer.Ops.Contact.Args
     }
     public class QueryCourtRequest : BasePageRequest
     {
+        public virtual int[] Keys { get; set; }
+        /// <summary>
+        /// 省
+        /// </summary>
+        public string Province { get; set; }
+        /// <summary>
+        /// 市
+        /// </summary>
+        public string City { get; set; }
+        /// <summary>
+        /// 区
+        /// </summary>
+        public string County { get; set; }
+        /// <summary>
+        /// 级别
+        /// </summary>
+        public string Rank { get; set; }
+        /// <summary>
+        /// 法院名
+        /// </summary>
+        public string Name { get; set; }
+
+
+
     }
 
 }

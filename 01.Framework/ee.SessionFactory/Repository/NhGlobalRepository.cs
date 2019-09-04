@@ -1,13 +1,15 @@
 ﻿using NHibernate;
+using NHibernate.Criterion;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using NHibernate.Criterion;
 
 namespace ee.SessionFactory.Repository
 {
     public class NhGlobalRepository : IDisposable, IGlobalRepository
     {
+
+
         /// <summary>
         /// Session obtained in the constructor via the repository manger
         /// </summary>
@@ -155,6 +157,48 @@ namespace ee.SessionFactory.Repository
             }
             return query.List();
         }
+        /// <summary>
+        /// Returns a list of the given entity with the IQueryOver by page
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="queryOver"></param>
+        /// <param name="orderby"></param>
+        /// <param name="isDesc"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="option"></param>
+        /// <returns></returns>
+        public virtual (IEnumerable<TEntity>, int?) QueryByPage<TEntity>(IQueryOver<TEntity, TEntity> queryOver, Expression<Func<TEntity, object>> orderby, bool isDesc = false, int pageIndex = 1, int pageSize = 0, PageQueryOption option = PageQueryOption.Both)
+         where TEntity : class
+        {
+            IEnumerable<TEntity> list = null;
+            int? totalCount = null;
+            if (option == PageQueryOption.Both || option == PageQueryOption.Total)
+            {
+                totalCount = queryOver.RowCount();
+            }
+            switch (option)
+            {
+                case PageQueryOption.Both:
+                    totalCount = queryOver.RowCount();
+                    var orderQuery = queryOver.OrderBy(orderby);
+                    var orderByQuery = isDesc ? orderQuery.Desc : orderQuery.Asc;
+                    list = (pageIndex > 0 && pageSize > 0) ? orderByQuery.Skip((pageIndex - 1) * pageSize).Take(pageSize).List() : orderByQuery.List();
+                    break;
+                case PageQueryOption.Content:
+                    orderQuery = queryOver.OrderBy(orderby);
+                    orderByQuery = isDesc ? orderQuery.Desc : orderQuery.Asc;
+                    list = (pageIndex > 0 && pageSize > 0) ? orderByQuery.Skip((pageIndex - 1) * pageSize).Take(pageSize).List() : orderByQuery.List();
+                    break;
+                case PageQueryOption.Total:
+                    totalCount = queryOver.RowCount();
+                    break;
+                default:
+                    break;
+            }
+
+            return (list, totalCount);
+        }
 
         /// <summary>
         /// Returns a list of the given entity with the expression by page
@@ -165,41 +209,36 @@ namespace ee.SessionFactory.Repository
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns>(list,totalCount)</returns>
-        public virtual (IEnumerable<TEntity>, int) QueryByPage<TEntity>(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderby, bool isDesc = false, int pageIndex = 1, int pageSize = 0)
+        public virtual (IEnumerable<TEntity>, int?) QueryByPage<TEntity>(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderby, bool isDesc = false, int pageIndex = 1, int pageSize = 0, PageQueryOption option = PageQueryOption.Both)
             where TEntity : class
         {
-            var query = GetQuery(expression);
-            var totalCount = query.RowCount();
-            var orderQuery = query.OrderBy(orderby);
-            var orderByQuery = isDesc ? orderQuery.Desc : orderQuery.Asc;
-            return (orderByQuery.Skip((pageIndex > 0 ? (pageIndex - 1) : 0) * (pageSize <= 0 ? totalCount : pageSize)).Take((pageSize <= 0 ? totalCount : pageSize)).List(), totalCount);
-        }
+            var queryOver = GetQuery(expression);
+            return QueryByPage(queryOver, orderby, isDesc, pageIndex, pageSize, option);
 
-        public virtual (IEnumerable<TEntity>, int) QueryByPage<TEntity>(List<ICriterion> criterions, Expression<Func<TEntity, object>> orderby, bool isDesc = false, int pageIndex = 1, int pageSize = 0)
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="criterions"></param>
+        /// <param name="orderby"></param>
+        /// <param name="isDesc"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="option"></param>
+        /// <returns></returns>
+        public virtual (IEnumerable<TEntity>, int?) QueryByPage<TEntity>(List<ICriterion> criterions, Expression<Func<TEntity, object>> orderby, bool isDesc = false, int pageIndex = 1, int pageSize = 0, PageQueryOption option = PageQueryOption.Both)
             where TEntity : class
         {
-            var query = GetQuery<TEntity>(criterions);
-            var totalCount = query.RowCount();
-            var orderQuery = query.OrderBy(orderby);
-            var orderByQuery = isDesc ? orderQuery.Desc : orderQuery.Asc;
-            return (orderByQuery.Skip((pageIndex > 0 ? (pageIndex - 1) : 0) * (pageSize <= 0 ? totalCount : pageSize)).Take((pageSize <= 0 ? totalCount : pageSize)).List(), totalCount);
+            var queryOver = GetQuery<TEntity>(criterions);
+            return QueryByPage(queryOver, orderby, isDesc, pageIndex, pageSize, option);
         }
 
-        public virtual (IEnumerable<TEntity>, int) QueryByPage<TEntity>(IQueryOver<TEntity, TEntity> queryOver, Expression<Func<TEntity, object>> orderby, bool isDesc = false, int pageIndex = 1, int pageSize = 0)
-        {
-
-            var totalCount = queryOver.RowCount();
-            var orderQuery = queryOver.OrderBy(orderby);
-            var orderByQuery = isDesc ? orderQuery.Desc : orderQuery.Asc;
-            return (orderByQuery.Skip((pageIndex > 0 ? (pageIndex - 1) : 0) * (pageSize <= 0 ? totalCount : pageSize)).Take((pageSize <= 0 ? totalCount : pageSize)).List(), totalCount);
-        }
 
         public virtual void Dispose()
         {
-
             session?.Flush();
-            if (session?.IsOpen ?? false)
-                session?.Close();
+            SessionManager.CloseConnection();
         }
 
 

@@ -10,5 +10,7 @@
         public const int OperationFailed = BaseErrorCode + 3;
         public const int NotFound = BaseErrorCode + 4;
         public const int Existed = BaseErrorCode + 5;
+        public const int Unauthorized = BaseErrorCode + 6;
+        public const int DevelopError = BaseErrorCode + 7;
     }
 }

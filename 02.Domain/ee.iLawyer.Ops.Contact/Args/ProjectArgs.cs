@@ -148,6 +148,39 @@ namespace ee.iLawyer.Ops.Contact.Args
     public class QueryProjectRequest : BasePageRequest
     {
         public virtual int[] Keys { get; set; }
+
+
+        /// <summary>
+        /// 项目类别码
+        /// </summary>
+        public virtual string CategoryCode { get; set; }
+        /// <summary>
+        /// 项目名称
+        /// </summary>
+        public virtual string Name { get; set; }
+        /// <summary>
+        /// 项目编号
+        /// </summary>
+        public virtual string Code { get; set; }
+        /// <summary>
+        /// 项目等级
+        /// </summary>
+        public virtual string Level { get; set; }
+        /// <summary>
+        /// 收案日期(开始)
+        /// </summary>
+        public virtual string DealDateFrom { get; set; }
+        /// <summary>
+        /// 收案日期(结束)
+        /// </summary>
+        public virtual string DealDateTo { get; set; }
+
+        /// <summary>
+        /// 所属
+        /// </summary>
+        public virtual int? OwnerId { get; set; }
+
+
     }
 
 

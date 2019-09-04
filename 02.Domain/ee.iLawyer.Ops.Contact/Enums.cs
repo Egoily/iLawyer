@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace ee.iLawyer.Ops.Contact
 {
@@ -35,21 +36,29 @@ namespace ee.iLawyer.Ops.Contact
         /// 最高法院
         /// </summary>
         [Description("最高法院")]
+        [System.Xml.Serialization.XmlEnum("Supreme")]
+        [EnumMember(Value = "Supreme")]
         Supreme,
         /// <summary>
         /// 高等法院
         /// </summary>
         [Description("高等法院")]
+        [System.Xml.Serialization.XmlEnum("Superior")]
+        [EnumMember(Value = "Superior")]
         Superior,
         /// <summary>
         /// 中级法院
         /// </summary>
         [Description("中级法院")]
+        [System.Xml.Serialization.XmlEnum("Intermediate")]
+        [EnumMember(Value = "Intermediate")]
         Intermediate,
         /// <summary>
         /// 基层法院
         /// </summary>
         [Description("基层法院")]
+        [System.Xml.Serialization.XmlEnum("Grassroots")]
+        [EnumMember(Value = "Grassroots")]
         Grassroots,
 
     }

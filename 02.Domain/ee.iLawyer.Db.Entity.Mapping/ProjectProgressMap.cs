@@ -5,7 +5,7 @@ namespace ee.iLawyer.Db.Entity.Mapping
     {
         public ProjectProgressMap()
         {
-            Table("ProjectProgresss");
+            Table("ProjectProgresses");
             LazyLoad();
             Id(x => x.Id)
             .GeneratedBy.Assigned();

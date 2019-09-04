@@ -1,5 +1,4 @@
 ﻿using ee.Framework;
-using ee.iLawyer.Ops;
 using ee.iLawyer.Ops.Contact;
 using ee.iLawyer.Ops.Contact.Args;
 using ee.iLawyer.Ops.Contact.AutoMapper;
@@ -8,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using ee.iLawyer.WebApi.Invoker;
 
 namespace ee.iLawyer.ViewModels
 {
@@ -19,6 +19,7 @@ namespace ee.iLawyer.ViewModels
         public static TimeSpan ExpiredTimeSpan = new TimeSpan(12, 0, 0);
         public static void Load()
         {
+            Ops.Contact.AutoMapper.AutoMapperConfiguration.Configure();
             var provinces = Provinces;
             var courts = Courts;
             var projectCauses = ProjectCauses;
@@ -37,7 +38,7 @@ namespace ee.iLawyer.ViewModels
                     var areas = MemoryCacheHelper.CacheItem<IList<Area>>(CacheKeys.AreaInfo,
                         delegate ()
                         {
-                            var server = new CtsService();
+                            var server = new ILawyerServiceWebApi();
                             var response = server.GetAreas(new GetAreasRequest());
                             if (response.Code == ErrorCodes.Ok && (response.QueryList?.Any() ?? false))
                             {
@@ -62,7 +63,7 @@ namespace ee.iLawyer.ViewModels
                     var areas = MemoryCacheHelper.CacheItem<IList<ProjectCategory>>(CacheKeys.ProjectCategories,
                         delegate ()
                         {
-                            var server = new CtsService();
+                            var server = new ILawyerServiceWebApi();
                             var response = server.GetProjectCategories(new GetProjectCategoriesRequest());
                             if (response.Code == ErrorCodes.Ok && (response.QueryList?.Any() ?? false))
                             {
@@ -88,7 +89,7 @@ namespace ee.iLawyer.ViewModels
                     var areas = MemoryCacheHelper.CacheItem<IList<ProjectCause>>(CacheKeys.ProjectCauses,
                         delegate ()
                         {
-                            var server = new CtsService();
+                            var server = new ILawyerServiceWebApi();
                             var response = server.GetProjectCauses(new GetProjectCausesRequest());
                             if (response.Code == ErrorCodes.Ok && (response.QueryList?.Any() ?? false))
                             {
@@ -120,7 +121,7 @@ namespace ee.iLawyer.ViewModels
                         courts = MemoryCacheHelper.CacheItem(CacheKeys.Courts,
                         delegate ()
                         {
-                            var server = new CtsService();
+                            var server = new ILawyerServiceWebApi();
                             var response = server.QueryCourt(new QueryCourtRequest());
                             if (response.Code == ErrorCodes.Ok && (response.QueryList?.Any() ?? false))
                             {
@@ -155,7 +156,7 @@ namespace ee.iLawyer.ViewModels
                 courts = MemoryCacheHelper.CacheItem(CacheKeys.Courts,
                 delegate ()
                 {
-                    var server = new CtsService();
+                    var server = new ILawyerServiceWebApi();
                     var response = server.QueryCourt(new QueryCourtRequest());
                     if (response.Code == ErrorCodes.Ok && response.QueryList.Any())
                     {
@@ -207,7 +208,7 @@ namespace ee.iLawyer.ViewModels
                         var categories = MemoryCacheHelper.CacheItem<IList<PropertyItemCategory>>(CacheKeys.PropertyItemCategories,
                             delegate ()
                             {
-                                var server = new CtsService();
+                                var server = new ILawyerServiceWebApi();
                                 var response = server.GetPropertyItemCategories(new GetPropertyItemCategoriesRequest());
                                 if (response.Code == ErrorCodes.Ok && (response.QueryList?.Any() ?? false))
                                 {
@@ -217,7 +218,10 @@ namespace ee.iLawyer.ViewModels
                             }, ExpiredTimeSpan);
                         if (categories != null && categories.Any())
                         {
-                            categories.ToList().ForEach(x => personPropertyCategories.Add(DtoConverter.Convert(x)));
+                            //categories.ToList().ForEach(x => personPropertyCategories.Add(DtoConverter.Convert(x)));
+
+                            var items = DtoConverter.Convert(categories).ToArray();
+                            personPropertyCategories.AddRange(items);
                         }
                     }
                     catch (Exception)

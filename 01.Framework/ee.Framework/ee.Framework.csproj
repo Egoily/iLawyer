@@ -42,8 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Logger.cs" />
+    <Compile Include="Processor\ProcessorInternal.cs" />
+    <Compile Include="Processor\BaseProcessor.cs" />
     <Compile Include="Schema\BaseRequest.cs" />
     <Compile Include="Schema\BaseResponse.cs" />
+    <Compile Include="Schema\DevelopmentException.cs" />
     <Compile Include="Schema\EeException.cs" />
     <Compile Include="EnumHelper.cs" />
     <Compile Include="ErrorCodes.cs" />
@@ -60,5 +64,6 @@
       <Version>12.0.2</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

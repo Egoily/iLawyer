@@ -1,10 +1,20 @@
-﻿using NHibernate.Criterion;
+﻿using NHibernate;
+using NHibernate.Criterion;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace ee.SessionFactory.Repository
 {
+
+    public enum PageQueryOption
+    {
+        Both = 0,
+        Content = 1,
+        Total = 2,
+    }
+
+
     /// <summary>
     /// Interface to any repository, contains the basic CRUD methods that any repository must implement
     /// </summary>
@@ -39,9 +49,9 @@ namespace ee.SessionFactory.Repository
 
         IEnumerable<TEntity> Query<TEntity>(Expression<Func<TEntity, bool>> expression = null) where TEntity : class;
         IEnumerable<TEntity> Query<TEntity>(List<ICriterion> criterions) where TEntity : class;
-        (IEnumerable<TEntity>, int) QueryByPage<TEntity>(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderby, bool isDesc = false, int pageIndex = 1, int pageSize = 0) where TEntity : class;
-        (IEnumerable<TEntity>, int) QueryByPage<TEntity>(List<ICriterion> criterions, Expression<Func<TEntity, object>> orderby, bool isDesc = false, int pageIndex = 1, int pageSize = 0) where TEntity : class;
-
+        (IEnumerable<TEntity>, int?) QueryByPage<TEntity>(IQueryOver<TEntity, TEntity> queryOver, Expression<Func<TEntity, object>> orderby, bool isDesc = false, int pageIndex = 1, int pageSize = 0, PageQueryOption option = PageQueryOption.Both) where TEntity : class;
+        (IEnumerable<TEntity>, int?) QueryByPage<TEntity>(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderby, bool isDesc = false, int pageIndex = 1, int pageSize = 0, PageQueryOption option = PageQueryOption.Both) where TEntity : class;
+        (IEnumerable<TEntity>, int?) QueryByPage<TEntity>(List<ICriterion> criterions, Expression<Func<TEntity, object>> orderby, bool isDesc = false, int pageIndex = 1, int pageSize = 0, PageQueryOption option = PageQueryOption.Both) where TEntity : class;
 
     }
 }

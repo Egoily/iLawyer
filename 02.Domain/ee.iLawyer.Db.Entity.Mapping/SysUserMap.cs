@@ -7,7 +7,7 @@ namespace ee.iLawyer.Db.Entity.Mapping
     {
         public SysUserMap()
         {
-            Table("SysUsers");
+            Table("SystemUsers");
             LazyLoad();
             Id(x => x.Id);
             //.GeneratedBy.Assigned();

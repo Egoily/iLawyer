@@ -44,13 +44,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CtsService.cs" />
+    <Compile Include="ILawyerService.cs" />
     <Compile Include="Utility\MD5Utility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceProcessor.cs" />
     <Compile Include="Utility\Validation.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\01.Framework\ee.Framework.Logging\ee.Framework.Logging.csproj">
+      <Project>{a4c7223f-9ba2-4001-bf20-b1187d8d4128}</Project>
+      <Name>ee.Framework.Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\01.Framework\ee.Framework\ee.Framework.csproj">
       <Project>{7d3d1f1d-973e-464a-9e60-b33cd0b34163}</Project>
       <Name>ee.Framework</Name>
@@ -67,18 +71,15 @@
       <Project>{8bf78a81-d48f-47dc-9d81-f9e894675c32}</Project>
       <Name>ee.iLawyer.Ops.Contact</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ee.iLawyer.SessionFactoryBuilder.Sqlite\ee.iLawyer.SessionFactoryBuilder.Sqlite.csproj">
-      <Project>{9c878aa9-b469-4d2d-b789-c1d2d0fb1f12}</Project>
-      <Name>ee.iLawyer.SessionFactoryBuilder.Sqlite</Name>
+    <ProjectReference Include="..\ee.iLawyer.SessionFactoryBuilder.SqlServer\ee.iLawyer.SessionFactoryBuilder.SqlServer.csproj">
+      <Project>{beb6bacd-1c3a-4b8b-8e2b-7048671b5fb0}</Project>
+      <Name>ee.iLawyer.SessionFactoryBuilder.SqlServer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="log4net">
-      <Version>2.0.8</Version>
-    </PackageReference>
     <PackageReference Include="NHibernate">
       <Version>5.2.5</Version>
     </PackageReference>

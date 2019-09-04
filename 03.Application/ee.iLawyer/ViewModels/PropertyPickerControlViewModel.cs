@@ -1,5 +1,4 @@
 ﻿using ee.Framework;
-using ee.iLawyer.Ops;
 using ee.iLawyer.Ops.Contact.Args;
 using System;
 using System.Collections.Generic;
@@ -8,6 +7,7 @@ using ee.iLawyer.Ops.Contact.DTO;
 using ee.iLawyer.Ops.Contact;
 using ee.iLawyer.UserControls;
 using PropertyChanged;
+using ee.iLawyer.WebApi.Invoker;
 
 namespace ee.iLawyer.ViewModels
 {
@@ -41,7 +41,7 @@ namespace ee.iLawyer.ViewModels
                 var categories = MemoryCacheHelper.CacheItem<IList<PropertyItemCategory>>(CacheKeys.PropertyItemCategories,
                     delegate ()
                     {
-                        var server = new CtsService();
+                        var server = new ILawyerServiceWebApi();
                         var response = server.GetPropertyItemCategories(new GetPropertyItemCategoriesRequest());
                         if (response.Code == ErrorCodes.Ok && (response.QueryList?.Any() ?? false))
                         {

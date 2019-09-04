@@ -32,8 +32,7 @@ namespace ee.iLawyer.SessionFactoryBuilder.Sqlite
             return Fluently.Configure()
                 .Database(SQLiteConfiguration.Standard
                     .UsingFile(DbFile))
-                .Mappings(m =>
-                    m.FluentMappings.AddFromAssemblyOf<ee.iLawyer.Db.Entity.Mapping.Factory.RealAssembly>())
+                .Mappings(m => m.FluentMappings.AddFromAssemblyOf<ee.iLawyer.Db.Entity.Mapping.Factory.RealAssembly>())
                 .ExposeConfiguration(BuildSchema)
                 .BuildSessionFactory();
         }

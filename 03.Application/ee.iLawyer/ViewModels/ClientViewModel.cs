@@ -1,10 +1,10 @@
 ﻿using ee.Framework;
 using ee.Framework.Schema;
 using ee.iLawyer.Modules;
-using ee.iLawyer.Ops;
 using ee.iLawyer.Ops.Contact.Args;
 using ee.iLawyer.Ops.Contact.DTO;
 using ee.iLawyer.UserControls;
+using ee.iLawyer.WebApi.Invoker;
 using MaterialDesignThemes.Wpf;
 using PropertyChanged;
 using System;
@@ -39,7 +39,7 @@ namespace ee.iLawyer.ViewModels
                 {
                     try
                     {
-                        var server = new CtsService();
+                        var server = new ILawyerServiceWebApi();
                         var response = server.QueryClient(new QueryClientRequest());
                         if (response.Code == ErrorCodes.Ok && response.QueryList != null)
                         {
@@ -67,7 +67,7 @@ namespace ee.iLawyer.ViewModels
 
             try
             {
-                var server = new CtsService();
+                var server = new ILawyerServiceWebApi();
                 var response = server.CreateClient(new CreateClientRequest()
                 {
                     Name = SelectedItem.Name,
@@ -95,7 +95,7 @@ namespace ee.iLawyer.ViewModels
 
             try
             {
-                var server = new CtsService();
+                var server = new ILawyerServiceWebApi();
                 var response = server.UpdateClient(new UpdateClientRequest()
                 {
                     Id = SelectedItem.Id,
@@ -126,7 +126,7 @@ namespace ee.iLawyer.ViewModels
 
             try
             {
-                var server = new CtsService();
+                var server = new ILawyerServiceWebApi();
                 var response = server.RemoveClient(new RemoveClientRequest()
                 {
                     Ids = new int[] { SelectedItem.Id },

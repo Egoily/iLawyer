@@ -1,9 +1,9 @@
 ﻿using ee.Framework;
 using ee.Framework.Schema;
 using ee.iLawyer.Modules;
-using ee.iLawyer.Ops;
 using ee.iLawyer.Ops.Contact.Args;
 using ee.iLawyer.Ops.Contact.DTO;
+using ee.iLawyer.WebApi.Invoker;
 using MaterialDesignThemes.Wpf;
 using PropertyChanged;
 using System;
@@ -41,11 +41,12 @@ namespace ee.iLawyer.ViewModels
                 {
                     try
                     {
-                        var server = new CtsService();
+                        var server = new ILawyerServiceWebApi();
                         var response = server.QueryJudge(new QueryJudgeRequest());
+                        Judges = new ObservableCollection<Judge>();
                         if (response.Code == ErrorCodes.Ok && response.QueryList != null)
                         {
-                            Judges = new ObservableCollection<Judge>();
+                           
                             response.QueryList.ToList().ForEach(x => Judges.Add(x));
                         }
 
@@ -68,7 +69,7 @@ namespace ee.iLawyer.ViewModels
 
             try
             {
-                var server = new CtsService();
+                var server = new ILawyerServiceWebApi();
                 var response = server.CreateJudge(new CreateJudgeRequest()
                 {
                     Name = SelectedItem.Name,
@@ -97,7 +98,7 @@ namespace ee.iLawyer.ViewModels
 
             try
             {
-                var server = new CtsService();
+                var server = new ILawyerServiceWebApi();
                 var response = server.UpdateJudge(new UpdateJudgeRequest()
                 {
                     Id = SelectedItem.Id,
@@ -127,7 +128,7 @@ namespace ee.iLawyer.ViewModels
 
             try
             {
-                var server = new CtsService();
+                var server = new ILawyerServiceWebApi();
                 var response = server.RemoveJudge(new RemoveJudgeRequest()
                 {
                     Ids = new int[] { SelectedItem.Id },

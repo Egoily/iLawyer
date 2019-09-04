@@ -1,9 +1,9 @@
 ﻿using ee.Framework;
 using ee.Framework.Schema;
 using ee.iLawyer.Modules;
-using ee.iLawyer.Ops;
 using ee.iLawyer.Ops.Contact.Args;
 using ee.iLawyer.Ops.Contact.DTO;
+using ee.iLawyer.WebApi.Invoker;
 using MaterialDesignThemes.Wpf;
 using PropertyChanged;
 using System;
@@ -33,7 +33,7 @@ namespace ee.iLawyer.ViewModels
                 {
                     try
                     {
-                        var server = new CtsService();
+                        var server = new ILawyerServiceWebApi();
                         var response = server.QueryCourt(new QueryCourtRequest());
                         if (response.Code == ErrorCodes.Ok && response.QueryList != null)
                         {
@@ -59,7 +59,7 @@ namespace ee.iLawyer.ViewModels
 
             try
             {
-                var server = new CtsService();
+                var server = new ILawyerServiceWebApi();
                 var response = server.CreateCourt(new CreateCourtRequest()
                 {
                     Rank = SelectedItem.Rank.ToString(),
@@ -90,7 +90,7 @@ namespace ee.iLawyer.ViewModels
 
             try
             {
-                var server = new CtsService();
+                var server = new ILawyerServiceWebApi();
                 var response = server.UpdateCourt(new UpdateCourtRequest()
                 {
                     Id = SelectedItem.Id,
@@ -121,7 +121,7 @@ namespace ee.iLawyer.ViewModels
 
             try
             {
-                var server = new CtsService();
+                var server = new ILawyerServiceWebApi();
                 var response = server.RemoveCourt(new RemoveCourtRequest()
                 {
                     Ids = new int[] { SelectedItem.Id },

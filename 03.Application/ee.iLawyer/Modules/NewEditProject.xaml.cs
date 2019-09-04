@@ -1,7 +1,7 @@
 ﻿using ee.Framework;
-using ee.iLawyer.Ops;
 using ee.iLawyer.Ops.Contact.DTO;
 using ee.iLawyer.ViewModels;
+using ee.iLawyer.WebApi.Invoker;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -157,7 +157,7 @@ namespace ee.iLawyer.Modules
             {
                 if (SelectedItems != null && SelectedItems.Any())
                 {
-                    var server = new CtsService();
+                    var server = new ILawyerServiceWebApi();
                     var response = server.QueryClient(new Ops.Contact.Args.QueryClientRequest() { Keys = SelectedItems.Select(x => x.Id).ToArray() });
                     if (response.Code == ErrorCodes.Ok && (response.QueryList?.Any() ?? false))
                     {

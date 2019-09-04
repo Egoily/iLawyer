@@ -41,8 +41,14 @@ namespace ee.iLawyer.Ops.Contact.AutoMapper
         }
         public static DTO.Project Convert(Db.Entity.Project source)
         {
+            if (source == null)
+            {
+                return null;
+            }
+
             var destination = Mapper.Map<DTO.Project>(source);
-            destination.Account = Mapper.Map<DTO.ProjectAccount>(source.Account);
+
+            destination.Account = Mapper.Map<DTO.ProjectAccount>(source?.Account ?? null);
             //---------------------
             var involvedClients = new List<DTO.Client>();
             if (source.InvolvedClients != null && source.InvolvedClients.Any())
@@ -119,6 +125,22 @@ namespace ee.iLawyer.Ops.Contact.AutoMapper
         {
             var target = Mapper.Map<Db.Entity.ProjectTodoItem>(source);
             target.InProject = project;
+            return target;
+        }
+
+        public static IList<DTO.Category> Convert(IList<DTO.PropertyItemCategory> source)
+        {
+            if (source == null)
+            {
+                return null;
+            }
+
+            var target = new List<DTO.Category>();
+            foreach (var item in source)
+            {
+                var category = Mapper.Map<DTO.Category>(item);
+                target.Add(category);
+            }
             return target;
         }
 

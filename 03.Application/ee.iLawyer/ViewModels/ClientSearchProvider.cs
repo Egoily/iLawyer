@@ -1,8 +1,8 @@
 ﻿using ee.Framework;
 using ee.iLawyer.Models;
-using ee.iLawyer.Ops;
 using ee.iLawyer.Ops.Contact;
 using ee.iLawyer.Ops.Contact.DTO;
+using ee.iLawyer.WebApi.Invoker;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -72,7 +72,7 @@ namespace ee.iLawyer.ViewModels
                         dataSource = MemoryCacheHelper.CacheItem(CacheKeys.Clients,
                         delegate ()
                         {
-                            var server = new CtsService();
+                            var server = new ILawyerServiceWebApi();
                             var response = server.QueryClient(new Ops.Contact.Args.QueryClientRequest());
                             if (response.Code == ErrorCodes.Ok && (response.QueryList?.Any() ?? false))
                             {
@@ -106,7 +106,7 @@ namespace ee.iLawyer.ViewModels
                 dataSource = MemoryCacheHelper.CacheItem(CacheKeys.Clients,
                 delegate ()
                 {
-                    var server = new CtsService();
+                    var server = new ILawyerServiceWebApi();
                     var response = server.QueryClient(new Ops.Contact.Args.QueryClientRequest());
                     if (response.Code == ErrorCodes.Ok && response.QueryList.Any())
                     {

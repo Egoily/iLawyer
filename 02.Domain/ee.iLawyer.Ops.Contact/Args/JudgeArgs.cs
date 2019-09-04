@@ -75,10 +75,19 @@ namespace ee.iLawyer.Ops.Contact.Args
     }
     public class QueryJudgeRequest : BasePageRequest
     {
+        public virtual int[] Keys { get; set; }
         /// <summary>
-        /// 主键
+        /// 法官名
         /// </summary>
-        public virtual IList<int> Ids { get; set; }
+        public virtual string Name { get; set; }
+        /// <summary>
+        /// 法官等级
+        /// </summary>
+        public virtual string Grade { get; set; }
+        /// <summary>
+        /// 所属法院Id
+        /// </summary>
+        public virtual int? InCourtId { get; set; }
     }
 
 }

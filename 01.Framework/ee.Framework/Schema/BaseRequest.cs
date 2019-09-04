@@ -32,4 +32,9 @@ namespace ee.Framework.Schema
         public virtual int PageIndex { get; set; }
         public virtual int PageSize { get; set; }
     }
+    public class BaseIdRequest : BaseRequest
+    {
+        public virtual int Id { get; set; }
+
+    }
 }

@@ -1,19 +1,19 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ee.SessionFactory;
-using ee.iLawyer.SessionFactoryBuilder.Sqlite;
-using ee.iLawyer.Ops.Contact.Args;
-using System.Collections.Generic;
+﻿using ee.iLawyer.Ops.Contact.Args;
 using ee.iLawyer.Ops.Contact.DTO;
+using ee.iLawyer.SessionFactoryBuilder.Sqlite;
+using ee.SessionFactory;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace ee.iLawyer.Ops.Tests
 {
     [TestClass]
     public class CtsServerTests
     {
+        private ILawyerService service;
 
-        CtsService service;
-        static void Build()
+        private static void Build()
         {
             SessionManager.Builder = new SqliteSessionFactoryBuilder();
             SessionManager.Builder.Build(@"..\..\..\..\03.Application\ee.iLawyer\bin\Debug\database.db");
@@ -23,7 +23,7 @@ namespace ee.iLawyer.Ops.Tests
         {
             log4net.Config.XmlConfigurator.Configure();
             Build();
-            service = new CtsService();
+            service = new ILawyerService();
         }
 
         [TestMethod()]
@@ -78,15 +78,39 @@ namespace ee.iLawyer.Ops.Tests
         [TestMethod()]
         public void QueryClientTest()
         {
-           
+
 
             var request = new QueryClientRequest()
             {
-                Keys = new int[] { 1,2,3}
+                Keys = new int[] { 1, 2, 3 }
             };
             var response = service.QueryClient(request);
 
             Assert.AreEqual(0, response.Code);
+        }
+
+
+        [TestMethod()]
+        public void CreateJudgeTest()
+        {
+
+
+            var request = new CreateJudgeRequest()
+            {
+                Name = "Ego",
+                ContactNo = "13610142196",
+                Gender = Contact.Gender.Male,
+                Grade = Contact.JudgeGrade.FirstClassJustice,
+                Duty = "This is duty.",
+                InCourtId = 1,
+            };
+
+            var json = JsonConvert.SerializeObject(request);
+
+
+            var obj = JsonConvert.DeserializeObject<CreateJudgeRequest>(json);
+            //var response = service.CreateJudge(request);
+            //Assert.AreEqual(0, response.Code);
         }
 
     }
