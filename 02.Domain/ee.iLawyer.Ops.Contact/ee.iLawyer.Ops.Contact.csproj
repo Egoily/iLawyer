@@ -48,8 +48,9 @@
     <Compile Include="Args\ClientArgs.cs" />
     <Compile Include="Args\CourtArgs.cs" />
     <Compile Include="Args\JudgeArgs.cs" />
+    <Compile Include="Args\SystemManagement\SystemManagementArgs.cs" />
     <Compile Include="Args\ProjectArgs.cs" />
-    <Compile Include="Args\PropertyItemCategoryArgs.cs" />
+    <Compile Include="Args\PropertyPickArgs.cs" />
     <Compile Include="AutoMapper\Converters.cs" />
     <Compile Include="AutoMapper\DtoConverter.cs" />
     <Compile Include="CacheKeys.cs" />
@@ -67,11 +68,15 @@
     <Compile Include="DTO\ProjectCategory.cs" />
     <Compile Include="DTO\ProjectProgress.cs" />
     <Compile Include="DTO\ProjectTodoItem.cs" />
-    <Compile Include="DTO\PropertyItemCategory.cs" />
+    <Compile Include="DTO\PropertyPicker.cs" />
+    <Compile Include="DTO\SystemManagement\Role.cs" />
+    <Compile Include="DTO\SystemManagement\User.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="Interfaces\IFoundation.cs" />
     <Compile Include="Interfaces\IILawyerService.cs" />
     <Compile Include="AutoMapper\AutoMapperConfiguration.cs" />
     <Compile Include="AutoMapper\MappingProfile.cs" />
+    <Compile Include="Interfaces\ISystemUserManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -83,9 +88,9 @@
       <Project>{82012aca-724f-4c78-a0fe-e450a887c7d7}</Project>
       <Name>ee.SessionFactory</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ee.iLawyer.Db.Entity\ee.iLawyer.Db.Entity.csproj">
+    <ProjectReference Include="..\ee.iLawyer.Db\ee.iLawyer.Db.csproj">
       <Project>{1428652c-40b3-4f1a-92f3-f4965726b414}</Project>
-      <Name>ee.iLawyer.Db.Entity</Name>
+      <Name>ee.iLawyer.Db</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -107,5 +112,6 @@
       <Version>3.0.1</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

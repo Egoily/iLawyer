@@ -52,7 +52,7 @@ namespace ee.iLawyer.UserControls
 
         private void AddItem()
         {
-            CategoryValues.Add(new CategoryValue() { CategoryId = 0, CategoryName = "请选择类型...", Value = string.Empty });
+            CategoryValues.Add(new CategoryValue() { PickerId = 0, PickerName = "请选择类型...", Value = string.Empty });
         }
 
         private void RemoveItem(CategoryValue item)

@@ -1,7 +1,8 @@
 ﻿using ee.Framework;
 using ee.Framework.Schema;
-using ee.iLawyer.Db.Entity;
+using ee.iLawyer.Db.Entities;
 using ee.iLawyer.Ops.Contact.Args;
+using ee.iLawyer.Ops.Contact.Args.SystemManagement;
 using ee.iLawyer.Ops.Contact.AutoMapper;
 using ee.iLawyer.Ops.Contact.Interfaces;
 using ee.SessionFactory;
@@ -14,9 +15,14 @@ using System.Reflection;
 
 namespace ee.iLawyer.Ops
 {
-    public class ILawyerService : IILawyerService
+    public class ILawyerService : IILawyerService, IFoundation, ISystemUserManagement
     {
-
+        public enum PickCategory
+        {
+            ProjectCategory,
+            ProjectCause,
+            PropertyPick,
+        }
         private static bool IsInit = false;
         public static void Build()
         {
@@ -50,20 +56,21 @@ namespace ee.iLawyer.Ops
 
                     //System.Threading.Tasks.Parallel.For(1, 100, index =>
                     //{
-                    //    var repo = new NhEntityRepository<Db.Entity.ProjectCause>();
+                    //    var repo = new NhEntityRepository<Db.Entities.ProjectCause>();
 
                     //    System.Threading.Thread.Sleep(10);
 
                     //});
                     for (int i = 0; i < 100; i++)
                     {
-                        var repo = new NhEntityRepository<Db.Entity.ProjectCause>();
+                        var repo = new NhEntityRepository<Db.Entities.Foundation.Picklist>();
                         System.Threading.Thread.Sleep(10);
                     }
                     return response;
                 }
                 ).Build();
         }
+
 
 
 
@@ -76,35 +83,55 @@ namespace ee.iLawyer.Ops
 
                        var queryCriterions = new List<ICriterion>();
 
-                       using (var repo = new NhEntityRepository<Db.Entity.Area>())
+                       using (var repo = new NhEntityRepository<Db.Entities.Foundation.Area>())
                        {
                            if (req.Keys != null && req.Keys.Any())
                            {
-                               queryCriterions.Add(Restrictions.On<Db.Entity.Area>(y => y.AreaCode).IsIn(req.Keys));
+                               queryCriterions.Add(Restrictions.On<Db.Entities.Foundation.Area>(y => y.Id).IsIn(req.Keys));
                            }
                            else
                            {
                                if (!string.IsNullOrEmpty(req.Name))
                                {
-                                   queryCriterions.Add(Restrictions.On<Db.Entity.Area>(y => y.Name).IsLike(req.Name, MatchMode.Anywhere));
+                                   queryCriterions.Add(Restrictions.On<Db.Entities.Foundation.Area>(y => y.Name).IsLike(req.Name, MatchMode.Anywhere));
                                }
                                else
                                {
-                                   queryCriterions.Add(Restrictions.Where<Db.Entity.Area>(x => x.Parent == null));
+                                   //queryCriterions.Add(Restrictions.Where<Db.Entities.Area>(x => x.Parent == null));
                                }
 
                            }
-                           var query = repo.QueryByPageInCriterion(queryCriterions, x => x.AreaCode, false, req.PageIndex, req.PageSize, PageQueryOption.Both, true);
-                           response.Total = query.Item2;
+                           var query = repo.QueryByPageInCriterion(queryCriterions, x => x.Id, false, req.PageIndex, req.PageSize, PageQueryOption.Both, true);
+
                            if (query.Item1.Any())
                            {
-                               response.QueryList = query.Item1.ToList().Select(DtoConverter.Convert).ToList();
+                               var tree = Framework.Utility.RecursionUtility.GetTree<Db.Entities.Foundation.Area, string>(query.Item1);
+
+
+                               response.QueryList = tree.Select(DtoConverter.Convert).ToList();
                            }
                        }
                        return response;
                    }
                   ).Build();
         }
+
+        public IEnumerable<Db.Entities.Foundation.Picklist> GetAllPicklist()
+        {
+
+
+            using (var repo = new NhEntityRepository<Db.Entities.Foundation.Picklist>())
+            {
+                var queryCriterions = new List<ICriterion>();
+                queryCriterions.Add(Restrictions.Where<Db.Entities.Foundation.Picklist>(x => x.Enabled));
+                var query = repo.QueryByPageInCriterion(queryCriterions, x => x.OrderNo, false, 0, 0, PageQueryOption.Content, true);
+
+                return query.Item1;
+            }
+
+
+        }
+
         public BaseQueryResponse<Contact.DTO.ProjectCategory> GetProjectCategories(GetProjectCategoriesRequest request)
         {
 
@@ -112,16 +139,18 @@ namespace ee.iLawyer.Ops
                   .Process(req =>
                    {
                        var response = new BaseQueryResponse<Contact.DTO.ProjectCategory>();
-                       var queryCriterions = new List<ICriterion>();
 
-                       using (var repo = new NhEntityRepository<Db.Entity.ProjectCategory>())
+
+                       using (var repo = new NhEntityRepository<Db.Entities.Foundation.Picklist>())
                        {
-                           queryCriterions.Add(Restrictions.Where<Db.Entity.ProjectCategory>(x => x.Parent == null));
-                           var query = repo.QueryByPageInCriterion(queryCriterions, x => x.Code, false, 0, 0, PageQueryOption.Both, false);
+                           var queryCriterions = new List<ICriterion>();
+                           queryCriterions.Add(Restrictions.Where<Db.Entities.Foundation.Picklist>(x => x.Enabled && x.Category == PickCategory.ProjectCategory.ToString()));
+                           var query = repo.QueryByPageInCriterion(queryCriterions, x => x.OrderNo, false, 0, 0, PageQueryOption.Content, true);
                            response.Total = query.Item2;
                            if (query.Item1.Any())
                            {
-                               response.QueryList = query.Item1.ToList().Select(DtoConverter.Convert).ToList();
+                               var tree = Framework.Utility.RecursionUtility.GetTree<Db.Entities.Foundation.Picklist, int?>(query.Item1);
+                               response.QueryList = tree.Select(DtoConverter.ConvertToProjectCategory).ToList();
                            }
                        }
                        return response;
@@ -134,71 +163,361 @@ namespace ee.iLawyer.Ops
                   .Process(req =>
                    {
                        var response = new BaseQueryResponse<Contact.DTO.ProjectCause>();
-                       using (var repo = new NhEntityRepository<Db.Entity.ProjectCause>())
+                       using (var repo = new NhEntityRepository<Db.Entities.Foundation.Picklist>())
                        {
                            var queryCriterions = new List<ICriterion>();
-                           var query = repo.QueryByPageInCriterion(queryCriterions, x => x.Id, false, 0, 0, PageQueryOption.Both, true);
+                           queryCriterions.Add(Restrictions.Where<Db.Entities.Foundation.Picklist>(x => x.Enabled && x.Category == PickCategory.ProjectCause.ToString()));
+                           var query = repo.QueryByPageInCriterion(queryCriterions, x => x.OrderNo, false, 0, 0, PageQueryOption.Content, true);
                            response.Total = query.Item2;
                            if (query.Item1.Any())
                            {
-                               response.QueryList = query.Item1.ToList().Select(DtoConverter.Convert).ToList();
+                               var tree = Framework.Utility.RecursionUtility.GetTree<Db.Entities.Foundation.Picklist, int?>(query.Item1);
+                               response.QueryList = tree.Select(DtoConverter.ConvertToProjectCause).ToList();
                            }
                        }
+
+                       //var picks = GetAllPicklist().Where(x => x.Category == PickCategory.ProjectCause.ToString());
+                       //if (picks.Any())
+                       //{
+                       //    var tree = Framework.Utility.RecursionUtility.GetTree<Db.Entities.Foundation.Picklist, int?>(picks);
+                       //    response.QueryList = tree.Select(DtoConverter.ConvertToProjectCause).ToList();
+                       //}
+
                        return response;
                    }
                   ).Build();
         }
-        public BaseQueryResponse<Contact.DTO.PropertyItemCategory> GetPropertyCategories(GetPropertyCategoriesRequest request)
+
+        public BaseQueryResponse<Contact.DTO.PropertyPicker> GetPropertyPicks(GetPropertyPicksRequest request)
         {
-            return ServiceProcessor.CreateProcessor<GetPropertyCategoriesRequest, BaseQueryResponse<Contact.DTO.PropertyItemCategory>>(MethodBase.GetCurrentMethod(), request)
+            return ServiceProcessor.CreateProcessor<GetPropertyPicksRequest, BaseQueryResponse<Contact.DTO.PropertyPicker>>(MethodBase.GetCurrentMethod(), request)
                   .Process(req =>
                   {
-                      var response = new BaseQueryResponse<Contact.DTO.PropertyItemCategory>();
-                      using (var repo = new NhEntityRepository<Db.Entity.PropertyItemCategory>())
+                      var response = new BaseQueryResponse<Contact.DTO.PropertyPicker>();
+                      using (var repo = new NhEntityRepository<Db.Entities.Foundation.Picklist>())
                       {
-                          var query = repo.QueryByPage(x => x.Parent == null, x => x.Id);
-                          response.Total = query.Item2;
+                          var query = repo.QueryByPage(x => x.Enabled && x.Category == PickCategory.PropertyPick.ToString(), x => x.Id, false, 0, 0, PageQueryOption.Content, true);
+
                           if (query.Item1.Any())
                           {
-                              response.QueryList = query.Item1.ToList().Select(DtoConverter.Convert).ToList();
+                              var tree = Framework.Utility.RecursionUtility.GetTree<Db.Entities.Foundation.Picklist, int?>(query.Item1);
+                              response.QueryList = (string.IsNullOrEmpty(req.Code) ? tree?.ToList() : tree?.Where(x => x.Code == request.Code))?.Select(DtoConverter.ConvertToPropertyPicker).ToList();
                           }
-                      }
-                      return response;
-                  }
-                  ).Build();
-        }
-        public BaseQueryResponse<Contact.DTO.PropertyItemCategory> GetPropertyItemCategories(GetPropertyItemCategoriesRequest request)
-        {
-            return ServiceProcessor.CreateProcessor<GetPropertyItemCategoriesRequest, BaseQueryResponse<Contact.DTO.PropertyItemCategory>>(MethodBase.GetCurrentMethod(), request)
-                  .Process(req =>
-                  {
-                      var response = new BaseQueryResponse<Contact.DTO.PropertyItemCategory>();
-                      using (var repo = new NhEntityRepository<Db.Entity.PropertyItemCategory>())
-                      {
-                          if (string.IsNullOrEmpty(req.Code))
-                          {
-                              var query = repo.QueryByPage(x => x.Parent == null && x.IsEnabled, x => x.Id);
-                              response.Total = query.Item2;
-                              if (query.Item1.Any())
-                              {
-                                  response.QueryList = query.Item1.ToList().Select(DtoConverter.Convert).ToList();
-                              }
-                          }
-                          else
-                          {
-                              var query = repo.QueryByPage(x => x.Parent != null && x.Parent.Code == req.Code && x.IsEnabled, x => x.Id);
-                              response.Total = query.Item2;
-                              if (query.Item1.Any())
-                              {
-                                  response.QueryList = query.Item1.ToList().Select(DtoConverter.Convert).ToList();
-                              }
-                          }
+
                       }
                       return response;
                   }
                   ).Build();
 
         }
+
+
+
+
+        #region * ISystemUserManagement
+
+        public BaseResponse Register(RegisterRequest request)
+        {
+            return ServiceProcessor.CreateProcessor<RegisterRequest, BaseResponse>(MethodBase.GetCurrentMethod(), request)
+                 .Process(req =>
+                 {
+                     var response = new BaseResponse();
+                     using (var repo = new NhGlobalRepository())
+                     {
+                         var users = repo.Query<Db.Entities.RBAC.SysUser>(x => x.UserName == req.UserName);
+                         if (users != null && users.Any())
+                         {
+                             throw new EeException(ErrorCodes.ExistedUser, "User is existed.");
+                         }
+                         var queryCriterions = new List<ICriterion>
+                         {
+                             Restrictions.On<Db.Entities.RBAC.SysRole>(y => y.Id).IsIn(req.RoleIds.ToArray())
+                         };
+                         var roles = repo.Query<Db.Entities.RBAC.SysRole>(queryCriterions);
+
+
+                         var user = new Db.Entities.RBAC.SysUser()
+                         {
+                             Roles = roles.ToList(),
+                             UserName = req.UserName,
+                             Password = req.Password,
+                             PhoneNo = req.PhoneNo,
+                             Status = 1,
+                             CreateTime = DateTime.Now,
+                         };
+                         repo.Create(user);
+                     }
+                     return response;
+                 }
+                 ).Build();
+        }
+
+        public BaseObjectResponse<Contact.DTO.SystemManagement.User> Login(LoginRequest request)
+        {
+            return ServiceProcessor.CreateProcessor<LoginRequest, BaseObjectResponse<Contact.DTO.SystemManagement.User>>(MethodBase.GetCurrentMethod(), request)
+                  .Process(req =>
+                  {
+                      var response = new BaseObjectResponse<Contact.DTO.SystemManagement.User>();
+                      using (var repo = new NhGlobalRepository())
+                      {
+
+                          var users = repo.Query<Db.Entities.RBAC.SysUser>(x => x.UserName == req.LoginName);
+                          if (users == null || !users.Any())
+                          {
+                              throw new EeException(ErrorCodes.NotExistedUser, "User is not existed.");
+                          }
+                          var user = users.FirstOrDefault(x => x.Password == req.Password);
+                          if (user == null)
+                          {
+                              throw new EeException(ErrorCodes.IllegalCertificate, "The password is incorrect.");
+                          }
+                          if (user.Status != 1)
+                          {
+                              throw new EeException(ErrorCodes.IllegalStatus, "The status of user is illegal.");
+                          }
+
+                          response.Object = DtoConverter.Convert(user);
+
+                          user.LastLoginTime = DateTime.Now;
+                          repo.Update(user);
+                      }
+                      return response;
+                  }
+                  ).Build();
+        }
+
+        public BaseResponse Logout(LogoutRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public BaseResponse Grant(GrantRequest request)
+        {
+            return ServiceProcessor.CreateProcessor<GrantRequest, BaseResponse>(MethodBase.GetCurrentMethod(), request)
+                .Inbound(() =>
+                {
+                    if (request.RoleIds == null)
+                    {
+                        request.RoleIds = new List<int>();
+                    }
+                    if (request.PermissionIds == null)
+                    {
+                        request.PermissionIds = new List<int>();
+                    }
+                    if (request.PermissionGroupIds == null)
+                    {
+                        request.PermissionGroupIds = new List<int>();
+                    }
+                    if (request.PermissionRestrictionIds == null)
+                    {
+                        request.PermissionRestrictionIds = new List<int>();
+                    }
+                })
+                 .Process(req =>
+                 {
+                     var response = new BaseResponse();
+                     using (var repo = new NhGlobalRepository())
+                     {
+
+                         var user = repo.GetById<Db.Entities.RBAC.SysUser>(req.UserId);
+                         if (user == null)
+                         {
+                             throw new EeException(ErrorCodes.NotExistedUser, "User is not existed.");
+                         }
+                         var addedRoleIds = new List<int>();
+                         var removedRoleIds = new List<int>();
+                         var addedPermissionIds = new List<int>();
+                         var removedPermissionIds = new List<int>();
+                         var addedPermissionGroupIds = new List<int>();
+                         var removedPermissionGroupIds = new List<int>();
+                         var addedPermissionRestrictionIds = new List<int>();
+                         var removedPermissionRestrictionIds = new List<int>();
+
+                         switch (req.Pattern)
+                         {
+                             case Contact.OperatePattern.Hybrid:
+                                 removedRoleIds = user.Roles.Select(x => x.Id.Value).Except(req.RoleIds).ToList();
+                                 addedRoleIds = req.RoleIds.Except(user.Roles.Select(x => x.Id.Value)).ToList();
+                                 removedPermissionIds = user.Permissions.Select(x => x.Id).Except(req.PermissionIds).ToList();
+                                 addedPermissionIds = req.PermissionIds.Except(user.Permissions.Select(x => x.Id)).ToList();
+                                 removedPermissionGroupIds = user.PermissionGroups.Select(x => x.Id.Value).Except(req.PermissionGroupIds).ToList();
+                                 addedPermissionGroupIds = req.PermissionGroupIds.Except(user.PermissionGroups.Select(x => x.Id.Value)).ToList();
+                                 removedPermissionRestrictionIds = user.Restrictions.Select(x => x.Id).Except(req.PermissionRestrictionIds).ToList();
+                                 addedPermissionRestrictionIds = req.PermissionRestrictionIds.Except(user.Restrictions.Select(x => x.Id)).ToList();
+                                 break;
+                             case Contact.OperatePattern.Increase:
+                                 addedRoleIds = req.RoleIds.ToList();
+                                 addedPermissionIds = req.PermissionIds.ToList();
+                                 addedPermissionGroupIds = req.PermissionGroupIds.ToList();
+                                 addedPermissionRestrictionIds = req.PermissionRestrictionIds.ToList();
+                                 break;
+                             case Contact.OperatePattern.Decrease:
+                                 removedRoleIds = req.RoleIds.ToList();
+                                 removedPermissionIds = req.PermissionIds.ToList();
+                                 removedPermissionGroupIds = req.PermissionGroupIds.ToList();
+                                 removedPermissionRestrictionIds = req.PermissionRestrictionIds.ToList();
+                                 break;
+                             default:
+                                 break;
+                         }
+                         #region *Role
+
+                         if (removedRoleIds.Any())
+                         {
+                             user.Roles.RemoveWhere(x => removedRoleIds.Contains(x.Id.Value));
+                         }
+                         if (addedRoleIds.Any())
+                         {
+                             var queryCriterions = new List<ICriterion>
+                             {
+                                 Restrictions.On<Db.Entities.RBAC.SysRole>(y => y.Id).IsIn(req.RoleIds.ToArray())
+                             };
+                             var addedRoles = repo.Query<Db.Entities.RBAC.SysRole>(queryCriterions);
+                             if (addedRoles != null && addedRoles.Any())
+                             {
+                                 user.Roles.AddRangeIfNotContains(addedRoles.ToArray());
+                             }
+                         }
+                         #endregion
+
+                         #region *Permission
+
+                         if (removedPermissionIds.Any())
+                         {
+                             user.Permissions.RemoveWhere(x => removedPermissionIds.Contains(x.Id));
+                         }
+                         if (addedPermissionIds.Any())
+                         {
+                             var queryCriterions = new List<ICriterion>
+                             {
+                                 Restrictions.On<Db.Entities.RBAC.SysModule>(y => y.Id).IsIn(req.PermissionIds.ToArray())
+                             };
+                             var addedPermissions = repo.Query<Db.Entities.RBAC.SysModule>(queryCriterions);
+                             if (addedPermissions != null && addedPermissions.Any())
+                             {
+                                 user.Permissions.AddRangeIfNotContains(addedPermissions.ToArray());
+                             }
+                         }
+                         #endregion
+
+                         #region *Permission group
+
+                         if (removedPermissionGroupIds.Any())
+                         {
+                             user.PermissionGroups.RemoveWhere(x => removedPermissionGroupIds.Contains(x.Id.Value));
+                         }
+                         if (addedPermissionGroupIds.Any())
+                         {
+                             var queryCriterions = new List<ICriterion>
+                             {
+                                 Restrictions.On<Db.Entities.RBAC.SysPermissionGroup>(y => y.Id).IsIn(req.PermissionGroupIds.ToArray())
+                             };
+                             var addedPermissionGroups = repo.Query<Db.Entities.RBAC.SysPermissionGroup>(queryCriterions);
+                             if (addedPermissionGroups != null && addedPermissionGroups.Any())
+                             {
+                                 user.PermissionGroups.AddRangeIfNotContains(addedPermissionGroups.ToArray());
+                             }
+                         }
+                         #endregion
+
+                         #region *Permission restriction
+
+                         if (removedPermissionRestrictionIds.Any())
+                         {
+                             user.Restrictions.RemoveWhere(x => removedPermissionRestrictionIds.Contains(x.Id));
+                         }
+                         if (addedPermissionRestrictionIds.Any())
+                         {
+                             var queryCriterions = new List<ICriterion>
+                             {
+                                 Restrictions.On<Db.Entities.RBAC.SysModule>(y => y.Id).IsIn(req.PermissionRestrictionIds.ToArray())
+                             };
+                             var addedPermissionRestrictions = repo.Query<Db.Entities.RBAC.SysModule>(queryCriterions);
+                             if (addedPermissionRestrictions != null && addedPermissionRestrictions.Any())
+                             {
+                                 user.Restrictions.AddRangeIfNotContains(addedPermissionRestrictions.ToArray());
+                             }
+                         }
+                         #endregion
+
+
+                         repo.Update(user);
+                     }
+                     return response;
+                 }
+                 ).Build();
+        }
+
+        public BaseResponse UpdateUser(UpdateUserRequest request)
+        {
+            return ServiceProcessor.CreateProcessor<UpdateUserRequest, BaseResponse>(MethodBase.GetCurrentMethod(), request)
+                  .Process(req =>
+                  {
+                      var response = new BaseResponse();
+                      using (var repo = new NhGlobalRepository())
+                      {
+
+                          var user = repo.GetById<Db.Entities.RBAC.SysUser>(req.UserId);
+                          if (user == null)
+                          {
+                              throw new EeException(ErrorCodes.NotExistedUser, "User is not existed.");
+                          }
+
+                          if (!string.IsNullOrEmpty(req.NickName))
+                          {
+                              user.Nickname = req.NickName;
+                          }
+                          if (req.Status.HasValue)
+                          {
+                              user.Status = req.Status.Value;
+                          }
+
+                          user.UpdateTime = DateTime.Now;
+                          repo.Update(user);
+                      }
+                      return response;
+                  }
+                  ).Build();
+        }
+
+        public BaseResponse ChangePassword(ChangePasswordRequest request)
+        {
+            return ServiceProcessor.CreateProcessor<ChangePasswordRequest, BaseResponse>(MethodBase.GetCurrentMethod(), request)
+                .Inbound(
+                () =>
+                {
+                    if (string.IsNullOrEmpty(request.NewPassword))
+                    {
+                        throw new EeException(ErrorCodes.IllegalCertificate, "The new password is null.");
+                    }
+                })
+                 .Process(req =>
+                 {
+                     var response = new BaseResponse();
+                     using (var repo = new NhGlobalRepository())
+                     {
+
+                         var user = repo.GetById<Db.Entities.RBAC.SysUser>(req.UserId);
+                         if (user == null)
+                         {
+                             throw new EeException(ErrorCodes.NotExistedUser, "User is not existed.");
+                         }
+                         if (user.Password != req.OldPassword)
+                         {
+                             throw new EeException(ErrorCodes.IllegalCertificate, "The old password is incorrect.");
+                         }
+                         user.Password = req.NewPassword;
+                         user.UpdateTime = DateTime.Now;
+                         repo.Update(user);
+                     }
+                     return response;
+                 }
+                 ).Build();
+        }
+
+
+        #endregion
 
 
         public BaseResponse CreateCourt(CreateCourtRequest request)
@@ -207,14 +526,14 @@ namespace ee.iLawyer.Ops
                   .Process(req =>
                    {
                        var response = new BaseResponse();
-                       using (var repo = new NhEntityRepository<Db.Entity.Court>())
+                       using (var repo = new NhEntityRepository<Db.Entities.Court>())
                        {
                            var court = repo.Query(x => x.Name == req.Name)?.FirstOrDefault();
                            if (court != null)
                            {
                                throw new EeException(ErrorCodes.Existed, "Object is existed.");
                            }
-                           court = new Db.Entity.Court()
+                           court = new Db.Entities.Court()
                            {
                                Name = req.Name,
                                Province = req.Province,
@@ -236,7 +555,7 @@ namespace ee.iLawyer.Ops
                   .Process(req =>
                    {
                        var response = new BaseResponse();
-                       using (var repo = new NhEntityRepository<Db.Entity.Court>())
+                       using (var repo = new NhEntityRepository<Db.Entities.Court>())
                        {
                            var court = repo.GetById(req.Id);
                            if (court == null)
@@ -262,7 +581,7 @@ namespace ee.iLawyer.Ops
                   .Process(req =>
                    {
                        var response = new BaseResponse();
-                       using (var repo = new NhEntityRepository<Db.Entity.Court>())
+                       using (var repo = new NhEntityRepository<Db.Entities.Court>())
                        {
                            foreach (var id in req.Ids)
                            {
@@ -283,7 +602,7 @@ namespace ee.iLawyer.Ops
                   .Process(req =>
                    {
                        var response = new BaseObjectResponse<Contact.DTO.Court>();
-                       using (var repo = new NhEntityRepository<Db.Entity.Court>())
+                       using (var repo = new NhEntityRepository<Db.Entities.Court>())
                        {
                            var entity = repo.GetById(request.Id);
                            response.Object = DtoConverter.Convert(entity);
@@ -326,33 +645,33 @@ namespace ee.iLawyer.Ops
                        var queryCriterions = new List<ICriterion>();
 
 
-                       using (var repo = new NhEntityRepository<Db.Entity.Court>())
+                       using (var repo = new NhEntityRepository<Db.Entities.Court>())
                        {
                            if (req.Keys != null && req.Keys.Any())
                            {
-                               queryCriterions.Add(Restrictions.On<Db.Entity.Court>(y => y.Id).IsIn(req.Keys));
+                               queryCriterions.Add(Restrictions.On<Db.Entities.Court>(y => y.Id).IsIn(req.Keys));
                            }
                            else
                            {
                                if (!string.IsNullOrEmpty(req.Name))
                                {
-                                   queryCriterions.Add(Restrictions.On<Db.Entity.Court>(y => y.Name).IsLike(req.Name, MatchMode.Anywhere));
+                                   queryCriterions.Add(Restrictions.On<Db.Entities.Court>(y => y.Name).IsLike(req.Name, MatchMode.Anywhere));
                                }
                                if (!string.IsNullOrEmpty(req.Province))
                                {
-                                   queryCriterions.Add(Restrictions.Where<Db.Entity.Court>(x => x.Province == req.Province));
+                                   queryCriterions.Add(Restrictions.Where<Db.Entities.Court>(x => x.Province == req.Province));
                                }
                                if (!string.IsNullOrEmpty(req.City))
                                {
-                                   queryCriterions.Add(Restrictions.Where<Db.Entity.Court>(x => x.City == req.City));
+                                   queryCriterions.Add(Restrictions.Where<Db.Entities.Court>(x => x.City == req.City));
                                }
                                if (!string.IsNullOrEmpty(req.County))
                                {
-                                   queryCriterions.Add(Restrictions.Where<Db.Entity.Court>(x => x.County == req.County));
+                                   queryCriterions.Add(Restrictions.Where<Db.Entities.Court>(x => x.County == req.County));
                                }
                                if (!string.IsNullOrEmpty(req.Rank))
                                {
-                                   queryCriterions.Add(Restrictions.Where<Db.Entity.Court>(x => x.Rank == req.Rank));
+                                   queryCriterions.Add(Restrictions.Where<Db.Entities.Court>(x => x.Rank == req.Rank));
                                }
 
                            }
@@ -378,13 +697,13 @@ namespace ee.iLawyer.Ops
                        var response = new BaseResponse();
                        using (var repo = new NhGlobalRepository())
                        {
-                           var judge = repo.Query<Db.Entity.Judge>(x => x.Name == req.Name && x.ContactNo == req.ContactNo).FirstOrDefault();
+                           var judge = repo.Query<Db.Entities.Judge>(x => x.Name == req.Name && x.ContactNo == req.ContactNo).FirstOrDefault();
                            if (judge != null)
                            {
                                throw new EeException(ErrorCodes.Existed, "Object is existed.");
                            }
-                           var court = repo.GetById<Db.Entity.Court>(req.InCourtId);
-                           judge = new Db.Entity.Judge()
+                           var court = repo.GetById<Db.Entities.Court>(req.InCourtId);
+                           judge = new Db.Entities.Judge()
                            {
                                Name = req.Name,
                                ContactNo = req.ContactNo,
@@ -407,7 +726,7 @@ namespace ee.iLawyer.Ops
                        var response = new BaseResponse();
                        using (var repo = new NhGlobalRepository())
                        {
-                           var judge = repo.GetById<Db.Entity.Judge>(req.Id);
+                           var judge = repo.GetById<Db.Entities.Judge>(req.Id);
                            if (judge == null)
                            {
                                throw new EeException(ErrorCodes.NotFound, "Object is not found.");
@@ -418,7 +737,7 @@ namespace ee.iLawyer.Ops
                            judge.Gender = (int)req.Gender;
                            judge.Grade = req.Grade.ToString();
                            judge.Duty = req.Duty;
-                           judge.InCourt = repo.GetById<Db.Entity.Court>(req.InCourtId) ?? throw new EeException(ErrorCodes.NotFound, "Court is not found.");
+                           judge.InCourt = repo.GetById<Db.Entities.Court>(req.InCourtId) ?? throw new EeException(ErrorCodes.NotFound, "Court is not found.");
 
                            repo.Update(judge);
                        }
@@ -432,7 +751,7 @@ namespace ee.iLawyer.Ops
                   .Process(req =>
                    {
                        var response = new BaseResponse();
-                       using (var repo = new NhEntityRepository<Db.Entity.Judge>())
+                       using (var repo = new NhEntityRepository<Db.Entities.Judge>())
                        {
                            foreach (var id in req.Ids)
                            {
@@ -453,7 +772,7 @@ namespace ee.iLawyer.Ops
                   .Process(req =>
                    {
                        var response = new BaseObjectResponse<Contact.DTO.Judge>();
-                       using (var repo = new NhEntityRepository<Db.Entity.Judge>())
+                       using (var repo = new NhEntityRepository<Db.Entities.Judge>())
                        {
                            var entity = repo.GetById(request.Id);
                            response.Object = DtoConverter.Convert(entity);
@@ -496,26 +815,26 @@ namespace ee.iLawyer.Ops
 
                        var queryCriterions = new List<ICriterion>();
 
-                       using (var repo = new NhEntityRepository<Db.Entity.Judge>())
+                       using (var repo = new NhEntityRepository<Db.Entities.Judge>())
                        {
                            if (req.Keys != null && req.Keys.Any())
                            {
-                               queryCriterions.Add(Restrictions.On<Db.Entity.Court>(y => y.Id).IsIn(req.Keys));
+                               queryCriterions.Add(Restrictions.On<Db.Entities.Court>(y => y.Id).IsIn(req.Keys));
                            }
                            else
                            {
                                if (!string.IsNullOrEmpty(req.Name))
                                {
-                                   queryCriterions.Add(Restrictions.On<Db.Entity.Judge>(y => y.Name).IsLike(req.Name, MatchMode.Anywhere));
+                                   queryCriterions.Add(Restrictions.On<Db.Entities.Judge>(y => y.Name).IsLike(req.Name, MatchMode.Anywhere));
                                }
 
                                if (!string.IsNullOrEmpty(req.Grade))
                                {
-                                   queryCriterions.Add(Restrictions.Where<Db.Entity.Judge>(x => x.Grade == req.Grade));
+                                   queryCriterions.Add(Restrictions.Where<Db.Entities.Judge>(x => x.Grade == req.Grade));
                                }
                                if (req.InCourtId.HasValue)
                                {
-                                   queryCriterions.Add(Restrictions.Where<Db.Entity.Judge>(x => x.InCourt.Id == req.InCourtId.Value));
+                                   queryCriterions.Add(Restrictions.Where<Db.Entities.Judge>(x => x.InCourt.Id == req.InCourtId.Value));
                                }
                            }
                            var query = repo.QueryByPageInCriterion(queryCriterions, x => x.Id, false, req.PageIndex, req.PageSize);
@@ -542,13 +861,13 @@ namespace ee.iLawyer.Ops
                        using (var repo = new NhGlobalRepository())
                        {
 
-                           var client = repo.Query<Db.Entity.Client>(x => x.Name == req.Name && x.Abbreviation == req.Abbreviation).FirstOrDefault();
+                           var client = repo.Query<Db.Entities.Client>(x => x.Name == req.Name && x.Abbreviation == req.Abbreviation).FirstOrDefault();
                            if (client != null)
                            {
                                throw new EeException(ErrorCodes.Existed, "Object is existed.");
                            }
 
-                           client = new Db.Entity.Client()
+                           client = new Db.Entities.Client()
                            {
                                Name = req.Name,
                                ContactNo = req.ContactNo,
@@ -559,14 +878,14 @@ namespace ee.iLawyer.Ops
                                CreateTime = now,
 
                            };
-                           var properties = new List<ClientPropertyItem>();
+                           var properties = new List<ClientProperties>();
                            foreach (var p in req.Properties)
                            {
-                               var clientPropertyItem = new ClientPropertyItem()
+                               var clientPropertyItem = new ClientProperties()
                                {
                                    CreateTime = now,
                                    Value = p.Value,
-                                   Category = repo.GetById<Db.Entity.PropertyItemCategory>(p.CategoryId),
+                                   Picker = repo.GetById<Db.Entities.Foundation.Picklist>(p.PickerId),
                                    Client = client,
                                };
                                repo.Create(clientPropertyItem);
@@ -590,7 +909,7 @@ namespace ee.iLawyer.Ops
                        var response = new BaseResponse();
                        using (var repo = new NhGlobalRepository())
                        {
-                           var client = repo.GetById<Db.Entity.Client>(req.Id);
+                           var client = repo.GetById<Db.Entities.Client>(req.Id);
                            if (client == null)
                            {
                                throw new EeException(ErrorCodes.NotFound, "Object is not found.");
@@ -609,7 +928,7 @@ namespace ee.iLawyer.Ops
                                foreach (var item in toRemove.ToList())
                                {
                                    client.Properties.Remove(item);
-                                   var clientPropertyItem = repo.GetById<ClientPropertyItem>(item.Id);
+                                   var clientPropertyItem = repo.GetById<ClientProperties>(item.Id);
                                    if (clientPropertyItem != null)
                                    {
                                        repo.Delete(clientPropertyItem);
@@ -629,10 +948,10 @@ namespace ee.iLawyer.Ops
                                        existedObj.Value = p.Value;
                                        hasUpdated = true;
                                    }
-                                   if (existedObj.Category.Id != p.CategoryId && p.CategoryId > 0)
+                                   if (existedObj.Picker.Id != p.PickerId && p.PickerId > 0)
                                    {
-                                       var category = repo.GetById<Db.Entity.PropertyItemCategory>(p.CategoryId);
-                                       existedObj.Category = category;
+                                       var category = repo.GetById<Db.Entities.Foundation.Picklist>(p.PickerId);
+                                       existedObj.Picker = category;
                                        hasUpdated = true;
                                    }
                                    if (hasUpdated)
@@ -643,11 +962,11 @@ namespace ee.iLawyer.Ops
                                //add
                                else
                                {
-                                   var clientPropertyItem = new ClientPropertyItem()
+                                   var clientPropertyItem = new ClientProperties()
                                    {
                                        CreateTime = now,
                                        Value = p.Value,
-                                       Category = repo.GetById<Db.Entity.PropertyItemCategory>(p.CategoryId),
+                                       Picker = repo.GetById<Db.Entities.Foundation.Picklist>(p.PickerId),
                                        Client = client,
                                    };
                                    client.Properties.Add(clientPropertyItem);
@@ -668,7 +987,7 @@ namespace ee.iLawyer.Ops
                   .Process(req =>
                    {
                        var response = new BaseResponse();
-                       using (var repo = new NhEntityRepository<Db.Entity.Client>())
+                       using (var repo = new NhEntityRepository<Db.Entities.Client>())
                        {
                            foreach (var id in req.Ids)
                            {
@@ -689,7 +1008,7 @@ namespace ee.iLawyer.Ops
                   .Process(req =>
                    {
                        var response = new BaseObjectResponse<Contact.DTO.Client>();
-                       using (var repo = new NhEntityRepository<Db.Entity.Client>())
+                       using (var repo = new NhEntityRepository<Db.Entities.Client>())
                        {
                            var entity = repo.GetById(request.Id);
                            response.Object = DtoConverter.Convert(entity);
@@ -708,23 +1027,23 @@ namespace ee.iLawyer.Ops
 
                        var queryCriterions = new List<ICriterion>();
 
-                       using (var repo = new NhEntityRepository<Db.Entity.Client>())
+                       using (var repo = new NhEntityRepository<Db.Entities.Client>())
                        {
 
                            if (req.Keys != null && req.Keys.Any())
                            {
-                               queryCriterions.Add(Restrictions.On<Db.Entity.Court>(y => y.Id).IsIn(req.Keys));
+                               queryCriterions.Add(Restrictions.On<Db.Entities.Court>(y => y.Id).IsIn(req.Keys));
                            }
                            else
                            {
                                if (!string.IsNullOrEmpty(req.Name))
                                {
-                                   queryCriterions.Add(Restrictions.On<Db.Entity.Client>(y => y.Name).IsLike(req.Name, MatchMode.Anywhere));
+                                   queryCriterions.Add(Restrictions.On<Db.Entities.Client>(y => y.Name).IsLike(req.Name, MatchMode.Anywhere));
                                }
 
                                if (req.IsNP.HasValue)
                                {
-                                   queryCriterions.Add(Restrictions.Where<Db.Entity.Client>(x => x.IsNP == req.IsNP.Value));
+                                   queryCriterions.Add(Restrictions.Where<Db.Entities.Client>(x => x.IsNP == req.IsNP.Value));
                                }
                            }
                            var query = repo.QueryByPageInCriterion(queryCriterions, x => x.Id, false, req.PageIndex, req.PageSize);
@@ -751,15 +1070,15 @@ namespace ee.iLawyer.Ops
                        using (var repo = new NhGlobalRepository())
                        {
 
-                           var project = repo.Query<Db.Entity.Project>(x => x.Name == req.Name && x.Code == req.Code).FirstOrDefault();
+                           var project = repo.Query<Db.Entities.Project>(x => x.Name == req.Name && x.Code == req.Code).FirstOrDefault();
                            if (project != null)
                            {
                                throw new EeException(ErrorCodes.Existed, "Object is existed.");
                            }
 
-                           project = new Db.Entity.Project()
+                           project = new Db.Entities.Project()
                            {
-                               Category = repo.GetById<Db.Entity.ProjectCategory>(req.CategoryCode),
+                               Category = repo.GetById<Db.Entities.Foundation.Picklist>(req.CategoryCode),
                                Name = req.Name,
                                Code = req.Code,
                                Level = req.Level,
@@ -767,14 +1086,14 @@ namespace ee.iLawyer.Ops
                                OtherLitigant = req.OtherLitigant,
                                InterestedParty = req.InterestedParty,
                                DealDate = req.DealDate,
-                               Owner = repo.GetById<Db.Entity.SysUser>(req.OwnerId),
+                               Owner = repo.GetById<Db.Entities.RBAC.SysUser>(req.OwnerId),
                                CreateTime = now,
                            };
                            project.AddAccount(DtoConverter.Convert(req.Account));
 
-                           var involvedClients = new List<Db.Entity.ProjectClient>();
-                           var todoList = new List<Db.Entity.ProjectTodoItem>();
-                           var progresses = new List<Db.Entity.ProjectProgress>();
+                           var involvedClients = new List<Db.Entities.ProjectClient>();
+                           var todoList = new List<Db.Entities.ProjectTodoItem>();
+                           var progresses = new List<Db.Entities.ProjectProgress>();
 
                            if (req.InvolvedClientIds?.Any() ?? false)
                            {
@@ -783,7 +1102,7 @@ namespace ee.iLawyer.Ops
                                {
                                    if (id > 0)
                                    {
-                                       var existedClient = repo.GetById<Db.Entity.Client>(id);
+                                       var existedClient = repo.GetById<Db.Entities.Client>(id);
                                        if (existedClient != null)
                                        {
                                            var projectClient = new ProjectClient()
@@ -823,7 +1142,7 @@ namespace ee.iLawyer.Ops
                        var response = new BaseResponse();
                        using (var repo = new NhGlobalRepository())
                        {
-                           var project = repo.GetById<Db.Entity.Project>(req.Id);
+                           var project = repo.GetById<Db.Entities.Project>(req.Id);
                            if (project == null)
                            {
                                throw new EeException(ErrorCodes.NotFound, "Object is not found.");
@@ -840,8 +1159,8 @@ namespace ee.iLawyer.Ops
 
                            project.UpdateAccount(DtoConverter.Convert(req.Account));
 
-                           project.Category = repo.GetById<Db.Entity.ProjectCategory>(req.CategoryCode);
-                           project.Owner = repo.GetById<Db.Entity.SysUser>(req.OwnerId);
+                           project.Category = repo.GetById<Db.Entities.Foundation.Picklist>(req.CategoryCode);
+                           project.Owner = repo.GetById<Db.Entities.RBAC.SysUser>(req.OwnerId);
 
                            //update todolist
                            if (req.TodoList != null)
@@ -876,7 +1195,7 @@ namespace ee.iLawyer.Ops
                                        //add
                                        else
                                        {
-                                           var todoItem = new Db.Entity.ProjectTodoItem()
+                                           var todoItem = new Db.Entities.ProjectTodoItem()
                                            {
                                                Id = item.Id,
                                                InProject = project,
@@ -896,7 +1215,7 @@ namespace ee.iLawyer.Ops
                                }
                                else
                                {
-                                   project.TodoList = new List<Db.Entity.ProjectTodoItem>();
+                                   project.TodoList = new List<Db.Entities.ProjectTodoItem>();
                                    req.TodoList.ToList().ForEach(x => project.TodoList.Add(DtoConverter.Convert(x, project)));
                                }
                            }
@@ -927,7 +1246,7 @@ namespace ee.iLawyer.Ops
                                        //add
                                        else
                                        {
-                                           var todoItem = new Db.Entity.ProjectProgress()
+                                           var todoItem = new Db.Entities.ProjectProgress()
                                            {
                                                Id = item.Id,
                                                InProject = project,
@@ -942,7 +1261,7 @@ namespace ee.iLawyer.Ops
                                }
                                else
                                {
-                                   project.Progresses = new List<Db.Entity.ProjectProgress>();
+                                   project.Progresses = new List<Db.Entities.ProjectProgress>();
                                    req.Progresses.ToList().ForEach(x => project.Progresses.Add(DtoConverter.Convert(x, project)));
                                    repo.Update(project);
                                }
@@ -960,7 +1279,7 @@ namespace ee.iLawyer.Ops
                   .Process(req =>
                    {
                        var response = new BaseResponse();
-                       using (var repo = new NhEntityRepository<Db.Entity.Project>())
+                       using (var repo = new NhEntityRepository<Db.Entities.Project>())
                        {
                            foreach (var id in req.Ids)
                            {
@@ -982,7 +1301,7 @@ namespace ee.iLawyer.Ops
                   .Process(req =>
                    {
                        var response = new BaseObjectResponse<Contact.DTO.Project>();
-                       using (var repo = new NhEntityRepository<Db.Entity.Project>())
+                       using (var repo = new NhEntityRepository<Db.Entities.Project>())
                        {
                            var entity = repo.GetById(request.Id);
                            response.Object = DtoConverter.Convert(entity);
@@ -1019,47 +1338,47 @@ namespace ee.iLawyer.Ops
                        var queryCriterions = new List<ICriterion>();
 
 
-                       using (var repo = new NhEntityRepository<Db.Entity.Project>())
+                       using (var repo = new NhEntityRepository<Db.Entities.Project>())
                        {
 
                            if (req.Keys != null && req.Keys.Any())
                            {
-                               queryCriterions.Add(Restrictions.On<Db.Entity.Court>(y => y.Id).IsIn(req.Keys));
+                               queryCriterions.Add(Restrictions.On<Db.Entities.Court>(y => y.Id).IsIn(req.Keys));
                            }
                            else
                            {
                                if (!string.IsNullOrEmpty(req.CategoryCode))
                                {
-                                   queryCriterions.Add(Restrictions.Where<Db.Entity.Project>(x => x.Category.Code == req.CategoryCode));
+                                   queryCriterions.Add(Restrictions.Where<Db.Entities.Project>(x => x.Category.Code == req.CategoryCode));
                                }
                                if (!string.IsNullOrEmpty(req.Level))
                                {
-                                   queryCriterions.Add(Restrictions.Where<Db.Entity.Project>(x => x.Level == req.Level));
+                                   queryCriterions.Add(Restrictions.Where<Db.Entities.Project>(x => x.Level == req.Level));
                                }
                                if (!string.IsNullOrEmpty(req.Code))
                                {
-                                   queryCriterions.Add(Restrictions.On<Db.Entity.Project>(y => y.Code).IsLike(req.Code, MatchMode.Anywhere));
+                                   queryCriterions.Add(Restrictions.On<Db.Entities.Project>(y => y.Code).IsLike(req.Code, MatchMode.Anywhere));
                                }
 
                                if (!string.IsNullOrEmpty(req.Name))
                                {
-                                   queryCriterions.Add(Restrictions.On<Db.Entity.Project>(y => y.Name).IsLike(req.Name, MatchMode.Anywhere));
+                                   queryCriterions.Add(Restrictions.On<Db.Entities.Project>(y => y.Name).IsLike(req.Name, MatchMode.Anywhere));
                                }
 
                                if (req.OwnerId.HasValue)
                                {
-                                   queryCriterions.Add(Restrictions.Where<Db.Entity.Project>(x => x.Owner.Id == req.OwnerId.Value));
+                                   queryCriterions.Add(Restrictions.Where<Db.Entities.Project>(x => x.Owner.Id == req.OwnerId.Value));
                                }
 
                                if (!string.IsNullOrEmpty(req.DealDateFrom))
                                {
                                    var fromDate = DateTime.Parse(req.DealDateFrom);
-                                   queryCriterions.Add(Restrictions.Where<Db.Entity.Project>(x => x.DealDate >= fromDate));
+                                   queryCriterions.Add(Restrictions.Where<Db.Entities.Project>(x => x.DealDate >= fromDate));
                                }
                                if (!string.IsNullOrEmpty(req.DealDateTo))
                                {
                                    var toDate = DateTime.Parse(req.DealDateTo);
-                                   queryCriterions.Add(Restrictions.Where<Db.Entity.Project>(x => x.DealDate <= toDate));
+                                   queryCriterions.Add(Restrictions.Where<Db.Entities.Project>(x => x.DealDate <= toDate));
                                }
 
                            }
@@ -1085,7 +1404,7 @@ namespace ee.iLawyer.Ops
                        //TODO:
                        using (var repo = new NhGlobalRepository())
                        {
-                           var project = repo.GetById<Db.Entity.Project>(req.ProjectId);
+                           var project = repo.GetById<Db.Entities.Project>(req.ProjectId);
                            if (project == null)
                            {
                                throw new EeException(ErrorCodes.NotFound, "Object is not found.");
@@ -1122,7 +1441,7 @@ namespace ee.iLawyer.Ops
                                        //add
                                        else
                                        {
-                                           var todoItem = new Db.Entity.ProjectTodoItem()
+                                           var todoItem = new Db.Entities.ProjectTodoItem()
                                            {
                                                Id = item.Id,
                                                InProject = project,
@@ -1143,7 +1462,7 @@ namespace ee.iLawyer.Ops
                                }
                                else
                                {
-                                   project.TodoList = new List<Db.Entity.ProjectTodoItem>();
+                                   project.TodoList = new List<Db.Entities.ProjectTodoItem>();
                                    req.TodoList.ToList().ForEach(x => project.TodoList.Add(DtoConverter.Convert(x, project)));
                                    repo.Update(project);
                                }
@@ -1164,7 +1483,7 @@ namespace ee.iLawyer.Ops
                        //TODO:
                        using (var repo = new NhGlobalRepository())
                        {
-                           var project = repo.GetById<Db.Entity.Project>(req.ProjectId);
+                           var project = repo.GetById<Db.Entities.Project>(req.ProjectId);
                            if (project == null)
                            {
                                throw new EeException(ErrorCodes.NotFound, "Object is not found.");
@@ -1194,7 +1513,7 @@ namespace ee.iLawyer.Ops
                                        //add
                                        else
                                        {
-                                           var todoItem = new Db.Entity.ProjectProgress()
+                                           var todoItem = new Db.Entities.ProjectProgress()
                                            {
                                                Id = item.Id,
                                                InProject = project,
@@ -1209,7 +1528,7 @@ namespace ee.iLawyer.Ops
                                }
                                else
                                {
-                                   project.Progresses = new List<Db.Entity.ProjectProgress>();
+                                   project.Progresses = new List<Db.Entities.ProjectProgress>();
                                    req.Progresses.ToList().ForEach(x => project.Progresses.Add(DtoConverter.Convert(x, project)));
                                    repo.Update(project);
                                }
@@ -1220,6 +1539,7 @@ namespace ee.iLawyer.Ops
                   ).Build();
 
         }
+
 
     }
 }

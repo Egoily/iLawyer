@@ -16,7 +16,7 @@ namespace ee.iLawyer.Ops.Contact.Args
         /// 属性列表
         /// </summary>
         [Required]
-        public virtual List<CategoryValue> Properties { get; set; }
+        public virtual IEnumerable<CategoryValue> Properties { get; set; }
 
         /// <summary>
         /// 是否是自然人
@@ -56,7 +56,7 @@ namespace ee.iLawyer.Ops.Contact.Args
         /// 属性列表
         /// </summary>
         [Required]
-        public virtual List<CategoryValue> Properties { get; set; }
+        public virtual IEnumerable<CategoryValue> Properties { get; set; }
 
         /// <summary>
         /// 是否是自然人

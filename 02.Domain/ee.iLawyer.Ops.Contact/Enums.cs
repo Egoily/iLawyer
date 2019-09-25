@@ -226,5 +226,24 @@ namespace ee.iLawyer.Ops.Contact
         [Description("指定时间")]
         DesignatedDay,
     }
+
+    public enum OperatePattern
+    {
+        /// <summary>
+        /// 混合模式
+        /// </summary>
+        [Description("混合模式")]
+        Hybrid,
+        /// <summary>
+        /// 增加模式
+        /// </summary>
+        [Description("增加模式")]
+        Increase,
+        /// <summary>
+        /// 减少模式
+        /// </summary>
+        [Description("减少模式")]
+        Decrease,
+    }
 }
 

@@ -48,29 +48,17 @@ namespace ee.iLawyer.WebApi.Controllers
 
         }
 
+
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        [Route("infr/propertyCategories"), HttpPost]
-        public BaseDataResponse GetPropertyCategories()
+        [Route("infr/PropertyPicks"), HttpPost]
+        public BaseDataResponse GetPropertyPicks([FromBody] GetPropertyPicksRequest request)
         {
-            return ServiceProcessor.CreateProcessor<GetPropertyCategoriesRequest, BaseDataResponse>(MethodBase.GetCurrentMethod())
-                 .Input(new GetPropertyCategoriesRequest(), true)
-                 .Process(req => { return Service.GetPropertyCategories(req); })
-                 .UsingResponseConverter(new Framework.Processor.ResponseConverter<BaseDataResponse>(Converters.ToBaseDataResponse))
-                 .Build();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        [Route("infr/propertyItemCategories"), HttpPost]
-        public BaseDataResponse GetPropertyItemCategories()
-        {
-            return ServiceProcessor.CreateProcessor<GetPropertyItemCategoriesRequest, BaseDataResponse>(MethodBase.GetCurrentMethod())
-                  .Input(new GetPropertyItemCategoriesRequest(), true)
-                  .Process(req => { return Service.GetPropertyItemCategories(req); })
+            return ServiceProcessor.CreateProcessor<GetPropertyPicksRequest, BaseDataResponse>(MethodBase.GetCurrentMethod())
+                  .Input(request, true)
+                  .Process(req => { return Service.GetPropertyPicks(req); })
                   .UsingResponseConverter(new Framework.Processor.ResponseConverter<BaseDataResponse>(Converters.ToBaseDataResponse))
                   .Build();
         }

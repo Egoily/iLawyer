@@ -6,14 +6,6 @@ namespace ee.iLawyer.Ops.Contact.Interfaces
 {
     public interface IILawyerService
     {
-        BaseQueryResponse<Area> GetAreas(GetAreasRequest request);
-        BaseQueryResponse<ProjectCategory> GetProjectCategories(GetProjectCategoriesRequest request);
-        BaseQueryResponse<ProjectCause> GetProjectCauses(GetProjectCausesRequest request);
-        BaseQueryResponse<PropertyItemCategory> GetPropertyCategories(GetPropertyCategoriesRequest request);
-        BaseQueryResponse<PropertyItemCategory> GetPropertyItemCategories(GetPropertyItemCategoriesRequest request);
-
-
-
 
         BaseResponse CreateCourt(CreateCourtRequest request);
         BaseResponse UpdateCourt(UpdateCourtRequest request);

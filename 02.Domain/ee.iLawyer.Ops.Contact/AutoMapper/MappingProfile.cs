@@ -10,29 +10,36 @@ namespace ee.iLawyer.Ops.Contact.AutoMapper
 
             CreateMap<CourtRank, string>().ConvertUsing(src => src.ToString());
 
-            CreateMap<Db.Entity.Area, DTO.Area>();
-            CreateMap<Db.Entity.ProjectCategory, DTO.ProjectCategory>();
-            CreateMap<Db.Entity.ProjectCause, DTO.ProjectCause>();
-            CreateMap<Db.Entity.PropertyItemCategory, DTO.PropertyItemCategory>();
-            CreateMap<Db.Entity.Court, DTO.Court>();
-            CreateMap<Db.Entity.Judge, DTO.Judge>();
-            CreateMap<Db.Entity.Client, DTO.Client>();
+            CreateMap<Db.Entities.Foundation.Area, DTO.Area>()
+                .ForMember(dest => dest.AreaCode, m => m.MapFrom(s => s.Id));
+            CreateMap<Db.Entities.Foundation.Picklist, DTO.ProjectCategory>();
+            CreateMap<Db.Entities.Foundation.Picklist, DTO.ProjectCause>();
+            CreateMap<Db.Entities.Foundation.Picklist, DTO.PropertyPicker>()
+                .ForMember(dest => dest.Icon, m => m.MapFrom(s => s.Value))
+                .ForMember(dest => dest.PickerType, m => m.MapFrom(s => s.SubValue));
 
-            CreateMap<Db.Entity.Project, DTO.Project>()
+            CreateMap<Db.Entities.RBAC.SysUser, DTO.SystemManagement.User>();
+            CreateMap<Db.Entities.RBAC.SysRole, DTO.SystemManagement.Role>();
+
+            CreateMap<Db.Entities.Court, DTO.Court>();
+            CreateMap<Db.Entities.Judge, DTO.Judge>();
+            CreateMap<Db.Entities.Client, DTO.Client>();
+
+            CreateMap<Db.Entities.Project, DTO.Project>()
                 .ForMember(dest => dest.Account, m => m.Ignore())
                 .ForMember(dest => dest.TodoList, m => m.Ignore())
                 .ForMember(dest => dest.Progresses, m => m.Ignore())
                 .ForMember(dest => dest.InvolvedClients, m => m.Ignore());
-            CreateMap<Db.Entity.ProjectAccount, DTO.ProjectAccount>();
-            CreateMap<Db.Entity.ProjectProgress, DTO.ProjectProgress>();
-            CreateMap<Db.Entity.ProjectTodoItem, DTO.ProjectTodoItem>();
+            CreateMap<Db.Entities.ProjectAccount, DTO.ProjectAccount>();
+            CreateMap<Db.Entities.ProjectProgress, DTO.ProjectProgress>();
+            CreateMap<Db.Entities.ProjectTodoItem, DTO.ProjectTodoItem>();
 
 
 
 
-            CreateMap<DTO.ProjectAccount, Db.Entity.ProjectAccount>();
-            CreateMap<DTO.ProjectProgress, Db.Entity.ProjectProgress>();
-            CreateMap<DTO.ProjectTodoItem, Db.Entity.ProjectTodoItem>();
+            CreateMap<DTO.ProjectAccount, Db.Entities.ProjectAccount>();
+            CreateMap<DTO.ProjectProgress, Db.Entities.ProjectProgress>();
+            CreateMap<DTO.ProjectTodoItem, Db.Entities.ProjectTodoItem>();
 
 
 
@@ -41,8 +48,8 @@ namespace ee.iLawyer.Ops.Contact.AutoMapper
 
 
 
-            CreateMap<IList<Db.Entity.ClientPropertyItem>, List<DTO.CategoryValue>>().ConvertUsing<ClientPropertyItemTypeConverter>();
-            CreateMap<DTO.PropertyItemCategory, DTO.Category>();
+            CreateMap<IList<Db.Entities.ClientProperties>, List<DTO.CategoryValue>>().ConvertUsing<ClientPropertyItemTypeConverter>();
+            CreateMap<DTO.PropertyPicker, DTO.Category>();
 
 
 

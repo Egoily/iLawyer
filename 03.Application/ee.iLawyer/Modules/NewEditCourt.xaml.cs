@@ -42,7 +42,7 @@ namespace ee.iLawyer.Modules
                 IsNew = true;
                 TreatedObject = new Court();
             }
-            areaSelector.Provinces = Cacher.Provinces;
+            areaSelector.Provinces = WebApi.Invoker.Cacher.Provinces;
         }
 
 

@@ -58,9 +58,9 @@
       <Project>{82012aca-724f-4c78-a0fe-e450a887c7d7}</Project>
       <Name>ee.SessionFactory</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ee.iLawyer.Db.Entity.Mapping\ee.iLawyer.Db.Entity.Mapping.csproj">
-      <Project>{245163ed-70af-423a-bc76-fd400caca587}</Project>
-      <Name>ee.iLawyer.Db.Entity.Mapping</Name>
+    <ProjectReference Include="..\ee.iLawyer.Db\ee.iLawyer.Db.csproj">
+      <Project>{1428652c-40b3-4f1a-92f3-f4965726b414}</Project>
+      <Name>ee.iLawyer.Db</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

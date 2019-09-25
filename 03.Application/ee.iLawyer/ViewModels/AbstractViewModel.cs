@@ -32,5 +32,7 @@ namespace ee.iLawyer.ViewModels
         {
             Query();
         }
+
+
     }
 }

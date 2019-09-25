@@ -167,7 +167,6 @@
     <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\CourtViewModel.cs" />
     <Compile Include="ViewModels\PropertyPickerControlViewModel.cs" />
-    <Compile Include="ViewModels\Cacher.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\JudgeViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
@@ -405,10 +404,6 @@
     <ProjectReference Include="..\..\01.Framework\ee.Framework\ee.Framework.csproj">
       <Project>{7d3d1f1d-973e-464a-9e60-b33cd0b34163}</Project>
       <Name>ee.Framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\02.Domain\ee.iLawyer.Db.Entity\ee.iLawyer.Db.Entity.csproj">
-      <Project>{1428652C-40B3-4F1A-92F3-F4965726B414}</Project>
-      <Name>ee.iLawyer.Db.Entity</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\02.Domain\ee.iLawyer.Ops.Contact\ee.iLawyer.Ops.Contact.csproj">
       <Project>{8bf78a81-d48f-47dc-9d81-f9e894675c32}</Project>

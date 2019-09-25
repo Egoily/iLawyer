@@ -47,14 +47,19 @@
     <Reference Include="System.Transactions" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SystemManagementTests.cs" />
     <Compile Include="UtilityTests.cs" />
-    <Compile Include="CtsServerTests.cs" />
+    <Compile Include="iLawyerServerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\01.Framework\ee.Framework.Logging\ee.Framework.Logging.csproj">
+      <Project>{a4c7223f-9ba2-4001-bf20-b1187d8d4128}</Project>
+      <Name>ee.Framework.Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\01.Framework\ee.Framework\ee.Framework.csproj">
       <Project>{7d3d1f1d-973e-464a-9e60-b33cd0b34163}</Project>
       <Name>ee.Framework</Name>
@@ -71,9 +76,9 @@
       <Project>{7dff2702-d6cb-47f9-bf63-ecfe99c37c1f}</Project>
       <Name>ee.iLawyer.Ops</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\02.Domain\ee.iLawyer.SessionFactoryBuilder.Sqlite\ee.iLawyer.SessionFactoryBuilder.Sqlite.csproj">
-      <Project>{9c878aa9-b469-4d2d-b789-c1d2d0fb1f12}</Project>
-      <Name>ee.iLawyer.SessionFactoryBuilder.Sqlite</Name>
+    <ProjectReference Include="..\..\02.Domain\ee.iLawyer.SessionFactoryBuilder.SqlServer\ee.iLawyer.SessionFactoryBuilder.SqlServer.csproj">
+      <Project>{beb6bacd-1c3a-4b8b-8e2b-7048671b5fb0}</Project>
+      <Name>ee.iLawyer.SessionFactoryBuilder.SqlServer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -81,19 +86,13 @@
       <Version>2.0.8</Version>
     </PackageReference>
     <PackageReference Include="MSTest.TestAdapter">
-      <Version>1.4.0</Version>
+      <Version>2.0.0</Version>
     </PackageReference>
     <PackageReference Include="MSTest.TestFramework">
-      <Version>1.4.0</Version>
+      <Version>2.0.0</Version>
     </PackageReference>
     <PackageReference Include="NHibernate">
       <Version>5.2.5</Version>
-    </PackageReference>
-    <PackageReference Include="System.Data.SQLite">
-      <Version>1.0.111</Version>
-    </PackageReference>
-    <PackageReference Include="System.Data.SQLite.Core">
-      <Version>1.0.111</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

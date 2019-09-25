@@ -7,7 +7,7 @@
              xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:ee.iLawyer.UserControls" 
-             xmlns:vm="clr-namespace:ee.iLawyer.ViewModels"
+             xmlns:vm="clr-namespace:ee.iLawyer.WebApi.Invoker;assembly=ee.iLawyer.WebApi.Invoker"
              mc:Ignorable="d" 
               
              Width="600"

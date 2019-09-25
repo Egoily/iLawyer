@@ -14,7 +14,7 @@ namespace ee.iLawyer.SessionFactoryBuilder.SqlServer
             return sessionFactory;
         }
 
-        public void Build(string para)
+        public void Build(params string[] args)
         {
 
             sessionFactory = CreateSessionFactory();
@@ -31,7 +31,7 @@ namespace ee.iLawyer.SessionFactoryBuilder.SqlServer
                             .UseQueryCache()
                             .UseMinimalPuts()
                            )
-                    .Mappings(m => m.FluentMappings.AddFromAssemblyOf<ee.iLawyer.Db.Entity.Mapping.Factory.RealAssembly>())
+                    .Mappings(m => m.FluentMappings.AddFromAssemblyOf<ee.iLawyer.Db.Factory.RealAssembly>())
                     //.ExposeConfiguration(f => f.SetInterceptor(new SqlStatementInterceptor()))
                     .BuildSessionFactory();
         }

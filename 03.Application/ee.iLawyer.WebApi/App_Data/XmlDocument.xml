@@ -493,13 +493,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:ee.iLawyer.WebApi.Controllers.LawyerController.GetPropertyCategories">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:ee.iLawyer.WebApi.Controllers.LawyerController.GetPropertyItemCategories">
+        <member name="M:ee.iLawyer.WebApi.Controllers.LawyerController.GetPropertyPicks(ee.iLawyer.Ops.Contact.Args.GetPropertyPicksRequest)">
             <summary>
             
             </summary>
@@ -525,13 +519,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:ee.iLawyer.WebApi.Controllers.InfrastructureController.GetPropertyCategories">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:ee.iLawyer.WebApi.Controllers.InfrastructureController.GetPropertyItemCategories">
+        <member name="M:ee.iLawyer.WebApi.Controllers.InfrastructureController.GetPropertyPicks">
             <summary>
             
             </summary>

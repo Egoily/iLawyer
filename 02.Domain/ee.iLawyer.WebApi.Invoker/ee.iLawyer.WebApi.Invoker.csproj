@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cacher.cs" />
     <Compile Include="ILawyerServiceWebApi.cs" />
     <Compile Include="WebInvoker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -54,10 +55,17 @@
       <Project>{8bf78a81-d48f-47dc-9d81-f9e894675c32}</Project>
       <Name>ee.iLawyer.Ops.Contact</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ee.iLawyer.Db\ee.iLawyer.Db.csproj">
+      <Project>{1428652C-40B3-4F1A-92F3-F4965726B414}</Project>
+      <Name>ee.iLawyer.Db</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Z.ExtensionMethods">
+      <Version>2.1.1</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

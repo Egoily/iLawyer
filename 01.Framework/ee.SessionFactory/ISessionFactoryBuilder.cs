@@ -5,6 +5,6 @@ namespace ee.SessionFactory
     public interface ISessionFactoryBuilder
     {
         ISessionFactory CreateSessionFactory();
-        void Build(string para);
+        void Build(params string[] args);
     }
 }

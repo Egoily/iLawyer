@@ -99,10 +99,6 @@
       <Project>{82012aca-724f-4c78-a0fe-e450a887c7d7}</Project>
       <Name>ee.SessionFactory</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\02.Domain\ee.iLawyer.Db.Entity\ee.iLawyer.Db.Entity.csproj">
-      <Project>{1428652c-40b3-4f1a-92f3-f4965726b414}</Project>
-      <Name>ee.iLawyer.Db.Entity</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\02.Domain\ee.iLawyer.SessionFactoryBuilder.Sqlite\ee.iLawyer.SessionFactoryBuilder.Sqlite.csproj">
       <Project>{9c878aa9-b469-4d2d-b789-c1d2d0fb1f12}</Project>
       <Name>ee.iLawyer.SessionFactoryBuilder.Sqlite</Name>

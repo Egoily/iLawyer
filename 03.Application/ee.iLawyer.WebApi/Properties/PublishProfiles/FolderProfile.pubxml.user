@@ -85,10 +85,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/02/2019 15:11:34</publishTime>
     </File>
     <File Include="bin/ee.Framework.Logging.dll">
-      <publishTime>09/02/2019 15:11:34</publishTime>
+      <publishTime>09/04/2019 13:34:28</publishTime>
     </File>
     <File Include="bin/ee.Framework.Logging.pdb">
-      <publishTime>09/02/2019 15:11:34</publishTime>
+      <publishTime>09/04/2019 13:34:28</publishTime>
     </File>
     <File Include="bin/ee.Framework.pdb">
       <publishTime>09/02/2019 15:11:34</publishTime>
@@ -97,52 +97,52 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/02/2019 15:11:34</publishTime>
     </File>
     <File Include="bin/ee.iLawyer.Db.Entity.Mapping.dll">
-      <publishTime>09/02/2019 15:11:34</publishTime>
+      <publishTime>09/04/2019 14:31:51</publishTime>
     </File>
     <File Include="bin/ee.iLawyer.Db.Entity.Mapping.dll.config">
       <publishTime>07/03/2019 09:59:49</publishTime>
     </File>
     <File Include="bin/ee.iLawyer.Db.Entity.Mapping.pdb">
-      <publishTime>09/02/2019 15:11:34</publishTime>
+      <publishTime>09/04/2019 14:31:51</publishTime>
     </File>
     <File Include="bin/ee.iLawyer.Db.Entity.pdb">
       <publishTime>09/02/2019 15:11:34</publishTime>
     </File>
     <File Include="bin/ee.iLawyer.Ops.Contact.dll">
-      <publishTime>09/02/2019 15:11:35</publishTime>
+      <publishTime>09/04/2019 14:31:51</publishTime>
     </File>
     <File Include="bin/ee.iLawyer.Ops.Contact.dll.config">
       <publishTime>07/03/2019 09:54:21</publishTime>
     </File>
     <File Include="bin/ee.iLawyer.Ops.Contact.pdb">
-      <publishTime>09/02/2019 15:11:35</publishTime>
+      <publishTime>09/04/2019 14:31:51</publishTime>
     </File>
     <File Include="bin/ee.iLawyer.Ops.dll">
-      <publishTime>09/02/2019 15:11:35</publishTime>
+      <publishTime>09/04/2019 14:31:51</publishTime>
     </File>
     <File Include="bin/ee.iLawyer.Ops.dll.config">
       <publishTime>07/03/2019 10:00:58</publishTime>
     </File>
     <File Include="bin/ee.iLawyer.Ops.pdb">
-      <publishTime>09/02/2019 15:11:35</publishTime>
+      <publishTime>09/04/2019 14:31:51</publishTime>
     </File>
     <File Include="bin/ee.iLawyer.SessionFactoryBuilder.SqlServer.dll">
-      <publishTime>09/02/2019 15:11:35</publishTime>
+      <publishTime>09/04/2019 14:31:51</publishTime>
     </File>
     <File Include="bin/ee.iLawyer.SessionFactoryBuilder.SqlServer.pdb">
-      <publishTime>09/02/2019 15:11:35</publishTime>
+      <publishTime>09/04/2019 14:31:51</publishTime>
     </File>
     <File Include="bin/ee.iLawyer.WebApi.dll">
-      <publishTime>09/02/2019 15:11:37</publishTime>
+      <publishTime>09/04/2019 14:31:53</publishTime>
     </File>
     <File Include="bin/ee.iLawyer.WebApi.pdb">
-      <publishTime>09/02/2019 15:11:37</publishTime>
+      <publishTime>09/04/2019 14:31:53</publishTime>
     </File>
     <File Include="bin/ee.SessionFactory.dll">
-      <publishTime>09/02/2019 15:11:34</publishTime>
+      <publishTime>09/04/2019 14:31:51</publishTime>
     </File>
     <File Include="bin/ee.SessionFactory.pdb">
-      <publishTime>09/02/2019 15:11:34</publishTime>
+      <publishTime>09/04/2019 14:31:51</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>10/23/2017 13:15:18</publishTime>
@@ -157,7 +157,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/08/2018 12:18:34</publishTime>
     </File>
     <File Include="bin/log4net.config">
-      <publishTime>06/25/2019 15:16:12</publishTime>
+      <publishTime>09/03/2019 16:23:42</publishTime>
     </File>
     <File Include="bin/log4net.dll">
       <publishTime>03/08/2017 19:26:22</publishTime>
@@ -173,6 +173,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>04/22/2019 01:06:16</publishTime>
+    </File>
+    <File Include="bin/NHibernate.Caches.SysCache2.dll">
+      <publishTime>08/18/2019 16:52:56</publishTime>
     </File>
     <File Include="bin/NHibernate.dll">
       <publishTime>03/31/2019 12:11:30</publishTime>
@@ -547,7 +550,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/15/2019 13:56:50</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>09/02/2019 15:11:38</publishTime>
+      <publishTime>09/04/2019 13:34:31</publishTime>
     </File>
   </ItemGroup>
 </Project>

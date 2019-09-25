@@ -8,9 +8,9 @@ namespace ee.iLawyer.WebApi.Invoker
 {
     public class ILawyerServiceWebApi : IILawyerService
     {
-        public string EndPoint= @"http://localhost:2155";
+        public string EndPoint = @"http://localhost:2155";
 
-        private BaseDataResponse Process(string resource, BaseRequest request,int? timeout=10*1000)
+        private BaseDataResponse Process(string resource, BaseRequest request, int? timeout = 10 * 1000)
         {
             var uri = EndPoint + resource;
             var response = WebInvoker.PostToString(uri, null, JsonConvert.SerializeObject(request), timeout);
@@ -43,7 +43,7 @@ namespace ee.iLawyer.WebApi.Invoker
         public BaseQueryResponse<Area> GetAreas(GetAreasRequest request)
         {
             var resource = @"/api/lawyer/infr/areas";
-            return Process(resource, request,120*1000).ToBaseQueryResponse<Area>();
+            return Process(resource, request, 120 * 1000).ToBaseQueryResponse<Area>();
         }
 
         public BaseObjectResponse<Client> GetClient(BaseIdRequest request)
@@ -82,16 +82,11 @@ namespace ee.iLawyer.WebApi.Invoker
             return Process(resource, request).ToBaseQueryResponse<ProjectCause>();
         }
 
-        public BaseQueryResponse<PropertyItemCategory> GetPropertyCategories(GetPropertyCategoriesRequest request)
-        {
-            var resource = @"/api/lawyer/infr/PropertyCategories";
-            return Process(resource, request).ToBaseQueryResponse<PropertyItemCategory>();
-        }
 
-        public BaseQueryResponse<PropertyItemCategory> GetPropertyItemCategories(GetPropertyItemCategoriesRequest request)
+        public BaseQueryResponse<PropertyPicker> GetPropertyPicks(GetPropertyPicksRequest request)
         {
-            var resource = @"/api/lawyer/infr/PropertyItemCategories";
-            return Process(resource, request).ToBaseQueryResponse<PropertyItemCategory>();
+            var resource = @"/api/lawyer/infr/PropertyPicks";
+            return Process(resource, request).ToBaseQueryResponse<PropertyPicker>();
         }
 
         public BaseQueryResponse<Client> QueryClient(QueryClientRequest request)

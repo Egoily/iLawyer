@@ -46,23 +46,15 @@ namespace ee.iLawyer.WebApi.Controllers
         {
             return Service.GetProjectCauses(new GetProjectCausesRequest());
         }
+  
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        [Route("PropertyCategories"), HttpGet]
-        public BaseQueryResponse<PropertyItemCategory> GetPropertyCategories()
+        [Route("PropertyPicks"), HttpGet]
+        public BaseQueryResponse<PropertyPicker> GetPropertyPicks()
         {
-            return Service.GetPropertyCategories(new GetPropertyCategoriesRequest());
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        [Route("PropertyItemCategories"), HttpGet]
-        public BaseQueryResponse<PropertyItemCategory> GetPropertyItemCategories()
-        {
-            return Service.GetPropertyItemCategories(new GetPropertyItemCategoriesRequest());
+            return Service.GetPropertyPicks(new GetPropertyPicksRequest());
         }
     }
 }

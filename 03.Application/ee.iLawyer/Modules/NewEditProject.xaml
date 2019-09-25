@@ -9,7 +9,7 @@
              xmlns:local="clr-namespace:ee.iLawyer.UserControls" 
              xmlns:contact="clr-namespace:ee.iLawyer.Ops.Contact;assembly=ee.iLawyer.Ops.Contact"
              xmlns:converters="clr-namespace:ee.iLawyer.Converters"
-             xmlns:vm="clr-namespace:ee.iLawyer.ViewModels"
+             xmlns:vm="clr-namespace:ee.iLawyer.WebApi.Invoker;assembly=ee.iLawyer.WebApi.Invoker"
              mc:Ignorable="d" 
               
              Width="800"

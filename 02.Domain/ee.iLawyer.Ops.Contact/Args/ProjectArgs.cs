@@ -61,11 +61,11 @@ namespace ee.iLawyer.Ops.Contact.Args
         /// <summary>
         /// 待办事项
         /// </summary>
-        public virtual IList<ProjectTodoItem> TodoList { get; set; }
+        public virtual IEnumerable<ProjectTodoItem> TodoList { get; set; }
         /// <summary>
         /// 项目进展
         /// </summary>
-        public virtual IList<ProjectProgress> Progresses { get; set; }
+        public virtual IEnumerable<ProjectProgress> Progresses { get; set; }
 
     }
     public class UpdateProjectRequest : BaseRequest
@@ -130,11 +130,11 @@ namespace ee.iLawyer.Ops.Contact.Args
         /// <summary>
         /// 待办事项
         /// </summary>
-        public virtual IList<ProjectTodoItem> TodoList { get; set; }
+        public virtual IEnumerable<ProjectTodoItem> TodoList { get; set; }
         /// <summary>
         /// 项目进展
         /// </summary>
-        public virtual IList<ProjectProgress> Progresses { get; set; }
+        public virtual IEnumerable<ProjectProgress> Progresses { get; set; }
 
     }
     public class RemoveProjectRequest : BaseRequest
@@ -195,11 +195,11 @@ namespace ee.iLawyer.Ops.Contact.Args
     public class SaveOrUpdateProjectTodoListRequest : BaseRequest
     {
         public virtual int ProjectId { get; set; }
-        public virtual IList<ProjectTodoItem> TodoList { get; set; }
+        public virtual IEnumerable<ProjectTodoItem> TodoList { get; set; }
     }
     public class SaveOrUpdateProjectProgressRequest : BaseRequest
     {
         public virtual int ProjectId { get; set; }
-        public virtual IList<ProjectProgress> Progresses { get; set; }
+        public virtual IEnumerable<ProjectProgress> Progresses { get; set; }
     }
 }

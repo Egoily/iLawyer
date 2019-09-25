@@ -35,7 +35,7 @@ namespace ee.iLawyer
                 });
             Task.Factory.StartNew(() =>
             {
-                Cacher.Load();
+                WebApi.Invoker.Cacher.Load();
             }).ContinueWith(t =>
             {
                 //note you can use the message queue from any thread, but just for the demo here we 

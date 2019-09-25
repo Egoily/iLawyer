@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ee.iLawyer.Db.Entity;
+using ee.iLawyer.Db.Entities;
 using System.Collections.Generic;
 
 namespace ee.iLawyer.Ops.Contact.AutoMapper
@@ -24,9 +24,9 @@ namespace ee.iLawyer.Ops.Contact.AutoMapper
         }
     }
 
-    public class ClientPropertyItemTypeConverter : ITypeConverter<IList<ClientPropertyItem>, List<DTO.CategoryValue>>
+    public class ClientPropertyItemTypeConverter : ITypeConverter<IList<ClientProperties>, List<DTO.CategoryValue>>
     {
-        public List<DTO.CategoryValue> Convert(IList<ClientPropertyItem> source, List<DTO.CategoryValue> destination, ResolutionContext context)
+        public List<DTO.CategoryValue> Convert(IList<ClientProperties> source, List<DTO.CategoryValue> destination, ResolutionContext context)
         {
             if (destination == null)
             {
@@ -37,9 +37,9 @@ namespace ee.iLawyer.Ops.Contact.AutoMapper
             {
                 foreach (var item in source)
                 {
-                    if (item.Category != null)
+                    if (item.Picker != null)
                     {
-                        destination.Add(new DTO.CategoryValue(item.Category.Id, item.Category.Name, item.Value, item.Id));
+                        destination.Add(new DTO.CategoryValue(item.Picker.Id??0, item.Picker.Name, item.Value, item.Id));
                     }
                 }
             }

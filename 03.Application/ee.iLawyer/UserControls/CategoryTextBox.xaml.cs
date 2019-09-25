@@ -56,14 +56,14 @@ namespace ee.iLawyer.UserControls
 
         public void SetCategoryNameAndIcon()
         {
-            if (CategoryValue != null && CategoryValue.CategoryId > 0)
+            if (CategoryValue != null && CategoryValue.PickerId > 0)
             {
-                var category = CategorySource.SelectMany(x => x.Children).FirstOrDefault(x => x.Id == CategoryValue.CategoryId);
+                var category = CategorySource.SelectMany(x => x.Children).FirstOrDefault(x => x.Id == CategoryValue.PickerId);
                 if (category != null)
                 {
-                    if (category.Name != CategoryValue.CategoryName)
+                    if (category.Name != CategoryValue.PickerName)
                     {
-                        CategoryValue.CategoryName = category.Name;
+                        CategoryValue.PickerName = category.Name;
                     }
                     MaterialDesignThemes.Wpf.PackIconKind kind = MaterialDesignThemes.Wpf.PackIconKind.Record;
                     bool succ = Enum.TryParse(category.Icon?.ToString(), out kind);
@@ -127,9 +127,9 @@ namespace ee.iLawyer.UserControls
                     {
                         CategoryValue = new CategoryValue();
                     }
-                    CategoryValue.CategoryId = selectNode.Id;
-                    CategoryValue.CategoryName = selectNode.Name;
-                    txtCategoryName.Text = CategoryValue.CategoryName;
+                    CategoryValue.PickerId = selectNode.Id;
+                    CategoryValue.PickerName = selectNode.Name;
+                    txtCategoryName.Text = CategoryValue.PickerName;
                     MaterialDesignThemes.Wpf.PackIconKind kind = MaterialDesignThemes.Wpf.PackIconKind.Record;
                     bool succ = Enum.TryParse(selectNode.Icon?.ToString(), out kind);
                     icon.Kind = kind;
@@ -159,7 +159,7 @@ namespace ee.iLawyer.UserControls
         {
             if (CategoryValue == null)
             {
-                CategoryValue = new CategoryValue() { CategoryName = "请选择类型..." };
+                CategoryValue = new CategoryValue() { PickerName = "请选择类型..." };
             }
         }
 

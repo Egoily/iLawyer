@@ -58,6 +58,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Attributes\RequiredAttribute.cs" />
     <Compile Include="Attributes\ValidateAttibute.cs" />
+    <Compile Include="Schema\RecursionEntity.cs" />
+    <Compile Include="Utility\MD5Utility.cs" />
+    <Compile Include="Utility\RecursionUtility.cs" />
+    <Compile Include="Utility\Validation.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json">
